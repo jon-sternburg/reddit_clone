@@ -29,8 +29,8 @@ return { props: { data: data, key: 'search_query=' + query.s, fetch_url: url_} }
 
 
 
-var clientid = 'wa2vepyRDthsfuV7jFjJtA';
-var secret = 'unuhmAL5_HSpQC74am185ofQncDgfA';
+var clientid = process.env.CLIENT_ID;
+var secret = process.env.CLIENT_SECRET;
 var options = {
                 url: "https://www.reddit.com/api/v1/access_token",
                 method: 'POST',
