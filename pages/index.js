@@ -63,7 +63,7 @@ async function fetch_data(token) {
 
 
 let token_ = 'bearer ' + token
-return await fetch('https://oauth.reddit.com', {
+return await fetch('https://oauth.reddit.com?sr_detail=1', {
     method: 'GET',
     headers: {
       'Authorization': token_,

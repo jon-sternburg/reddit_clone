@@ -13,7 +13,7 @@ var qs = require('qs');
 export const getServerSideProps = async ({query, req, res}) => {
 
 const access_token =  getCookie('access_token', { req, res })
-const url_ = `https://oauth.reddit.com/r/${query.r}/search.json?q=${query.s}&restrict_sr=1/?`
+const url_ = `https://oauth.reddit.com/r/${query.r}/search.json?q=${query.s}&restrict_sr=1&sr_detail=1/?`
 
 if (access_token) {
 

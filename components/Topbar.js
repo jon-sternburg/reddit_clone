@@ -151,48 +151,7 @@ ref={inputEl}
 </div>
 
 <div className = {styles.top_bar_frame_right}>
-{/*
-<div onClick = {() => handle_login()}className = {styles.login_wrap}>GitHub</div>
 
-<div onClick = {() => handle_login()}className = {styles.login_wrap}>Log In</div>
-
-{login_panel.show && (
-<div className = {styles.login_panel}>
-
-<div className = {styles.username_wrap}>
-
-<form >
-<input      
-className={styles.search}
-placeholder="Username"  
-onChange={(e) => handleInputChange_username(e.target.value)}
-ref={username_input_ref}
-/>
-</form>
-
-
-</div>
-
-<div className = {styles.password_wrap}>
-
-<form >
-<input      
-className={styles.search}
-placeholder="Password"  
-onChange={(e) => handleInputChange_password(e.target.value)}
-ref={password_input_ref}
-/>
-</form>
-
-
-</div>
-
-
-
-
-</div>
-  )}
-*/}
 </div>
 
 </div>

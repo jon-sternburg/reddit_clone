@@ -58,6 +58,7 @@ let posted_time = getRelativeTime(d, now)
 return {...x, posted_time: posted_time}
 })
 
+console.log(posts_)
 set_posts({
   posts: posts_.slice(0, 5), 
   pool: posts_.slice(5) , 
@@ -111,9 +112,9 @@ console.log(data)
 function set_post_sort(sort_) {
 
 let time_sort = sort_ == 'top' ? `&t=${top_time_sort}` : ''
-let base_ = posts.subreddit && !posts.search ? `https://oauth.reddit.com/r/${posts.subreddit}/${sort_}/.json` :
-            posts.subreddit && posts.search ? `https://oauth.reddit.com/r/${posts.subreddit}/search.json?q=${posts.query}&restrict_sr=1` :
-            !posts.subreddit && posts.search ? `https://oauth.reddit.com/search.json?q=${posts.query}&nsfw=1` :  `https://oauth.reddit.com/${sort_}/.json`
+let base_ = posts.subreddit && !posts.search ? `https://oauth.reddit.com/r/${posts.subreddit}/${sort_}/.json?sr_detail=1` :
+            posts.subreddit && posts.search ? `https://oauth.reddit.com/r/${posts.subreddit}/search.json?q=${posts.query}&restrict_sr=1&sr_detail=1` :
+            !posts.subreddit && posts.search ? `https://oauth.reddit.com/search.json?q=${posts.query}&nsfw=1&sr_detail=1` :  `https://oauth.reddit.com/${sort_}/.json?sr_detail=1`
 let url_ = !posts.search ? `${base_}?sort=${sort_}${time_sort}` : `${base_}&sort=${sort_}${time_sort}`
 
 
@@ -154,9 +155,9 @@ function handle_time_sort(x_) {
 if (x_ == 'toggle') {toggle_time_sort(!show_time_sort)} else {
 
 let time_sort =  `&t=${x_}`
-let base_ = posts.subreddit && !posts.search ? `https://oauth.reddit.com/r/${posts.subreddit}/${posts.sort}/.json` :
-            posts.subreddit && posts.search ? `https://oauth.reddit.com/r/${posts.subreddit}/search.json?q=${posts.query}&restrict_sr=1` :
-            !posts.subreddit && posts.search ? `https://oauth.reddit.com/search.json?q=${posts.query}&nsfw=1` :  `https://oauth.reddit.com/${posts.sort}/.json`
+let base_ = posts.subreddit && !posts.search ? `https://oauth.reddit.com/r/${posts.subreddit}/${posts.sort}/.json?sr_detail=1` :
+            posts.subreddit && posts.search ? `https://oauth.reddit.com/r/${posts.subreddit}/search.json?q=${posts.query}&restrict_sr=1&sr_detail=1` :
+            !posts.subreddit && posts.search ? `https://oauth.reddit.com/search.json?q=${posts.query}&nsfw=1&sr_detail=1` :  `https://oauth.reddit.com/${posts.sort}/.json?sr_detail=1`
 let url_ = !posts.search ? `${base_}?sort=${posts.sort}${time_sort}` : `${base_}&sort=${posts.sort}${time_sort}`
 
 
@@ -195,8 +196,7 @@ set_loading(false)
 async function fetch_next_page() {
 
 let time_sort = posts.sort == 'top' ? `&t=${top_time_sort}` : ''
-//let url_ = `${posts.fetch_url}?&after=${posts.after}`
-let url_ = `${posts.fetch_url}&after=${posts.after}`
+let url_ = `${posts.fetch_url}&sr_detail=1&after=${posts.after}`
 console.log('FETCING NEXT PAGE ', posts.after, ' => ', url_)
 
 return new Promise((resolve,reject) => resolve(fetch_new_posts(url_.toLowerCase())))
@@ -233,6 +233,7 @@ set_posts({
   fetch_url: posts.fetch_url,
   OOP: posts.OOP
 })
+fetching_ref.current = false
 
           } else {
 

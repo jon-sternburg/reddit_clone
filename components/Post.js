@@ -2,8 +2,9 @@ import React, {Fragment, useState, useEffect, useCallback, useRef } from "react"
 import styles from '../posts_container_styles.module.css'
 import { useIntersectionObserverRef } from "rooks";
 import Link from 'next/link'
-import {AiOutlineCaretUp} from "react-icons/ai"
-import {AiOutlineCaretDown} from "react-icons/ai"
+import {BiUpvote} from "react-icons/bi"
+import {BiDownvote} from "react-icons/bi"
+import {TbExternalLink} from "react-icons/tb"
 import { marked } from 'marked';
 import parse from 'html-react-parser';
 
@@ -25,33 +26,35 @@ return (
 <div className = {styles.post_box_top_wrapper} onClick = {() => props.handle_post_click(post)}>
 
 <div className = {styles.score_wrapper}>
-<AiOutlineCaretUp className = {styles.upvote_icon}/>
+<BiUpvote className = {styles.upvote_icon}/>
 <div className = {styles.post_box_score}>{post.data.score}</div>
-<AiOutlineCaretDown className = {styles.downvote_icon}/>
+<BiDownvote className = {styles.downvote_icon}/>
 </div>
 
 
 <div className = {styles.post_box_title_wrap}>
-
 <div className = {styles.post_box_title}>{post.data.title}</div>
-
-
-</div>
-
-
-</div>
 <div className = {styles.post_info_wrapper}>
 <Link href={`/${post.data.subreddit}`}>
-<div className = {styles.post_box_subreddit}>r/{post.data.subreddit}</div>
+
+<div className = {styles.post_box_subreddit}>
+{post.data.sr_detail && post.data.sr_detail.icon_img && (<img height = {20} width = {20} src = {post.data.sr_detail.icon_img} className = {styles.icon_img} />)}
+<span>r/{post.data.subreddit}</span>
+</div>
 </Link>
 
-<Link href={`/u/${post.data.author}`}>
-<div className = {styles.post_box_author}>u/{post.data.author}</div>
-</Link>
-<div className = {styles.post_box_comments} >Posted {post.posted_time}</div>
+
+<div className = {styles.post_box_author}>
+<Link href={`/u/${post.data.author}`}>u/{post.data.author} </Link><span style = {{marginLeft: '2px'}}> {`(${post.posted_time})`}</span></div>
+
 <div className = {styles.post_box_comments} onClick = {() => props.handle_post_click(post)}>{post.data.num_comments} comments</div>
 
 </div>
+</div>
+
+
+</div>
+
 
 <div className = {styles.post_box_inner}>
 {type_}
@@ -99,7 +102,7 @@ set_dim(dim)
 
 
 function getMediaSize(iw, ih) {
-let max_h = props.height * .7
+let max_h = props.height * .5
 let max_w = props.width * .4
 
 
@@ -128,7 +131,7 @@ return {
     autoPlay 
     loop 
     muted
-    style = {{maxHeight: props.height * .7}}
+    style = {{maxHeight: props.height * .5}}
     controls
     preload = {'auto'} 
     className = {styles.video_post} 
@@ -142,7 +145,9 @@ return {
 <div className = {styles.img_link_wrapper}>
 <form action = {props.data.url} method = 'get' target="_blank">
 <button type = 'submit' className = {styles.img_link_wrap}>
+<TbExternalLink className = {styles.img_link_icon} />
 <span className = {styles.img_link}>{props.data.url}</span>
+
 </button>
 </form>
 </div>
@@ -164,8 +169,9 @@ return {
 <div className = {styles.img_link_wrapper}>
 <form action = {props.data.url} method = 'get' target="_blank">
 <button type = 'submit' className = {styles.img_link_wrap}>
-
+<TbExternalLink className = {styles.img_link_icon} />
 <span className = {styles.img_link}>{props.data.url}</span>
+
 </button>
 </form>
 </div>
@@ -188,7 +194,7 @@ let html_ = parse(text)
 <Fragment>
 
 {html_ && html_.length > 0 && (
-<div className = {styles.selftext_box_feed} style = {{maxHeight: props.height * .7}} >
+<div className = {styles.selftext_box_feed} style = {{maxHeight: props.height * .5}} >
   {html_}
 </div>
   )}
@@ -229,14 +235,14 @@ props.data.secure_media.reddit_video.fallback_url : props.data.secure_media.redd
 
     { type_ == 'youtube' || type_ == 'redgifs' || type_ == 'gfy'?  <iframe width = {props.data.secure_media_embed.width } 
                                                                           //height = {type_ == 'youtube' ? '' : props.height}
-                                                                          style = {{maxHeight: props.height * .7}}
+                                                                          style = {{maxHeight: props.height * .5}}
                                                                           height = {props.data.secure_media_embed.height + 5} 
                                                                           className = {styles.video_post} src = {src_} /> : 
     <video 
     autoPlay 
     loop 
     muted
-    style = {{maxHeight: props.height * .7}}
+    style = {{maxHeight: props.height * .5}}
     controls
   //  poster = {props.data.thumbnail} 
     preload = {'auto'} 
