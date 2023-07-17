@@ -55,7 +55,7 @@ if (props.clicked_comment !== null && props.clicked_comment.data) {show_clicked_
 set_loading(false)
 
 }).catch(err => console.log(err))  
-}}, [comments])
+}}, [])
 
 
 
@@ -221,7 +221,7 @@ set_posted_time(posted_time)
 }
 
 
-}, [])
+}, [posted_time, comment.data.created_utc])
 
 
 
