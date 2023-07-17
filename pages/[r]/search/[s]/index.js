@@ -1,11 +1,13 @@
 import React, {Fragment, useState, useEffect, useRef, useCallback  } from "react";
 import HomepageLayout from '../../../../components/layout'
 import Posts_Container from '../../../../components/Posts_Container.js'
+import Topbar from '../../../../components/Topbar.js'
 import  { InferGetStaticPropsType, GetStaticProps } from 'next'
 import { withRouter } from 'next/router'
 import Head from 'next/head'
 import { setCookie, getCookie } from 'cookies-next';
 import axios from 'axios';
+import styles from '../../../../homepage_styles.module.css'
 var qs = require('qs');
 
 
@@ -114,7 +116,14 @@ set_dim({width: window.innerWidth, height: window.innerHeight})
 
 </Head>
 
-<HomepageLayout  props = {...props} search = {false}>
+<div className = {styles.homepage_frame}>
+<Topbar 
+subreddit = {props.router.query.r} 
+query = {props.router.query.s} 
+search = {props.search}
+user = {props.router.query.u}
+ />
+
 
 <Posts_Container 
 fetch_url = {props.fetch_url} 
@@ -127,7 +136,7 @@ posts = {props.data.data.children}
 after = {props.data.data.after}
 />
 
-</HomepageLayout>
+</div>
 </Fragment>
 )}
 export default withRouter(App)

@@ -126,12 +126,12 @@ ref={inputEl}
 
 {props.subreddit && (
 <Link key = {props.subreddit + '/' + inputEl.current.value} href={`/${props.subreddit}/search/${inputEl.current.value}`}> 
-<div className = {styles.query_wrap} >Search r/{props.subreddit} for '{inputEl.current.value}'</div>
+<div className = {styles.query_wrap} >Search r/{props.subreddit} for {`"${inputEl.current.value}"`}</div>
 </Link>
 )}
 
 <Link key = {inputEl.current.value} href={`/search/${inputEl.current.value}`}> 
-<div className = {styles.query_wrap} >Search reddit for '{inputEl.current.value}'</div>
+<div className = {styles.query_wrap} >Search reddit for {`"${inputEl.current.value}"`}</div>
 </Link>
 
 {results.content.map((x,i) => {
