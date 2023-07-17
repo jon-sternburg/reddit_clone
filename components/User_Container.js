@@ -462,9 +462,9 @@ return (
 </Fragment>
 }
 
-{content_type == 'posts' && posts.OOP_posts ?  <div className = {styles.OOP}>That's all!</div> :
-content_type == 'comments' && posts.OOP_comments ? <div className = {styles.OOP}>That's all!</div> :
-content_type == 'all_content' && posts.OOP_all_content ? <div className = {styles.OOP}>That's all!</div> :
+{content_type == 'posts' && posts.OOP_posts ?  <div className = {styles.OOP}>That&apos;s all!</div> :
+content_type == 'comments' && posts.OOP_comments ? <div className = {styles.OOP}>That&apos;s all!</div> :
+content_type == 'all_content' && posts.OOP_all_content ? <div className = {styles.OOP}>That&apos;s all!</div> :
 
 <div className = {styles.loading_box_bottom}> 
 <div  className = {styles.end_ref} ref = {end_ref} />
