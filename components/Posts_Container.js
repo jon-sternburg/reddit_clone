@@ -120,10 +120,8 @@ let url_ = !posts.search ? `${base_}?sort=${sort_}${time_sort}` : `${base_}&sort
 set_loading(true)
 return new Promise((resolve,reject) => resolve(fetch_new_posts(url_.toLowerCase())))
 .then((data) => {
-  console.log(data)
-let after_ = data.props.data.data.after
-//let new_posts = data.props.data.data.children
 
+let after_ = data.props.data.data.after
 let new_posts = data.props.data.data.children.map(x => {
 var d = new Date(x.data.created_utc*1000);
 var now = new Date(new Date().getTime())
@@ -168,8 +166,6 @@ set_time_sort(x_)
 return new Promise((resolve,reject) => resolve(fetch_new_posts(url_.toLowerCase())))
 .then((data) => {
 let after_ = data.props.data.data.after
-//let new_posts = data.props.data.data.children
-
 let new_posts = data.props.data.data.children.map(x => {
 var d = new Date(x.data.created_utc*1000);
 var now = new Date(new Date().getTime())

@@ -534,6 +534,16 @@ text-decoration: none;
 
 	text-decoration: underline;
 }
+
+.comment_posted_time___user{
+
+
+font-size: 13px;
+color: navy;
+margin: 10px 0;
+
+
+}
 .comment_subreddit___user {
 
 	display: inline-block;
@@ -563,8 +573,8 @@ background: #fbe8e3;
 border-radius: 4px;
 padding: 10px ;
 margin: 7px 0;
-
-word-break: break-all; 
+word-break: break-word;
+hyphens: auto;
 }
 .comment_wrap_inner___user {
 
@@ -598,7 +608,7 @@ padding: 5px 0;
 margin: 25px auto;
 padding: 10px;
 border-radius: 4px;
-word-wrap: break-word;
+
 width: 40vw;
 height: auto;
 display: flex;
@@ -616,7 +626,7 @@ background: white;
 }
 .comment_wrap {
 position: relative;
-word-wrap: break-word;
+
 width: 95%;
 height: auto;
 margin: 15px 15px 15px 25px;

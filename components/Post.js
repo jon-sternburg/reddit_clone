@@ -10,14 +10,13 @@ import parse from 'html-react-parser';
 
 
 export default function Post(props) {
-const [posted_time, set_posted_time] = useState(null)
+
 let post = props.post
 let h_ = props.h_
 let i = props.i
 
 let type_ = (post.data.is_video)|| (post.data.post_hint && post.data.post_hint.includes('video')) ? <Video_ width = {props.w_} height = {h_} data = {post.data} /> : 
                                                                                 post.data.is_self ? <Text_ data = {post.data}  height = {h_} />  : <Image_ height = {h_} data = {post.data} width = {props.w_} /> 
-
 
 
 return (

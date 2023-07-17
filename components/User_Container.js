@@ -20,21 +20,25 @@ const length_ref = useRef(0)
 const [end_vis, toggle_end_vis] = useState(false);
 const [loading, set_loading] = useState(true);
 const [top_time_sort, set_time_sort] = useState('Today');
-const [content_type, set_content_type] = useState('overview');
+const [content_type, set_content_type] = useState('all_content');
 const [posts, set_posts] = useState({
+  all_content: [],
   posts: [], 
   comments: [],
   posts_pool: [], 
   comments_pool: [], 
+  all_content_pool: [],
   user: '', 
-  after: '',
-  posts_after: '', 
-  comments_after: '', 
+  all_content_after: null,
+  posts_after: null, 
+  comments_after: null, 
   sort: '', 
   search: '', 
   query: '', 
   fetch_url: '',
-  OOP: false
+  OOP_all_content: false,
+  OOP_posts: false,
+  OOP_comments: false
 });
 const [clicked_post, set_clicked_post] = useState(null);
 const [clicked_comment, set_clicked_comment] = useState({data: null, original_id: null});
@@ -48,8 +52,9 @@ const [show_time_sort, toggle_time_sort] = useState(false);
 
   useEffect(() => {
   
-if (end_vis && !fetching_ref.current && !posts.OOP) {
+if (end_vis && !fetching_ref.current && ((content_type == 'posts' && !posts.OOP_posts) || (content_type == 'comments' && !posts.OOP_comments) || (content_type == 'all_content' && !posts.OOP_all_content))) {
 fetching_ref.current = true
+
 add_chunks()
 } else if (end_vis && fetching_ref.current) {
   fetching_ref.current = false
@@ -68,26 +73,24 @@ let posted_time = getRelativeTime(d, now)
 return {...x, posted_time: posted_time}
 })
 
-
+console.log('data__ ', data__)
 let comments_ = data__.filter(x => x.kind == 't1')
 let posts_ = data__.filter(x => x.kind == 't3')
 
 set_posts({
+  ...posts,
   posts: posts_.slice(0, 15), 
   comments: comments_.slice(0, 15),
   posts_pool: posts_.slice(15), 
   comments_pool: comments_.slice(15),
-  all_content: props.posts.slice(0, 15), 
-  all_content_pool: props.posts.slice(15), 
+  all_content: data__.slice(0, 15), 
+  all_content_pool: data__.slice(15), 
   user: props.user, 
   all_content_after: props.after,
-  posts_after: null,
-  comments_after: null,
   sort: 'hot', 
   search: props.search, 
   query: props.query, 
-  fetch_url: props.fetch_url,
-  OOP: false
+  fetch_url: props.fetch_url
 });
 
 set_loading(false)
@@ -132,7 +135,7 @@ return new Promise((resolve,reject) => resolve(fetch_new_posts(url_.toLowerCase(
 .then((data) => {
 
 let after_ = data.props.data.data.after
-//let new_posts = data.props.data.data.children
+
 
 let new_posts = data.props.data.data.children.map(x => {
 var d = new Date(x.data.created_utc*1000);
@@ -164,7 +167,7 @@ return new Promise((resolve,reject) => resolve(fetch_new_posts(url_.toLowerCase(
 .then((data) => {
 
 let after_ = data.props.data.data.after
-//let new_posts = data.props.data.data.children
+
 
 let new_posts = data.props.data.data.children.map(x => {
 var d = new Date(x.data.created_utc*1000);
@@ -202,13 +205,13 @@ set_content_type(type_)
 async function fetch_next_page() {
 
 
-let after_type = content_type == 'posts' ? posts.posts_after : content_type == 'comments' ? posts.comments__after : posts.all_content_after
+let after_type = content_type == 'posts' ? posts.posts_after : content_type == 'comments' ? posts.comments_after : posts.all_content_after
 let ct_ = content_type == 'posts' ? '/submitted/' : content_type == 'comments' ? '/comments/' : ''
 let base_url = `https://oauth.reddit.com/user/${posts.user}${ct_}.json`
 
 
 let url_ = after_type ? `${base_url}?&after=${after_type}` : base_url
-console.log('FETCING NEXT PAGE ', posts.after, ' => ', url_)
+console.log('FETCING NEXT PAGE  => ', url_)
 
 return new Promise((resolve,reject) => resolve(fetch_new_posts(url_.toLowerCase())))
 .then((data) => {
@@ -216,7 +219,7 @@ return new Promise((resolve,reject) => resolve(fetch_new_posts(url_.toLowerCase(
 
 console.log('fetch next pg ', data)
 
-if (data.props.data.data.children && data.props.data.data.children.length >= 5) { 
+if (data.props.data.data.children && data.props.data.data.children.length >= 5 && data.props.data.data.after) { 
 
 
 let new_posts__ = data.props.data.data.children.map(x => {
@@ -278,9 +281,23 @@ if (content_type == 'posts') {
 
           } else {
 
-console.log('OOP!!!!!!!!!!!!!!!!!')
-set_posts({...posts, OOP: true})
+if (content_type == 'posts') { 
+console.log('OOP_posts!')
+set_posts({...posts, OOP_posts: true})
 fetching_ref.current = false
+
+
+} else if (content_type == 'comments') {
+console.log('OOP_comments!')
+set_posts({...posts, OOP_comments: true})
+fetching_ref.current = false
+
+ } else {
+console.log('OOP_all_content!')
+set_posts({...posts, OOP_all_content: true})
+fetching_ref.current = false
+
+}
           }
 
 }).catch(err => console.log(err))
@@ -318,7 +335,6 @@ if (content_type == 'posts') {
                 set_posts({
                          ...posts,
                     posts_pool: new_pool,
-                    OOP: false,
                     posts: posts_
                 })
             }, 1000)
@@ -327,7 +343,6 @@ if (content_type == 'posts') {
                 set_posts({
                          ...posts,
                     comments_pool: new_pool,
-                    OOP: false,
                     comments: posts_
                 })
             }, 1000)
@@ -336,7 +351,6 @@ if (content_type == 'posts') {
                 set_posts({
                          ...posts,
                     all_content_pool: new_pool,
-                    OOP: false,
                     all_content: posts_
                 })
             }, 1000)
@@ -396,7 +410,7 @@ let w_ = props.width
 <div className = {styles.post_frame} >
 
 <div className = {styles.content_type_bar}>
-<div className = {content_type == 'overview' ? styles.selected_content_type_option : styles.content_type_option} onClick = {() => handle_content_type('overview')}>Overview</div>
+<div className = {content_type == 'all_content' ? styles.selected_content_type_option : styles.content_type_option} onClick = {() => handle_content_type('all_content')}>Overview</div>
 <div className = {content_type == 'posts' ? styles.selected_content_type_option : styles.content_type_option} onClick = {() => handle_content_type('posts')}>Posts</div>
 <div className = {content_type == 'comments' ? styles.selected_content_type_option : styles.content_type_option}onClick = {() => handle_content_type('comments')}>Comments</div>
 
@@ -448,7 +462,10 @@ return (
 </Fragment>
 }
 
-{posts.OOP ? <div className = {styles.OOP}>Out of posts!</div> :
+{content_type == 'posts' && posts.OOP_posts ?  <div className = {styles.OOP}>That's all!</div> :
+content_type == 'comments' && posts.OOP_comments ? <div className = {styles.OOP}>That's all!</div> :
+content_type == 'all_content' && posts.OOP_all_content ? <div className = {styles.OOP}>That's all!</div> :
+
 <div className = {styles.loading_box_bottom}> 
 <div  className = {styles.end_ref} ref = {end_ref} />
 <span className={styles.skeleton_loader_bottom}></span>
@@ -501,6 +518,7 @@ return (
 <div className = {styles.comment_body__user} >{comment.data.body}</div>
 <div className = {styles.comment_subreddit___user_wrap}>
 <div className ={styles.comment_subreddit___user}> r/{comment.data.subreddit}</div>
+<div className = {styles.comment_posted_time___user} >Posted {comment.posted_time}</div>
 </div>
 </div>
 
