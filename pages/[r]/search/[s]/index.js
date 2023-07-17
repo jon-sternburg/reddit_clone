@@ -1,5 +1,4 @@
 import React, {Fragment, useState, useEffect, useRef, useCallback  } from "react";
-import HomepageLayout from '../../../../components/layout'
 import Posts_Container from '../../../../components/Posts_Container.js'
 import Topbar from '../../../../components/Topbar.js'
 import  { InferGetStaticPropsType, GetStaticProps } from 'next'
