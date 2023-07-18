@@ -20,10 +20,18 @@ let type_ = (post.data.is_video)|| (post.data.post_hint && post.data.post_hint.i
                                                                                 post.data.is_self ? <Text_ data = {post.data}  height = {h_} />  : <Image_ height = {h_} data = {post.data} width = {props.w_} /> 
 
 
+function handle_post_box_click(post_, e) {
+e.preventDefault()
+e.stopPropagation()
+
+
+}
+
+
 return (
-<div className = {styles.post_box} >
+<div className = {styles.post_box} onClick = {() => props.handle_post_click(post)}>
  
-<div className = {styles.post_box_top_wrapper} onClick = {() => props.handle_post_click(post)}>
+<div className = {styles.post_box_top_wrapper} >
 
 <div className = {styles.score_wrapper}>
 <BiUpvote className = {styles.upvote_icon}/>
@@ -35,19 +43,21 @@ return (
 <div className = {styles.post_box_title_wrap}>
 <div className = {styles.post_box_title}>{post.data.title}</div>
 <div className = {styles.post_info_wrapper}>
+
+
+<div className = {styles.post_box_subreddit} onClick = {(e) => handle_post_box_click(post, e)}>
 <Link href={`/${post.data.subreddit}`}>
-
-<div className = {styles.post_box_subreddit}>
-{post.data.sr_detail && post.data.sr_detail.icon_img && (<img height = {20} width = {20} src = {post.data.sr_detail.icon_img} className = {styles.icon_img} />)}
+{post.data.sr_detail && post.data.sr_detail.icon_img && (<img alt = {"subreddit icon image"} height = {20} width = {20} src = {post.data.sr_detail.icon_img} className = {styles.icon_img} />)}
 <span>r/{post.data.subreddit}</span>
-</div>
 </Link>
+</div>
 
 
-<div className = {styles.post_box_author}>
-<Link href={`/u/${post.data.author}`}>u/{post.data.author} </Link><span style = {{marginLeft: '2px'}}> {`(${post.posted_time})`}</span></div>
 
-<div className = {styles.post_box_comments} onClick = {() => props.handle_post_click(post)}>{post.data.num_comments} comments</div>
+<div className = {styles.post_box_author} onClick = {(e) => handle_post_box_click(post, e)}>
+<Link href={`/u/${post.data.author}`}>u/{post.data.author}<span style = {{marginLeft: '2px'}}> {`(${post.posted_time})`}</span></Link></div>
+
+<div className = {styles.post_box_comments}>{post.data.num_comments} comments</div>
 
 </div>
 </div>
@@ -102,7 +112,7 @@ set_dim(dim)
 
 
 function getMediaSize(iw, ih) {
-let max_h = props.height * .5
+let max_h = props.height * .7
 let max_w = props.width * .4
 
 
@@ -131,7 +141,7 @@ return {
     autoPlay 
     loop 
     muted
-    style = {{maxHeight: props.height * .5}}
+    style = {{maxHeight: props.height * .7}}
     controls
     preload = {'auto'} 
     className = {styles.video_post} 
@@ -157,6 +167,7 @@ return {
  <img alt = {'post image'} 
  className = {styles.img_post} 
  src = {src_} 
+ loading = {"lazy"}
  width = {dim.w}
  height = {dim.h}
  onError={onError}/> 
@@ -194,7 +205,7 @@ let html_ = parse(text)
 <Fragment>
 
 {html_ && html_.length > 0 && (
-<div className = {styles.selftext_box_feed} style = {{maxHeight: props.height * .5}} >
+<div className = {styles.selftext_box_feed} style = {{maxHeight: props.height * .7}} >
   {html_}
 </div>
   )}
@@ -223,26 +234,41 @@ return(
 function Video_(props) {
 
 let type_ = props.data.url.includes('youtube') || props.data.url.includes('youtu.be') ? 'youtube' : props.data.url.includes('redgifs') ? 'redgifs'  : 
-props.data.url.includes('gfy') ? 'gfy' : 'video'
+props.data.url.includes('gfy') ? 'gfy' : props.data.url.includes('stream') ? 'streamable' : 'video'
 
 
 let src_ = type_ == 'youtube' || type_ == 'redgifs'  || type_ == 'gfy' ? props.data.secure_media_embed.media_domain_url : props.data.secure_media && props.data.secure_media.reddit_video && props.data.secure_media.reddit_video.fallback_url ?
 props.data.secure_media.reddit_video.fallback_url : props.data.secure_media.reddit_video ?  props.data.secure_media.reddit_video : props.data.url
 
 
+
+
   return (
     <Fragment>
 
     { type_ == 'youtube' || type_ == 'redgifs' || type_ == 'gfy'?  <iframe width = {props.data.secure_media_embed.width } 
-                                                                          //height = {type_ == 'youtube' ? '' : props.height}
-                                                                          style = {{maxHeight: props.height * .5}}
+                                                                          style = {{maxHeight: props.height * .7}}
                                                                           height = {props.data.secure_media_embed.height + 5} 
-                                                                          className = {styles.video_post} src = {src_} /> : 
+                                                                          className = {styles.video_post} src = {src_}
+                                                                          frameBorder = {0}
+                                                                          loading = {"lazy"}
+                                                                           /> 
+
+                                                          :  type_ == 'streamable' ? <div className = {styles.img_link_wrapper}>
+<form action = {props.data.url} method = 'get' target="_blank">
+<button type = 'submit' className = {styles.img_link_wrap}>
+<TbExternalLink className = {styles.img_link_icon} />
+<span className = {styles.img_link}>{props.data.url}</span>
+
+</button>
+</form>
+</div> : 
     <video 
     autoPlay 
     loop 
+    loading = {"lazy"}
     muted
-    style = {{maxHeight: props.height * .5}}
+    style = {{maxHeight: props.height * .7}}
     controls
   //  poster = {props.data.thumbnail} 
     preload = {'auto'} 

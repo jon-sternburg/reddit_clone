@@ -1,11 +1,10 @@
-import React, {Fragment, useState, useEffect, useCallback, useRef, useMemo } from "react";
+import React, {Fragment, useState, useEffect, useCallback, useRef } from "react";
 import styles from '../posts_container_styles.module.css'
 import { useIntersectionObserverRef } from "rooks";
 import Link from 'next/link'
-import {AiOutlineCaretUp} from "react-icons/ai"
-import {AiOutlineCaretDown} from "react-icons/ai"
-
-
+import {BiUpvote} from "react-icons/bi"
+import {BiDownvote} from "react-icons/bi"
+import {TbExternalLink} from "react-icons/tb"
 import { marked } from 'marked';
 import parse from 'html-react-parser';
 
@@ -24,29 +23,37 @@ let type_ = (post.data.is_video)|| (post.data.post_hint && post.data.post_hint.i
 return (
 <div className = {styles.post_box} >
  
-<div className = {styles.post_box_top_wrapper} onClick = {() => props.handle_post_click(post)}>
+<div className = {styles.post_box_top_wrapper} >
 
 <div className = {styles.score_wrapper}>
-<AiOutlineCaretUp className = {styles.upvote_icon}/>
+<BiUpvote className = {styles.upvote_icon}/>
 <div className = {styles.post_box_score}>{post.data.score}</div>
-<AiOutlineCaretDown className = {styles.downvote_icon}/>
+<BiDownvote className = {styles.downvote_icon}/>
 </div>
 
 
-
+<div className = {styles.post_box_title_wrap}>
 <div className = {styles.post_box_title}>{post.data.title}</div>
-</div>
 <div className = {styles.post_info_wrapper}>
 <Link href={`/${post.data.subreddit}`}>
-<div className = {styles.post_box_subreddit}>r/{post.data.subreddit}</div>
+
+<div className = {styles.post_box_subreddit}>
+{post.data.sr_detail && post.data.sr_detail.icon_img && (<img alt = {"subreddit icon image"} height = {20} width = {20} src = {post.data.sr_detail.icon_img} className = {styles.icon_img} />)}
+<span>r/{post.data.subreddit}</span>
+</div>
 </Link>
-<Link href={`/u/${post.data.author}`}>
-<div className = {styles.post_box_author}>u/{post.data.author}</div>
-</Link>
-<div className = {styles.post_box_comments} >Posted {post.posted_time}</div>
-<div className = {styles.post_box_comments} onClick = {() => props.handle_post_click(post)}>{post.data.num_comments} comments</div>
+
+
+<div className = {styles.post_box_author}>
+<Link href={`/u/${post.data.author}`}>u/{post.data.author} </Link><span style = {{marginLeft: '2px'}}> {`(${post.posted_time})`}</span></div>
+
+<div className = {styles.post_box_comments}>{post.data.num_comments} comments</div>
+
+</div>
 </div>
 
+
+</div>
 <div className = {styles.post_box_inner}>
 {type_}
 </div>

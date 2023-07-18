@@ -31,7 +31,8 @@ e.preventDefault()
 let url_ = `https://www.reddit.com/subreddits/search.json?q=${inputEl.current.value}&include_over_18=on`
 const res = await fetch(url_)
 const data = await res.json()
-let subreddits = data.data.children.map(x => x.data.display_name)
+let subreddits = data.data.children//.map(x => x.data.display_name)
+console.log(data.data.children)
 set_search_results({content: subreddits, show: true})
 
 }
@@ -121,7 +122,9 @@ ref={inputEl}
 </form>
 
 {results.show && (
-<div className = {styles.results_wrap}>
+     
+
+  <OutsideAlerter cancel_search = {cancel_search}>
 <div className = {styles.results_wrap_inner}>
 
 {props.subreddit && (
@@ -136,11 +139,21 @@ ref={inputEl}
 
 {results.content.map((x,i) => {
 
- return <Link key = {i} href={`/${x}`}> <div  className = {styles.results_item}>r/{x}</div></Link>
+ return <Link key = {i} href={`/${x.data.display_name}`}> 
+
+<div className = {styles.results_item}>
+{x.data && x.data.icon_img && (<img alt = {"subreddit icon image"} height = {20} width = {20} src = {x.data.icon_img} className = {styles.icon_img} />)}
+<span>r/{x.data.display_name}</span>
+</div>
+
+ </Link>
 
 })}
 </div>
-</div>
+</OutsideAlerter>
+
+
+
 )}
 </div>
 
@@ -164,4 +177,28 @@ ref={inputEl}
 
   )
 
+}
+
+
+function OutsideAlerter(props) {
+  const wrapperRef = useRef(null);
+
+function useOutsideAlerter(ref) {
+  useEffect(() => {
+
+    function handleClickOutside(event) {
+      if (ref.current && !ref.current.contains(event.target)) {
+        props.cancel_search()
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref]);
+
+}  useOutsideAlerter(wrapperRef);
+  return <div ref={wrapperRef} className = {styles.results_wrap}>{props.children}</div>;
 }
