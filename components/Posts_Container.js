@@ -41,8 +41,7 @@ const [show_time_sort, toggle_time_sort] = useState(false);
     }
   };
 
-  useEffect(() => {
-  
+useEffect(() => {
 if (end_vis && !fetching_ref.current && !posts.OOP) {
 fetching_ref.current = true
 add_chunks()
@@ -54,11 +53,8 @@ useEffect(() => {
 if (!router.query.post && clicked_post !== null) { 
 set_clicked_post(null)
 } else if (router.query.post && clicked_post == null) {
-
 let find_ = posts.posts.filter(x => x.data.name == router.query.post)
-console.log('FIND ', find_)
 if (find_) { set_clicked_post(find_[0])} else { 
-console.log('test??')
 }}}, [router.query.post])
 
 
@@ -77,7 +73,7 @@ set_posts({
   all_posts: posts_, 
   subreddit: props.subreddit, 
   after: props.after,
-  sort: 'hot', 
+  sort: router.query.sort ? router.query.sort : 'hot', 
   search: props.search, 
   query: props.query, 
   fetch_url: props.fetch_url,
@@ -119,13 +115,14 @@ console.log(data)
 
 function set_post_sort(sort_) {
 
-let time_sort = sort_ == 'top' ? `&t=${top_time_sort}` : ''
+let time_sort = sort_ == 'top' ? `&t=${top_time_sort.toLowerCase()}` : ''
 let base_ = posts.subreddit && !posts.search ? `https://oauth.reddit.com/r/${posts.subreddit}/${sort_}/.json?sr_detail=1` :
             posts.subreddit && posts.search ? `https://oauth.reddit.com/r/${posts.subreddit}/search.json?q=${posts.query}&restrict_sr=1&sr_detail=1` :
             !posts.subreddit && posts.search ? `https://oauth.reddit.com/search.json?q=${posts.query}&nsfw=1&sr_detail=1` :  `https://oauth.reddit.com/${sort_}/.json?sr_detail=1`
 let url_ = !posts.search ? `${base_}?sort=${sort_}${time_sort}` : `${base_}&sort=${sort_}${time_sort}`
 
-
+let base = router.query.r ? router.query.r : ''
+router.push(`${base}?sort=${sort_ + time_sort}`)
 set_loading(true)
 return new Promise((resolve,reject) => resolve(fetch_new_posts(url_.toLowerCase())))
 .then((data) => {
@@ -158,17 +155,21 @@ set_loading(false)
 }
 
 
+
+
+
+
 function handle_time_sort(x_) {
 
 if (x_ == 'toggle') {toggle_time_sort(!show_time_sort)} else {
 
-let time_sort =  `&t=${x_}`
+let time_sort =  `&t=${x_.toLowerCase()}`
 let base_ = posts.subreddit && !posts.search ? `https://oauth.reddit.com/r/${posts.subreddit}/${posts.sort}/.json?sr_detail=1` :
             posts.subreddit && posts.search ? `https://oauth.reddit.com/r/${posts.subreddit}/search.json?q=${posts.query}&restrict_sr=1&sr_detail=1` :
             !posts.subreddit && posts.search ? `https://oauth.reddit.com/search.json?q=${posts.query}&nsfw=1&sr_detail=1` :  `https://oauth.reddit.com/${posts.sort}/.json?sr_detail=1`
 let url_ = !posts.search ? `${base_}?sort=${posts.sort}${time_sort}` : `${base_}&sort=${posts.sort}${time_sort}`
-
-
+let base = router.query.r ? router.query.r : ''
+router.push(`${base}?sort=${posts.sort + time_sort}`)
 set_loading(true)
 toggle_time_sort(false)
 set_time_sort(x_)
@@ -258,14 +259,19 @@ fetching_ref.current = false
 
 function handle_post_click(x) {
 
+let time_sort = posts.sort == 'top' ? `&t=${top_time_sort.toLowerCase()}` : ''
+let base_ = posts.subreddit ? posts.subreddit : '/'
+let sort_ = posts.sort ? `?sort=${posts.sort + time_sort}` : ''
+
+
 if (clicked_post == null) {
-router.push(`${router.asPath}?post=${x.data.name}`, null, { shallow: true })
+router.push(`${base_}?post=${x.data.name}`, null, { shallow: true })
   set_clicked_post(x)
 
 } else {
-let new_url = router.query.r ? `${router.query.r}` : `/`
+//let new_url = router.query.r ? `${router.query.r}` : `/`
 
-router.push(new_url, null, { shallow: true })
+router.push(base_ + sort_, null, { shallow: true })
  set_clicked_post(null)
 
 }

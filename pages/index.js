@@ -17,7 +17,11 @@ const access_token =  getCookie('access_token', { req, res })
 
 
 let ref_ = req.headers && req.headers.referer ? req.headers.referer : null
-const url_ = query.post && ((!ref_) || (ref_.includes(resolvedUrl))) ?  `https://oauth.reddit.com/api/info/?id=${query.post}` : 'https://oauth.reddit.com?sr_detail=1'
+let time_sort = query.sort == 'top' ? `&t=${query.t}` : ''
+const url_ = query.post && ((!ref_) || (ref_.includes(resolvedUrl))) ? `https://oauth.reddit.com/api/info/?id=${query.post}`
+                                                        : query.sort ? `https://oauth.reddit.com/${query.sort}/.json?sr_detail=1&sort=${query.sort}${time_sort}` : 
+                                                                       'https://oauth.reddit.com?sr_detail=1'
+
 const key_ = query.post && ((!ref_) || (ref_.includes(resolvedUrl)))  ? 'post=' + query.post : 'home'
 
 if (access_token) {
