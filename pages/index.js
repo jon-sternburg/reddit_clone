@@ -29,7 +29,7 @@ return { props: { data: data, key: key_, fetch_url: url_, referer: ref_, resolve
 
 let token_ = await get_auth()
 setCookie('access_token', token_, { req, res, maxAge: 60 * 6 * 24 });
-let data = await fetch_data(url_, access_token)
+let data = await fetch_data(url_, token_)
 return { props: { data: data, key: key_, fetch_url: url_, referer: ref_, resolvedUrl: resolvedUrl} }
 }
 }
