@@ -11,9 +11,11 @@ import {AiFillClockCircle} from "react-icons/ai"
 import {AiFillTrophy} from "react-icons/ai"
 import {AiFillCaretDown, AiFillCloseCircle} from "react-icons/ai"
 import { setCookie, getCookie } from 'cookies-next';
+import { useRouter } from 'next/router'
+
 
 export default function Posts_Container(props) {
-
+const router = useRouter()
 const fetching_ref = useRef(false)
 const length_ref = useRef(0)
 const [end_vis, toggle_end_vis] = useState(false);
@@ -48,9 +50,19 @@ add_chunks()
   fetching_ref.current = false
 }}, [end_vis])
 
+useEffect(() => {
+if (!router.query.post && clicked_post !== null) { 
+set_clicked_post(null)
+} else if (router.query.post && clicked_post == null) {
+
+let find_ = posts.posts.filter(x => x.data.name == router.query.post)
+console.log('FIND ', find_)
+if (find_) { set_clicked_post(find_[0])} else { 
+console.log('test??')
+}}}, [router.query.post])
+
 
   useEffect(() => {
-
 let posts_ = props.posts.map(x => {
 var d = new Date(x.data.created_utc*1000);
 var now = new Date(new Date().getTime())
@@ -58,7 +70,7 @@ let posted_time = getRelativeTime(d, now)
 return {...x, posted_time: posted_time}
 })
 
-console.log(posts_)
+
 set_posts({
   posts: posts_.slice(0, 5), 
   pool: posts_.slice(5) , 
@@ -100,10 +112,6 @@ console.log(data)
 .catch(err => console.log(err))
 
 }
-
-
-
-
 
 
 
@@ -249,7 +257,18 @@ fetching_ref.current = false
 
 
 function handle_post_click(x) {
-if (clicked_post == null) {set_clicked_post(x)} else { set_clicked_post(null)}
+
+if (clicked_post == null) {
+router.push(`${router.asPath}?post=${x.data.name}`, null, { shallow: true })
+  set_clicked_post(x)
+
+} else {
+let new_url = router.query.r ? `${router.query.r}` : `/`
+
+router.push(new_url, null, { shallow: true })
+ set_clicked_post(null)
+
+}
 }
 
 function add_chunks() {

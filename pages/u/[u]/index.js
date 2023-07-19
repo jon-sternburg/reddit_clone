@@ -1,6 +1,7 @@
 import React, {Fragment, useState, useEffect, useRef, useCallback  } from "react";
 import User_Container from '../../../components/User_Container.js'
 import Topbar from '../../../components/Topbar.js'
+import Post_Page from '../../../components/Post_Page.js'
 import  { InferGetStaticPropsType, GetStaticProps } from 'next'
 import { withRouter } from 'next/router'
 import Head from 'next/head'
@@ -10,23 +11,28 @@ import styles from '../../../homepage_styles.module.css'
 var qs = require('qs');
 
 
-export const getServerSideProps = async ({query, req, res}) => {
+export const getServerSideProps = async ({query, req, res, resolvedUrl}) => {
 
 const access_token =  getCookie('access_token', { req, res })
-const url_ = `https://oauth.reddit.com/user/${query.u}/?`
+
+
+let ref_ = req.headers && req.headers.referer ? req.headers.referer : null
+const url_ = query.post && ((!ref_) || (ref_.includes(resolvedUrl))) ?  `https://oauth.reddit.com/api/info/?id=${query.post}` : `https://oauth.reddit.com/user/${query.u}/?`
+const key_ = query.post && ((!ref_) || (ref_.includes(resolvedUrl)))  ? 'post=' + query.post : 'user=' + query.u
+
 
 console.log(url_)
 if (access_token) {
 
 let data = await fetch_data(access_token, url_)
-return { props: { data: data, key: 'user=' + query.u, fetch_url: url_} }
+return { props: { data: data, key: key_, fetch_url: url_, referer: ref_, resolvedUrl: resolvedUrl} }
 
 } else {
 
 let token_ = await get_auth()
 setCookie('access_token', token_, { req, res, maxAge: 60 * 6 * 24 });
 let data = await fetch_data(token_, url_)
-return { props: { data: data, key: 'user=' + query.u, fetch_url: url_} }
+return { props: { data: data, key: key_, fetch_url: url_, referer: ref_, resolvedUrl: resolvedUrl} }
 }
 }
 
@@ -119,7 +125,15 @@ search = {props.search}
 user = {props.router.query.u}
  />
 
+{props.router.query.post && props.router.asPath == props.resolvedUrl ?
 
+<Post_Page 
+data = {props.data} 
+width = {size.width} 
+height = {size.height} 
+/>
+
+:
 <User_Container 
 fetch_url = {props.fetch_url} 
 query = {props.router.query.s} 
@@ -131,7 +145,7 @@ user = {props.router.query.u}
 posts = {props.data.data.children} 
 after = {props.data.data.after}
 />
-
+}
 </div>
 </Fragment>
 )}

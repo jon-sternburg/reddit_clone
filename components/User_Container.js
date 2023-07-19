@@ -12,9 +12,10 @@ import {AiFillCloseCircle} from "react-icons/ai"
 import { setCookie, getCookie } from 'cookies-next';
 import {AiOutlineCaretUp} from "react-icons/ai"
 import {AiOutlineCaretDown} from "react-icons/ai"
+import { useRouter } from 'next/router'
 
 export default function User_Container(props) {
-
+const router = useRouter()
 const fetching_ref = useRef(false)
 const length_ref = useRef(0)
 const [end_vis, toggle_end_vis] = useState(false);
@@ -61,8 +62,21 @@ add_chunks()
 }}, [end_vis])
 
 
-  useEffect(() => {
+useEffect(() => {
+if (!router.query.post && clicked_post !== null) { 
+set_clicked_comment({data: null, original_id: null})
+set_clicked_post(null)
+} else if (router.query.post && clicked_post == null) {
+let base_ = router.query.content == 'all_content' ? posts.all_content : router.query.content == 'posts' ? posts.posts : posts.comments
 
+let find_ = base_.filter(x => x.data.name == router.query.post)
+
+if (find_) { set_clicked_post(find_[0])} else { 
+
+}}}, [router.query.post])
+
+  useEffect(() => {
+//router.push(`/u/${router.query.u}/?content=all_content`, null, { shallow: true })
 
 console.log('user => ', props)
 
@@ -125,7 +139,7 @@ return { props: { data } }
 
 
 function handle_content_type(type_) {
-
+console.log(router)
 
 if (type_ == 'posts' && posts.posts_after == null) { 
 
@@ -154,6 +168,7 @@ set_posts({
   posts_after: after_
  })
 set_loading(false)
+//router.push(`/u/${router.query.u}/?content=${type_}`, null, { shallow: true })
 set_content_type(type_)
 
 }).catch(err => console.log(err))
@@ -186,6 +201,7 @@ set_posts({
   comments_after: after_
  })
 set_loading(false)
+//router.push(`/u/${router.query.u}/?content=${type_}`, null, { shallow: true })
 set_content_type(type_)
 
 }).catch(err => console.log(err))
@@ -194,6 +210,7 @@ set_content_type(type_)
 
 
 } else { 
+//router.push(`/u/${router.query.u}/?content=${type_}`, null, { shallow: true })
 set_content_type(type_)
 }
 
@@ -307,7 +324,14 @@ fetching_ref.current = false
 
 
 function handle_post_click(x) {
-if (clicked_post == null) {set_clicked_post(x)} else { 
+if (clicked_post == null) {
+router.push(`${router.asPath}?post=${x.data.name}`, null, { shallow: true })
+  set_clicked_post(x)
+
+} else { 
+  let new_url = router.query.u ? `${router.query.u}` : `/`
+
+router.push(new_url, null, { shallow: true })
   set_clicked_comment({data: null, original_id: null})
   set_clicked_post(null)
 }
@@ -385,6 +409,9 @@ return {...x, posted_time: posted_time}
 let post_data_ = data__[0]
 let comment_data = comment_.data.parent_id.includes('t1') ? post_data.props.data[1] : comment_
 console.log(post_data_, comment_data)
+
+router.push(`${router.asPath}?post=${post_data_.data.name}`, null, { shallow: true })
+
 set_clicked_comment({data: comment_data, original_id: comment_.data.id})
 set_clicked_post(post_data_)
 
