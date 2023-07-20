@@ -8,6 +8,9 @@ import {TbExternalLink} from "react-icons/tb"
 import { marked } from 'marked';
 import parse from 'html-react-parser';
 import {FaRegComment} from "react-icons/fa"
+
+
+
 export default function Clicked_Post(props) {
 
 
@@ -25,11 +28,6 @@ return (
  
 <div className = {styles.post_box_top_wrapper} >
 
-<div className = {styles.score_wrapper}>
-<BiSolidUpvote className = {styles.upvote_icon}/>
-<div className = {styles.post_box_score}>{post.data.score}</div>
-<BiSolidDownvote className = {styles.downvote_icon}/>
-</div>
 
 
 <div className = {styles.post_box_title_wrap}>
@@ -42,6 +40,10 @@ return (
 <span>r/{post.data.subreddit}</span>
 </div>
 </Link>
+<div className = {styles.post_box_author}>
+<BiSolidUpvote className = {styles.upvote_icon}/>
+<div className = {styles.post_box_score}>{post.data.score}</div>
+</div>
 
 
 <div className = {styles.post_box_author}>

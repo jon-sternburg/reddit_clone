@@ -5,7 +5,8 @@ import  { InferGetStaticPropsType, GetStaticProps } from 'next'
 import { withRouter } from 'next/router'
 import Head from 'next/head'
 import { setCookie, getCookie } from 'cookies-next';
-import axios from 'axios';
+import get_auth from '../../../utils/get_auth';
+import fetch_data from '../../..//utils/fetch_data';
 import styles from '../../../homepage_styles.module.css'
 var qs = require('qs');
 
@@ -16,81 +17,20 @@ const url_ = `https://oauth.reddit.com/search.json?q=${query.s}&nsfw=1&sr_detail
 console.log(query.s)
 if (access_token) {
 
-let data = await fetch_data(access_token, url_)
+let data = await fetch_data(url_, access_token)
 return { props: { data: data, key: 'search_query=' + query.s, fetch_url: url_} }
 
 } else {
 
 let token_ = await get_auth()
 setCookie('access_token', token_, { req, res, maxAge: 60 * 6 * 24 });
-let data = await fetch_data(token_, url_)
+let data = await fetch_data(url_, token_)
 return { props: { data: data, key: 'search_query=' + query.s, fetch_url: url_} }
 }
 }
 
-
-
-var clientid = process.env.CLIENT_ID;
-var secret = process.env.CLIENT_SECRET;
-var options = {
-                url: "https://www.reddit.com/api/v1/access_token",
-                method: 'POST',
-                contentType: 'application/x-www-form-urlencoded',
-                headers: {
-                    'User-Agent': 'reddit_clone'
-                },
-                auth: {
-                    'username': clientid,
-                    'password': secret
-                },
-                body: `grant_type=client_credentials`,
-             };
-
-
-
-
-
-async function get_auth(req, res) {
-console.log('getting auth')
-
-let data_ = await axios.post(
-            'https://www.reddit.com/api/v1/access_token',
-            qs.stringify({grant_type: 'client_credentials'}),
-            { auth: { username: clientid, password: secret }})
-
-return data_.data.access_token
-
-}
-
-
-
-
-
-async function fetch_data(token, url_) {
-
-
-let token_ = 'bearer ' + token
-return await fetch(url_, {
-    method: 'GET',
-    headers: {
-      'Authorization': token_,
-      'User-Agent': 'reddit_clone! by flickeringfreak',
-      'content_type': "application/json"
-
-    },
-    mode:"no-cors",
-  })
-.then((res) => res.json())
-.then((data_) => {
-  return data_
-}).catch(err => console.log(err))
-}
-
 const App = (props) => {
-
-console.log(props)
 const [size, set_dim] = useState({width: 0, height: 0})
-
 
 useEffect(() => {
 window.addEventListener('resize', updateDimensions);
@@ -119,12 +59,7 @@ set_dim({width: window.innerWidth, height: window.innerHeight})
 </Head>
 
 <div className = {styles.homepage_frame}>
-<Topbar 
-subreddit = {props.router.query.r} 
-query = {props.router.query.s} 
-search = {props.search}
-user = {props.router.query.u}
- />
+<Topbar />
 
 
 <Posts_Container 

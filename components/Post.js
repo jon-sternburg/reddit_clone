@@ -36,13 +36,6 @@ return (
  
 <div className = {styles.post_box_top_wrapper} >
 
-<div className = {styles.score_wrapper}>
-<BiSolidUpvote className = {styles.upvote_icon}/>
-<div className = {styles.post_box_score}>{post.data.score}</div>
-<BiSolidDownvote className = {styles.downvote_icon}/>
-</div>
-
-
 <div className = {styles.post_box_title_wrap}>
 <h3 className = {styles.post_box_title}>{post.data.title}</h3>
 <div className = {styles.post_info_wrapper}>
@@ -55,10 +48,14 @@ return (
 </Link>
 </div>
 
-
+<div className = {styles.post_box_author}>
+<BiSolidUpvote className = {styles.upvote_icon}/>
+<div className = {styles.post_box_score}>{post.data.score}</div>
+</div>
 
 <div className = {styles.post_box_author} onClick = {(e) => handle_post_box_click(post, e)}>
-<Link href={`/u/${post.data.author}`}>u/{post.data.author}<span style = {{marginLeft: '2px'}}> {String.fromCharCode(183)}{` ${post.posted_time}`}</span></Link></div>
+<Link href={`/u/${post.data.author}`}>u/{post.data.author}<span style = {{marginLeft: '2px'}}> {String.fromCharCode(183)}{` ${post.posted_time}`}</span></Link>
+</div>
 
 <div className = {styles.post_box_comments}>
 <FaRegComment className = {styles.comments_icon} /> 

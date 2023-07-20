@@ -23,16 +23,13 @@ set_login_panel({show: !login_panel.show})
 }
 
 
-
-useEffect(() => {}, [results]);
-
 async function handleSubmit(e) {
 e.preventDefault()
 let url_ = `https://www.reddit.com/subreddits/search.json?q=${inputEl.current.value}&include_over_18=on`
 const res = await fetch(url_)
 const data = await res.json()
 let subreddits = data.data.children//.map(x => x.data.display_name)
-console.log(data.data.children)
+
 set_search_results({content: subreddits, show: true})
 
 }
@@ -81,29 +78,29 @@ return (
 </div>
 
 
-{props.subreddit  && (
+{router.query.r  && (
 <div className = {styles.subreddit_tag}>
 
-{props.search ? `r/${props.subreddit} search: '${props.query}'` :  `r/${props.subreddit}` }
+{router.query.s ? `r/${router.query.r } search: '${router.query.s}'` :  `r/${router.query.r }` }
 
 </div>
   )}
 
 
-{props.user  && (
+{router.query.u  && (
 <div className = {styles.subreddit_tag}>
 
-u/{props.user}
+u/{router.query.u}
 
 </div>
   )}
 
 
 
-{!props.subreddit  && props.search &&(
+{!router.query.r  && router.query.s &&(
 <div className = {styles.subreddit_tag}>
 
-{`reddit search: '${props.query}'`}
+{`reddit search: '${router.query.s}'`}
 
 </div>
   )}
@@ -127,9 +124,9 @@ ref={inputEl}
   <OutsideAlerter cancel_search = {cancel_search}>
 <div className = {styles.results_wrap_inner}>
 
-{props.subreddit && (
-<Link key = {props.subreddit + '/' + inputEl.current.value} href={`/${props.subreddit}/search/${inputEl.current.value}`}> 
-<div className = {styles.query_wrap} >Search r/{props.subreddit} for {`"${inputEl.current.value}"`}</div>
+{router.query.r && (
+<Link key = {router.query.r + '/' + inputEl.current.value} href={`/${router.query.r}/search/${inputEl.current.value}`}> 
+<div className = {styles.query_wrap} >Search r/{router.query.r} for {`"${inputEl.current.value}"`}</div>
 </Link>
 )}
 

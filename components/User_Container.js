@@ -436,10 +436,10 @@ let w_ = props.width
 
 <div className = {styles.post_frame} >
 
-<div className = {styles.content_type_bar}>
-<div className = {content_type == 'all_content' ? styles.selected_content_type_option : styles.content_type_option} onClick = {() => handle_content_type('all_content')}>Overview</div>
-<div className = {content_type == 'posts' ? styles.selected_content_type_option : styles.content_type_option} onClick = {() => handle_content_type('posts')}>Posts</div>
-<div className = {content_type == 'comments' ? styles.selected_content_type_option : styles.content_type_option}onClick = {() => handle_content_type('comments')}>Comments</div>
+<div className = {styles.sort_wrapper}>
+<div className = {content_type == 'all_content' ? styles.sort_option_selected : styles.sort_option} onClick = {() => handle_content_type('all_content')}>Overview</div>
+<div className = {content_type == 'posts' ? styles.sort_option_selected : styles.sort_option} onClick = {() => handle_content_type('posts')}>Posts</div>
+<div className = {content_type == 'comments' ? styles.sort_option_selected : styles.sort_option}onClick = {() => handle_content_type('comments')}>Comments</div>
 
 </div>
 

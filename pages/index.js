@@ -8,6 +8,9 @@ import Head from 'next/head'
 import { setCookie, getCookie } from 'cookies-next';
 import axios from 'axios';
 import styles from '../homepage_styles.module.css'
+import get_auth from '../utils/get_auth';
+import fetch_data from '../utils/fetch_data';
+
 var qs = require('qs');
 
 
@@ -39,60 +42,9 @@ return { props: { data: data, key: key_, fetch_url: url_, referer: ref_, resolve
 }
 
 
-
-var clientid = process.env.CLIENT_ID;
-var secret = process.env.CLIENT_SECRET;
-var options = {
-                url: "https://www.reddit.com/api/v1/access_token",
-                method: 'POST',
-                contentType: 'application/x-www-form-urlencoded',
-                headers: {
-                    'User-Agent': 'reddit_clone'
-                },
-                auth: {
-                    'username': clientid,
-                    'password': secret
-                },
-                body: `grant_type=client_credentials`,
-             };
-
-async function get_auth(req, res) {
-console.log('getting auth')
-
-let data_ = await axios.post(
-            'https://www.reddit.com/api/v1/access_token',
-            qs.stringify({grant_type: 'client_credentials'}),
-            { auth: { username: clientid, password: secret }})
-
-return data_.data.access_token
-
-}
-
-
-async function fetch_data(url_, token) {
-
-
-let token_ = 'bearer ' + token
-return await fetch(url_, {
-    method: 'GET',
-    headers: {
-      'Authorization': token_,
-      'User-Agent': 'reddit_clone! by flickeringfreak',
-      'content_type': "application/json"
-
-    },
-    mode:"no-cors",
-  })
-.then((res) => res.json())
-.then((data_) => {
-  return data_
-}).catch(err => console.log(err))
-}
-
 const App = (props) => {
 const [size, set_dim] = useState({width: 0, height: 0})
 
-console.log('fired home index')
 
 useEffect(() => {
 window.addEventListener('resize', updateDimensions);
@@ -117,12 +69,7 @@ set_dim({width: window.innerWidth, height: window.innerHeight})
 
 </Head>
 <div className = {styles.homepage_frame}>
-<Topbar 
-subreddit = {props.router.query.r} 
-query = {props.router.query.s} 
-search = {props.search}
-user = {props.router.query.u}
- />
+<Topbar  />
 {props.router.query.post && props.router.asPath == props.resolvedUrl ?
 
 <Post_Page 
