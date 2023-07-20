@@ -63,7 +63,7 @@ let posts_ = props.posts.map(x => {
 var d = new Date(x.data.created_utc*1000);
 var now = new Date(new Date().getTime())
 let posted_time = getRelativeTime(d, now)
-return {...x, posted_time: posted_time}
+return {...x, posted_time: posted_time.replace(' ago', '')}
 })
 
 
@@ -132,7 +132,7 @@ let new_posts = data.props.data.data.children.map(x => {
 var d = new Date(x.data.created_utc*1000);
 var now = new Date(new Date().getTime())
 let posted_time = getRelativeTime(d, now)
-return {...x, posted_time: posted_time}
+return {...x, posted_time: posted_time.replace(' ago', '')}
 })
 
 
@@ -180,7 +180,7 @@ let new_posts = data.props.data.data.children.map(x => {
 var d = new Date(x.data.created_utc*1000);
 var now = new Date(new Date().getTime())
 let posted_time = getRelativeTime(d, now)
-return {...x, posted_time: posted_time}
+return {...x, posted_time: posted_time.replace(' ago', '')}
 })
 
 console.log('HANDLE TIME SORT NEW AFTER ', after_)
@@ -220,7 +220,7 @@ let new_posts = data.props.data.data.children.map(x => {
 var d = new Date(x.data.created_utc*1000);
 var now = new Date(new Date().getTime())
 let posted_time = getRelativeTime(d, now)
-return {...x, posted_time: posted_time}
+return {...x, posted_time: posted_time.replace(' ago', '')}
 })
 
 
@@ -366,7 +366,7 @@ var units = {
   second: 1000
 }
 
-var rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' })
+var rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto', style: 'narrow' })
 
 var getRelativeTime = (d1, d2 = new Date()) => {
   var elapsed = d1 - d2

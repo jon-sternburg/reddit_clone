@@ -2,12 +2,12 @@ import React, {Fragment, useState, useEffect, useCallback, useRef } from "react"
 import styles from '../posts_container_styles.module.css'
 import { useIntersectionObserverRef } from "rooks";
 import Link from 'next/link'
-import {BiUpvote} from "react-icons/bi"
-import {BiDownvote} from "react-icons/bi"
+import {BiSolidUpvote} from "react-icons/bi"
+import {BiSolidDownvote} from "react-icons/bi"
 import {TbExternalLink} from "react-icons/tb"
 import { marked } from 'marked';
 import parse from 'html-react-parser';
-
+import {FaRegComment} from "react-icons/fa"
 export default function Clicked_Post(props) {
 
 
@@ -26,14 +26,14 @@ return (
 <div className = {styles.post_box_top_wrapper} >
 
 <div className = {styles.score_wrapper}>
-<BiUpvote className = {styles.upvote_icon}/>
+<BiSolidUpvote className = {styles.upvote_icon}/>
 <div className = {styles.post_box_score}>{post.data.score}</div>
-<BiDownvote className = {styles.downvote_icon}/>
+<BiSolidDownvote className = {styles.downvote_icon}/>
 </div>
 
 
 <div className = {styles.post_box_title_wrap}>
-<div className = {styles.post_box_title}>{post.data.title}</div>
+<h3 className = {styles.post_box_title}>{post.data.title}</h3>
 <div className = {styles.post_info_wrapper}>
 <Link href={`/${post.data.subreddit}`}>
 
@@ -45,9 +45,12 @@ return (
 
 
 <div className = {styles.post_box_author}>
-<Link href={`/u/${post.data.author}`}>u/{post.data.author} </Link><span style = {{marginLeft: '2px'}}> {`(${post.posted_time})`}</span></div>
+<Link href={`/u/${post.data.author}`}>u/{post.data.author}<span style = {{marginLeft: '2px'}}> {String.fromCharCode(183)}{` ${post.posted_time}`}</span></Link></div>
 
-<div className = {styles.post_box_comments}>{post.data.num_comments} comments</div>
+<div className = {styles.post_box_comments}>
+<FaRegComment className = {styles.comments_icon} /> 
+{post.data.num_comments} comments
+</div>
 
 </div>
 </div>

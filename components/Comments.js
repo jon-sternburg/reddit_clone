@@ -217,7 +217,7 @@ var d = new Date(comment.data.created_utc*1000);
 var now = new Date(new Date().getTime())
 let posted_time = getRelativeTime(d, now)
 
-set_posted_time(posted_time)
+set_posted_time(posted_time.replace(' ago', ''))
 }
 
 
@@ -336,7 +336,7 @@ var units = {
   second: 1000
 }
 
-var rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' })
+var rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto', style: 'narrow' })
 
 var getRelativeTime = (d1, d2 = new Date()) => {
   var elapsed = d1 - d2

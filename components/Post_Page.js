@@ -27,7 +27,7 @@ let data__ = props.data.data.children.map(x => {
 var d = new Date(x.data.created_utc*1000);
 var now = new Date(new Date().getTime())
 let posted_time = getRelativeTime(d, now)
-return {...x, posted_time: posted_time}
+return {...x, posted_time: posted_time.replace(' ago', '')}
 })
 
 set_post_data(data__[0]);
@@ -65,7 +65,7 @@ var units = {
   second: 1000
 }
 
-var rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' })
+var rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto', style: 'narrow' })
 
 var getRelativeTime = (d1, d2 = new Date()) => {
   var elapsed = d1 - d2
