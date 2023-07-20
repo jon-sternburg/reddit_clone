@@ -41,6 +41,7 @@ if (!comments.show) {
  new Promise((resolve,reject) => resolve(fetchData(`https://oauth.reddit.com/r/${subreddit}/comments/${post_id}.json?`)))
 .then((comments_) => {
 let more_ = comments_[1].data.children.filter(x => x.kind == 'more')
+console.log(comments_)
 set_comments({comments: comments_[1].data.children, show: true})
 
 set_more_comments({

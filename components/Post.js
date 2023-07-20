@@ -30,6 +30,8 @@ e.stopPropagation()
 
 
 return (
+
+
 <div className = {styles.post_box} onClick = {() => props.handle_post_click(post)}>
  
 <div className = {styles.post_box_top_wrapper} >
@@ -73,7 +75,7 @@ return (
 {type_}
 </div>
 </div>
-  
+
 
 
 

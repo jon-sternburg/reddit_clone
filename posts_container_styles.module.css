@@ -1179,7 +1179,7 @@ padding: 5px;
 
 }
 .skeleton_loader_bottom, .skeleton_loader  {
-
+border-radius: 0;
 width: 100vw;
 
 }
