@@ -4,7 +4,7 @@ import { useIntersectionObserverRef } from "rooks";
 import Link from 'next/link'
 import {BiSolidUpvote} from "react-icons/bi"
 import {BiSolidDownvote} from "react-icons/bi"
-import {TbExternalLink} from "react-icons/tb"
+import {GoLinkExternal} from "react-icons/go"
 import { marked } from 'marked';
 import parse from 'html-react-parser';
 import {FaRegComment} from "react-icons/fa"
