@@ -18,7 +18,7 @@ let post = props.post
 let h_ = props.h_
 let i = props.i
 
-let type_ = (post.data.is_video)|| (post.data.post_hint && post.data.post_hint.includes('video')) ? <Video_ handle_link_click = {handle_link_click} handle_link_click = {handle_link_click} width = {props.w_} height = {h_} data = {post.data} /> : 
+let type_ = (post.data.is_video)|| (post.data.post_hint && post.data.post_hint.includes('video')) ? <Video_ handle_link_click = {handle_link_click} width = {props.w_} height = {h_} data = {post.data} /> : 
                                                                                 post.data.is_self ? <Text_ handle_link_click = {handle_link_click} data = {post.data}  height = {h_} />  : 
                                                                                 <Image_ handle_link_click = {handle_link_click} height = {h_} data = {post.data} /> 
 
