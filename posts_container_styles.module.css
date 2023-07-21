@@ -92,7 +92,12 @@ box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.2);
 
 }
 
-
+.skeleton_loader_bottom_rings, .skeleton_loader_rings {
+height:40vh;
+display: flex;
+justify-content: center;
+width: 100%;
+}
 .skeleton_loader {
   width: 100%;
   margin:20px auto;
@@ -272,30 +277,43 @@ width: 1.8em;
 }
 
 
+.img_link_icon {
 
+margin-right: 5px;
+
+
+}
 .img_link_wrap:hover {
 cursor: pointer;
 background: salmon;
 	
 	}
+.img_link_wrap a {
+ vertical-align: middle;
+}
+
+
 .img_link_wrap {
-	background: #ffcccc;
+background: #ffcccc;
 text-overflow: ellipsis;
 overflow: hidden;
 white-space: nowrap;
-outline: none;
-border: none;
-width: 250px;
-height: 30px;
+
+text-decoration: none;
+width: 100%;
 border-radius: 4px;
+
+padding: 10px;
+color:black;
+ font-family: Arial,Helvetica,sans-serif;
+margin:0px 7px;
+font-size: 12px;
+
+
+
 }
-.img_link_icon {
 
 
-width: 20px;
-
-
-}
 
 
 
@@ -306,6 +324,7 @@ flex-direction: row;
 flex-wrap: wrap;
 justify-content: flex-start;
 margin-bottom:5px;
+padding: 7px;
 }
 
 
@@ -323,7 +342,18 @@ width: 100%;
 
 }
 
+.post_box_bottom_wrap{
+padding: 7px;
+	display: flex;
+	flex-direction: row;
+margin-top: 10px;
+}
 
+.post_box_bottom_wrap a { 
+	color: black;
+	text-decoration: none !important;
+
+	 }
 .post_box_inner {
 display: flex;
 width: 100%;
@@ -389,7 +419,21 @@ box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.2);
 height: 13px;
 width:  13px;
 }
+.post_box_score {
+		font-size: 12px;
+    font-family: Arial,Helvetica,sans-serif;
+margin: 5px 10px 5px 0px;
+	padding: 5px;
+height: 25px;
 
+	background: #b3c7f7;
+
+	border-radius: 4px;
+display: flex;
+justify-content: center;
+align-items: center;
+
+}
 
 .post_box_author {
 		font-size: 12px;
@@ -397,9 +441,9 @@ width:  13px;
 margin: 5px 10px 5px 0px;
 	padding: 5px;
 height: 20px;
-/*
-	background: #f2b3a4;
-	*/
+
+	background: #f9dde8;
+	
 	border-radius: 4px;
 display: flex;
 justify-content: center;
@@ -426,9 +470,9 @@ font-size: 12px;
     font-family: Arial,Helvetica,sans-serif;
 margin: 5px 10px 5px 0px;
 	padding: 5px;
-	/*
-	background: #eeeeee;
-	*/
+	
+	background: #b2d7c5;
+	
 	border-radius: 4px;
 
 display: flex;
@@ -457,7 +501,7 @@ background: lightgrey;
 }
 .post_box_subreddit{
     font-family: Arial,Helvetica,sans-serif;
-	background: #fcebe7;
+	background: #e9c2bb;
 	height: 20px;
 	padding: 5px;
 	margin: 5px 10px 5px 0px;
@@ -478,7 +522,7 @@ background: lightgrey;
 
 }
 .post_box_title {
-font-size: 14px;
+font-size: 16px;
 /*
 	background: #fcebe7;
 */
@@ -1021,31 +1065,41 @@ width: 50vw;
 
 
 @media screen and (max-width: 800px) {
-
+/*
 .close_popup_post_icon {
 height: 1.3em;
 width: 1.3em;
 position: sticky;
 top: 40px;
-left: 95%;
+left: 90%;
 color: salmon;
 background: white;
 border-radius: 50%;
 z-index: 9999;
-/*
-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.2);
-*/
-}
 
+}
+*/
+.close_popup_post_icon {
+height: 1.5em;
+width: 1.5em;
+position: absolute;
+top: 10px;
+right: 5px;
+color: salmon;
+background: white;
+border-radius: 50%;
+
+
+}
 
 .post_box_top_wrapper {
 
-
+width: 90%;
 margin-bottom: 5px;
 
 }
 .post_box_title {
-
+font-size: 16px;
 	margin:5px 0;
 }
 .score_wrapper {
@@ -1054,16 +1108,8 @@ width: 30px;
 	font-size: 12px;
 }
 
-.post_box_subreddit, .post_box_author, .post_box_comments {
 
-font-size: 12px;
 
-}
-
-.post_box_title, .score_wrapper, .img_link  {
-font-size: 12px;
-
-}
 
 
 .post_info_wrapper {
@@ -1076,7 +1122,7 @@ display: flex;
 flex-direction: column;
 margin: 5px auto 5px auto;
 word-wrap: break-word;
-width: calc(100vw - 48px);
+width: 100vw;
 height: auto;
 border: 1px solid lightgrey;
 background: white;
@@ -1102,10 +1148,10 @@ padding: 0;
 
 .comment_box {
 font-family: Arial,Helvetica,sans-serif;
-width: 100%;
-display: flex;
+width: 100vw;
+
 background: white;
-margin: 0 auto;
+margin: 0;
 padding: 0px;
 flex-wrap:wrap;
 border-radius: 0;
@@ -1114,10 +1160,12 @@ border-radius: 0;
     line-height: 21px;
 height: auto;
 padding-bottom: 20px;
+background: #f2b3a4;
+
 }
 
 .comment_body { 
-width: 95%;
+width: 80%;
 
 
 border-radius: 4px;
@@ -1125,8 +1173,9 @@ padding: 2.5px;
  }
 
  .comment_wrap {
-width: 90%;
-margin: 5px 5px 5px 10px;
+width: calc(100% - 20px);
+margin: 5px 10px 15px 10px;
+
 
  }
  .comment_wrap___user {
@@ -1188,7 +1237,7 @@ align-items: center;
 padding: 5px;
 
 }
-.skeleton_loader_bottom, .skeleton_loader  {
+.skeleton_loader_bottom, .skeleton_loader, .skeleton_loader_comments {
 border-radius: 0;
 width: 100vw;
 
@@ -1212,5 +1261,8 @@ padding: 0 5px;
 	width: 100%;
 }
 
+.post_box_inner {
 
+width: 90%;
+}
 	}

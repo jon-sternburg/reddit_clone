@@ -5,6 +5,7 @@ import Link from 'next/link'
 import {BiExpandAlt} from "react-icons/bi"
 import _ from 'lodash'
 import { setCookie, getCookie } from 'cookies-next';
+import { Rings } from  'react-loader-spinner'
 
 async function fetchData(url_) {
 
@@ -144,7 +145,16 @@ return (
 
 
 <Fragment>
-{loading ? <div className = {styles.skeleton_loader_comments}></div> : clicked_comment ? 
+{loading ? <Rings
+  height="80"
+  width="80"
+  color="#4fa94d"
+  radius="6"
+  wrapperStyle={{}}
+  wrapperClass={styles.skeleton_loader_rings}
+  visible={true}
+  ariaLabel="rings-loading"
+/> : clicked_comment ? 
 
 
 <Fragment>

@@ -5,7 +5,7 @@ import Link from 'next/link'
 import {BiSolidUpvote} from "react-icons/bi"
 import {FaRegComment} from "react-icons/fa"
 import {BiSolidDownvote} from "react-icons/bi"
-import {TbExternalLink} from "react-icons/tb"
+import {GoLinkExternal} from "react-icons/go"
 import { marked } from 'marked';
 import parse from 'html-react-parser';
 
@@ -17,11 +17,17 @@ let post = props.post
 let h_ = props.h_
 let i = props.i
 
-let type_ = (post.data.is_video)|| (post.data.post_hint && post.data.post_hint.includes('video')) ? <Video_ width = {props.w_} height = {h_} data = {post.data} /> : 
-                                                                                post.data.is_self ? <Text_ data = {post.data}  height = {h_} />  : <Image_ height = {h_} data = {post.data} width = {props.w_} /> 
+let type_ = (post.data.is_video)|| (post.data.post_hint && post.data.post_hint.includes('video')) ? <Video_ handle_link_click = {handle_link_click} width = {props.w_} height = {h_} data = {post.data} /> : 
+                                                                                post.data.is_self ? <Text_ handle_link_click = {handle_link_click} data = {post.data}  height = {h_} />  : 
+                                                                                <Image_ handle_link_click = {handle_link_click} height = {h_} data = {post.data} width = {props.w_} /> 
+function handle_link_click(e, url) {
+e.preventDefault()
+e.stopPropagation()
 
+  window.open(url, '_blank');
+}
 
-function handle_post_box_click(post_, e) {
+function handle_post_box_click(e) {
 e.preventDefault()
 e.stopPropagation()
 
@@ -41,26 +47,21 @@ return (
 <div className = {styles.post_info_wrapper}>
 
 
-<div className = {styles.post_box_subreddit} onClick = {(e) => handle_post_box_click(post, e)}>
+<div className = {styles.post_box_subreddit} onClick = {(e) => handle_post_box_click(e)}>
 <Link href={`/${post.data.subreddit}`}>
 {post.data.sr_detail && post.data.sr_detail.icon_img && (<img alt = {"subreddit icon image"} height = {20} width = {20} src = {post.data.sr_detail.icon_img} className = {styles.icon_img} />)}
 <span>r/{post.data.subreddit}</span>
 </Link>
 </div>
 
-<div className = {styles.post_box_author}>
+<div className = {styles.post_box_score}>
 <BiSolidUpvote className = {styles.upvote_icon}/>
 <div className = {styles.post_box_score}>{post.data.score}</div>
 </div>
 
-<div className = {styles.post_box_author} onClick = {(e) => handle_post_box_click(post, e)}>
-<Link href={`/u/${post.data.author}`}>u/{post.data.author}<span style = {{marginLeft: '2px'}}> {String.fromCharCode(183)}{` ${post.posted_time}`}</span></Link>
-</div>
 
-<div className = {styles.post_box_comments}>
-<FaRegComment className = {styles.comments_icon} /> 
-{post.data.num_comments} comments
-</div>
+
+
 </div>
 </div>
 
@@ -70,6 +71,15 @@ return (
 
 <div className = {styles.post_box_inner}>
 {type_}
+</div>
+<div className = {styles.post_box_bottom_wrap}>
+<div className = {styles.post_box_comments}>
+<FaRegComment className = {styles.comments_icon} /> 
+{post.data.num_comments}
+</div>
+<div className = {styles.post_box_author} onClick = {(e) => handle_post_box_click(e)}>
+<Link href={`/u/${post.data.author}`}>u/{post.data.author}<span style = {{marginLeft: '2px'}}> {String.fromCharCode(183)}{` ${post.posted_time}`}</span></Link>
+</div>
 </div>
 </div>
 
@@ -114,8 +124,9 @@ set_dim(dim)
 
 
 function getMediaSize(iw, ih) {
+let r_ = props.width <= 800 ? .7 : .4
 let max_h = props.height * .7
-let max_w = props.width * .4
+let max_w = props.width * r_
 
 
 
@@ -154,15 +165,12 @@ return {
 
 {img_error || props.data.url.includes('gallery') ? 
 
-<div className = {styles.img_link_wrapper}>
-<form action = {props.data.url} method = 'get' target="_blank">
-<button type = 'submit' className = {styles.img_link_wrap}>
-<TbExternalLink className = {styles.img_link_icon} />
-<span className = {styles.img_link}>{props.data.url}</span>
 
-</button>
-</form>
-</div>
+<a onClick = {(e) => props.handle_link_click(e, props.data.url)} href={props.data.url} target="_blank"  className = {styles.img_link_wrap}>
+<GoLinkExternal className = {styles.img_link_icon} />
+<span>{props.data.url}</span>
+</a>
+
 :
 <Fragment>
 {dim.w && dim.h && (
@@ -179,15 +187,10 @@ return {
 }
 </Fragment>
 :
-<div className = {styles.img_link_wrapper}>
-<form action = {props.data.url} method = 'get' target="_blank">
-<button type = 'submit' className = {styles.img_link_wrap}>
-<TbExternalLink className = {styles.img_link_icon} />
-<span className = {styles.img_link}>{props.data.url}</span>
-
-</button>
-</form>
-</div>
+<a onClick = {(e) => props.handle_link_click(e, props.data.url)} href={props.data.url} target="_blank"  className = {styles.img_link_wrap}>
+<GoLinkExternal className = {styles.img_link_icon} />
+<span>{props.data.url}</span>
+</a>
 }
 
   
@@ -259,7 +262,7 @@ props.data.secure_media.reddit_video.fallback_url : props.data.secure_media.redd
                                                           :  type_ == 'streamable' ? <div className = {styles.img_link_wrapper}>
 <form action = {props.data.url} method = 'get' target="_blank">
 <button type = 'submit' className = {styles.img_link_wrap}>
-<TbExternalLink className = {styles.img_link_icon} />
+<GoLinkExternal className = {styles.img_link_icon} />
 <span className = {styles.img_link}>{props.data.url}</span>
 
 </button>
