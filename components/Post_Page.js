@@ -11,7 +11,7 @@ import {AiFillClockCircle} from "react-icons/ai"
 import {AiFillTrophy} from "react-icons/ai"
 import {AiFillCaretDown, AiFillCloseCircle} from "react-icons/ai"
 import { useRouter } from 'next/router'
-
+import get_relative_time from '../utils/get_relative_time';
 
 
 
@@ -22,11 +22,10 @@ const [post_data, set_post_data] = useState(null);
 
 
 useEffect(() => {
-  console.log(props)
 let data__ = props.data.data.children.map(x => {
 var d = new Date(x.data.created_utc*1000);
 var now = new Date(new Date().getTime())
-let posted_time = getRelativeTime(d, now)
+let posted_time = get_relative_time(d, now)
 return {...x, posted_time: posted_time.replace(' ago', '')}
 })
 
@@ -45,7 +44,7 @@ set_loading(false)
 {loading ? <div className ={styles.skeleton_loader}></div> :
 <Fragment>
 
-<Clicked_Post  h_ = {props.height} w_ = {props.width} post = {post_data} />
+<Clicked_Post  handle_post_click = {() => {}} h_ = {props.height} w_ = {props.width} post = {post_data} />
 
 <Comments post = {post_data} clicked_comment = {null} />
 </Fragment>
@@ -56,20 +55,3 @@ set_loading(false)
 )}
 
 
-var units = {
-  year  : 24 * 60 * 60 * 1000 * 365,
-  month : 24 * 60 * 60 * 1000 * 365/12,
-  day   : 24 * 60 * 60 * 1000,
-  hour  : 60 * 60 * 1000,
-  minute: 60 * 1000,
-  second: 1000
-}
-
-var rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto', style: 'narrow' })
-
-var getRelativeTime = (d1, d2 = new Date()) => {
-  var elapsed = d1 - d2
-  for (var u in units) 
-    if (Math.abs(elapsed) > units[u] || u == 'second') 
-      return rtf.format(Math.round(elapsed/units[u]), u)
-}

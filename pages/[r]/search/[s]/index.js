@@ -1,6 +1,6 @@
 import React, {Fragment, useState, useEffect, useRef, useCallback  } from "react";
 import Posts_Container from '../../../../components/Posts_Container.js'
-import Topbar from '../../../../components/Topbar.js'
+import Top_Bar from '../../../../components/Top_Bar.js'
 import  { InferGetStaticPropsType, GetStaticProps } from 'next'
 import { withRouter } from 'next/router'
 import Head from 'next/head'
@@ -60,7 +60,7 @@ set_dim({width: window.innerWidth, height: window.innerHeight})
 </Head>
 
 <div className = {styles.homepage_frame}>
-<Topbar />
+<Top_Bar />
 
 
 <Posts_Container 

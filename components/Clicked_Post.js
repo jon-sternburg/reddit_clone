@@ -8,7 +8,7 @@ import {GoLinkExternal} from "react-icons/go"
 import { marked } from 'marked';
 import parse from 'html-react-parser';
 import {FaRegComment} from "react-icons/fa"
-
+import {MdQuestionAnswer} from "react-icons/md"
 
 
 export default function Clicked_Post(props) {
@@ -28,7 +28,12 @@ e.stopPropagation()
 
   window.open(url, '_blank');
 }
+function handle_post_box_click(e) {
+e.preventDefault()
+e.stopPropagation()
 
+
+}
 return (
 
 <div className = {styles.post_box} onClick = {() => props.handle_post_click(post)}>
@@ -89,8 +94,7 @@ function Image_(props) {
 const [img_error, set_img_error] = useState(false);
 
 let src_ = props.data.domain.includes('redd') || props.data.domain.includes('imgur') ? props.data.url : props.data.thumbnail
-let height_ = props.data.thumbnail_height
-let width_ = props.data.thumbnail_width
+
 
 
 function onError() {
@@ -108,7 +112,6 @@ set_img_error(true)
     muted
     style = {{maxHeight: props.height * .7}}
     controls
-   // poster = {props.data.thumbnail} 
     preload = {'auto'} 
     className = {styles.video_post} 
     src = {props.data.url.replace('.gifv', '.mp4')} />
@@ -162,13 +165,10 @@ let html_ = parse(text)
  } else {
 
 
-return(
-
-<Fragment>
-</Fragment>
-  )
-
- }
+  return (
+<div className = {styles.read_icon_wrap}><MdQuestionAnswer className = {styles.read_icon} /></div>
+    )
+}
 
 
 
@@ -188,18 +188,16 @@ props.data.secure_media.reddit_video.fallback_url : props.data.secure_media.redd
   return (
     <Fragment>
 
-    { type_ == 'youtube' || type_ == 'redgifs' || type_ == 'gfy'?  <iframe width = {props.data.secure_media_embed.width } 
-                                                                          //height = {type_ == 'youtube' ? '' : props.height}
-
-                                                                          height = {props.data.secure_media_embed.height + 5} 
-                                                                          className = {styles.video_post} src = {src_} /> : 
+    { type_ == 'youtube' || type_ == 'redgifs' || type_ == 'gfy'?  <a onClick = {(e) => props.handle_link_click(e, props.data.url)} href={props.data.url} target="_blank"  className = {styles.img_link_wrap}>
+<GoLinkExternal className = {styles.img_link_icon} />
+<span>{props.data.url}</span>
+</a> : 
     <video 
     autoPlay 
     loop 
     muted
     style = {{maxHeight: props.height}}
     controls
-   // poster = {props.data.thumbnail} 
     preload = {'auto'} 
     className = {styles.video_post} 
     src = {src_} />}

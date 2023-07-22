@@ -1,6 +1,6 @@
 import React, {Fragment, useState, useEffect, useRef, useCallback  } from "react";
 import User_Container from '../../../components/User_Container.js'
-import Topbar from '../../../components/Topbar.js'
+import Top_Bar from '../../../components/Top_Bar.js'
 import Post_Page from '../../../components/Post_Page.js'
 import  { InferGetStaticPropsType, GetStaticProps } from 'next'
 import { withRouter } from 'next/router'
@@ -69,7 +69,7 @@ set_dim({width: window.innerWidth, height: window.innerHeight})
 
 
 <div className = {styles.homepage_frame}>
-<Topbar />
+<Top_Bar />
 
 {props.router.query.post && props.router.asPath == props.resolvedUrl ?
 

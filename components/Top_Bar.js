@@ -8,7 +8,7 @@ import {AiFillCloseCircle} from "react-icons/ai"
 import { useRouter } from 'next/router'
 
 
-export default function Topbar(props) {
+export default function Top_Bar(props) {
 const router = useRouter()
 const inputEl = useRef(null);
 const username_input_ref = useRef(null);

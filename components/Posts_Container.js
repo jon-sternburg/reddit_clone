@@ -13,6 +13,8 @@ import {AiFillCaretDown, AiFillCloseCircle} from "react-icons/ai"
 import { setCookie, getCookie } from 'cookies-next';
 import { useRouter } from 'next/router'
 import { Rings } from  'react-loader-spinner'
+import get_relative_time from '../utils/get_relative_time';
+
 
 export default function Posts_Container(props) {
 const router = useRouter()
@@ -62,7 +64,7 @@ if (find_) { set_clicked_post(find_[0])} else {
 let posts_ = props.posts.map(x => {
 var d = new Date(x.data.created_utc*1000);
 var now = new Date(new Date().getTime())
-let posted_time = getRelativeTime(d, now)
+let posted_time = get_relative_time(d, now)
 return {...x, posted_time: posted_time.replace(' ago', '')}
 })
 
@@ -131,7 +133,7 @@ let after_ = data.props.data.data.after
 let new_posts = data.props.data.data.children.map(x => {
 var d = new Date(x.data.created_utc*1000);
 var now = new Date(new Date().getTime())
-let posted_time = getRelativeTime(d, now)
+let posted_time = get_relative_time(d, now)
 return {...x, posted_time: posted_time.replace(' ago', '')}
 })
 
@@ -179,7 +181,7 @@ let after_ = data.props.data.data.after
 let new_posts = data.props.data.data.children.map(x => {
 var d = new Date(x.data.created_utc*1000);
 var now = new Date(new Date().getTime())
-let posted_time = getRelativeTime(d, now)
+let posted_time = get_relative_time(d, now)
 return {...x, posted_time: posted_time.replace(' ago', '')}
 })
 
@@ -219,7 +221,7 @@ if (data.props.data.data.children && data.props.data.data.children.length >= 25)
 let new_posts = data.props.data.data.children.map(x => {
 var d = new Date(x.data.created_utc*1000);
 var now = new Date(new Date().getTime())
-let posted_time = getRelativeTime(d, now)
+let posted_time = get_relative_time(d, now)
 return {...x, posted_time: posted_time.replace(' ago', '')}
 })
 
@@ -375,21 +377,3 @@ let w_ = props.width
 </Fragment>
 )}
 
-
-var units = {
-  year  : 24 * 60 * 60 * 1000 * 365,
-  month : 24 * 60 * 60 * 1000 * 365/12,
-  day   : 24 * 60 * 60 * 1000,
-  hour  : 60 * 60 * 1000,
-  minute: 60 * 1000,
-  second: 1000
-}
-
-var rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto', style: 'narrow' })
-
-var getRelativeTime = (d1, d2 = new Date()) => {
-  var elapsed = d1 - d2
-  for (var u in units) 
-    if (Math.abs(elapsed) > units[u] || u == 'second') 
-      return rtf.format(Math.round(elapsed/units[u]), u)
-}

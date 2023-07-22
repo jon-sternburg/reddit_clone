@@ -1,8 +1,8 @@
 import React, {Fragment, useState, useEffect, useCallback, useRef, useMemo } from "react";
 import styles from '../posts_container_styles.module.css'
-import {AiFillFire} from "react-icons/ai"
-import {AiFillClockCircle} from "react-icons/ai"
-import {AiFillTrophy} from "react-icons/ai"
+import {AiOutlineFire} from "react-icons/ai"
+import {AiOutlineStar} from "react-icons/ai"
+import {AiOutlineTrophy} from "react-icons/ai"
 import {AiFillCaretDown, AiFillCloseCircle} from "react-icons/ai"
 
 
@@ -23,17 +23,17 @@ let posts = props.posts
 return (
                   <div className = {styles.sort_wrapper}>
                   <div className = {props.sort == 'hot' ? styles.sort_option_selected : styles.sort_option} onClick = {() => props.set_post_sort('hot')}>
-                  <AiFillFire className = {styles.hot_icon} />
+                  <AiOutlineFire className = {styles.hot_icon} />
                   <div className = {styles.sort_inner}>Hot</div>
                   </div>
 
                   <div className = {props.sort == 'new' ? styles.sort_option_selected : styles.sort_option} onClick = {() => props.set_post_sort('new')}>
-                  <AiFillClockCircle className = {styles.new_icon} />
+                  <AiOutlineStar className = {styles.new_icon} />
                   <div className = {styles.sort_inner}>New</div>
 
                   </div>
                   <div className = {props.sort == 'top' ? styles.sort_option_selected : styles.sort_option} onClick = {() => props.set_post_sort('top')}>
-                  <AiFillTrophy className = {styles.top_icon} />
+                  <AiOutlineTrophy className = {styles.top_icon} />
                   <div className = {styles.sort_inner}>Top</div>
 
                   </div>

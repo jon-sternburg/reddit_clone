@@ -1,30 +1,13 @@
 import React, {Fragment, useState, useEffect, useCallback, useRef, useMemo, createElement } from "react";
 import styles from '../posts_container_styles.module.css'
-import { useIntersectionObserverRef } from "rooks";
 import Link from 'next/link'
 import {BiExpandAlt} from "react-icons/bi"
 import _ from 'lodash'
 import { setCookie, getCookie } from 'cookies-next';
 import { Rings } from  'react-loader-spinner'
+import Comment from '../components/Comment.js'
+import {FaChevronDown} from "react-icons/fa"
 
-async function fetchData(url_) {
-
-let token_ = getCookie('access_token')
-return await fetch("/api/fetch_data", {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({url: url_, token: token_})
-  })
-.then((res) => res.json())
-.then((data) => {
-return data
-})
-.catch(err => console.log(err))
-
-}
 
 
 export default function Comments(props) {
@@ -32,6 +15,8 @@ const [comments, set_comments] = useState({comments:[], show: false})
 const [loading, set_loading] = useState(true);
 const [more_comments, set_more_comments] = useState({fetched: false, pool: [], pool_index: 0, remaining: null, more: null});
 const [clicked_comment, show_clicked_comment] = useState(false)
+
+
 let post = props.post
 let subreddit = props.post.data.subreddit
 let post_id = post.data.id
@@ -59,6 +44,14 @@ set_loading(false)
 }).catch(err => console.log(err))  
 }}, [])
 
+
+function scroll_next_comment() {
+
+
+
+
+
+}
 
 
 function set_chunk(comment_) {
@@ -141,8 +134,9 @@ set_comments({comments: final, show: true})
 }
 
 return (
-  <div className = {styles.comment_box} >
 
+  <div className = {styles.comment_box} >
+  <div className = {styles.comment_box_abs_inner_wrap}>
 
 <Fragment>
 {loading ? <Rings
@@ -151,7 +145,7 @@ return (
   color="#4fa94d"
   radius="6"
   wrapperStyle={{}}
-  wrapperClass={styles.skeleton_loader_rings}
+  wrapperClass={styles.skeleton_loader_rings_comments}
   visible={true}
   ariaLabel="rings-loading"
 /> : clicked_comment ? 
@@ -176,6 +170,9 @@ post_id = {post_id}
 : comments.comments.length ? 
 
   <Fragment>
+{/*
+<div onClick = {() => scroll_next_comment()} className = {styles.next_comment_wrap}><FaChevronDown className={styles.next_comment_icon}/></div>
+*/}
 {comments.comments.map((comment, i) => {
 
 return(
@@ -185,7 +182,7 @@ return(
 <Comment  comment = {comment} i = {i} subreddit = {subreddit} post_id = {post_id} />
 )}
 
-
+<div className = {styles.comment_divider}></div>
 </Fragment>
 )
 })}
@@ -205,153 +202,27 @@ return(
 </Fragment>
 
   </div>
-  
+    </div>
 	)}
 
 
 
-function Comment(props) { 
-let comment = props.comment
-let replies_ = comment.data.replies && comment.data.replies.data  ? comment.data.replies.data.children : [] 
-const [replies, set_replies] = useState({replies:replies_, show: true})
-const [posted_time, set_posted_time] = useState(null)
 
-function toggle_replies() {
-set_replies({...replies, show: !replies.show})
-}
+async function fetchData(url_) {
 
-useEffect(() => {
-  
-if (posted_time == null) { 
-
-var d = new Date(comment.data.created_utc*1000);
-var now = new Date(new Date().getTime())
-let posted_time = getRelativeTime(d, now)
-
-set_posted_time(posted_time.replace(' ago', ''))
-}
-
-
-}, [posted_time, comment.data.created_utc])
-
-
-
-async function get_more_replies(reply_) {
-
-let comment_id = reply_.data.children.join(',')
-let link_id = comment && comment.data && comment.data.link_id ? comment.data.link_id : reply_.data.parent_id
-let url_ = `https://oauth.reddit.com/api/morechildren.json?api_type=json&showmore=true&link_id=${link_id}&children=${comment_id}`
-return new Promise((resolve,reject) => resolve(fetchData(url_)))
+let token_ = getCookie('access_token')
+return await fetch("/api/fetch_data", {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({url: url_, token: token_})
+  })
+.then((res) => res.json())
 .then((data) => {
-
-let new_replies = data.json.data.things
-
-let max_depth = Math.max.apply(null,new_replies.map((o) =>  o.data.depth ));
-
-console.log(new_replies, ' => max_depth: ', max_depth)
-var depth = max_depth
-
-while (depth >= 1) {
-let child_comments_ = new_replies.filter(x => x.data.depth == depth)
-
-child_comments_.map(x => {
-let parent_comment_id = new_replies.findIndex((y) => y.data.name == x.data.parent_id )
-let parent = new_replies[parent_comment_id]
-console.log(parent, x, 'id: ', x.data.name, ' parent: ', x.data.parent_id)
-
-if (new_replies[parent_comment_id]) { 
-new_replies[parent_comment_id].data.replies = {data: {children: [x]}}
-
-let original_index = new_replies.findIndex((y => y.data.name == x.data.name))
-if (original_index > -1) {new_replies.splice(original_index, 1) }
-}
-
+return data
 })
-depth--
-}
+.catch(err => console.log(err))
 
-console.log('done ', new_replies)
-
-
-let cr = replies.replies.filter(x => x.kind !== 'more')
-let final = cr.concat(new_replies)
-
-set_replies({replies: final, show: true})
-
-}).catch(err => console.log(err))  
-
-}
-
-
-
-return (
-
-<div className = {styles.comment_wrap}>
-<div className = {styles.thread_line_wrap}  onClick = {() => toggle_replies()} >
-<div className = {styles.thread_line}/>
-</div>
-
-<div className = {styles.comment_wrap_inner} >
-<div className = {styles.expand_icon_wrap} onClick = {() => toggle_replies()}><BiExpandAlt className = {styles.expand_icon} /> </div>
-<div className = {styles.comment_score}>{comment.data.score}</div>
-
-<Link href={`/u/${comment.data.author}`} className = {styles.comment_author}>
-u/{comment.data.author}
-</Link>
-
-
-{posted_time  && (<div className = {styles.comment_posted_time}>{posted_time}</div>)}
-</div>
-
-{replies.show && (
-<Fragment>
-<div className = {comment.data.id == props.clicked_id ? styles.clicked_comment_body : styles.comment_body} onClick = {() => toggle_replies()}>{comment.data.body}</div>
-
-{replies.replies.map((reply,i) => {
-
-return (
-
-<Fragment key = {i}>
-{reply && reply.data && reply.kind == 't1' && (
-<Comment clicked_id = {props.clicked_id} comment = {reply} subreddit = {props.subreddit} post_id = {props.post_id}  />
-  )}
-
-{reply.data && reply.kind == 'more' && reply.data.children.length > 0 && (
-
-<div onClick = {() => get_more_replies(reply)} className = {styles.load_more_replies}>{reply.data.children.length} more {reply.data.children.length == 1 ? 'reply' : 'replies'}</div>
-
-  )}
-
-</Fragment>
-)
-
-})}
-
-</Fragment>
-
-  )}
-
-</div>
-
-  )
-
-
-}
-
-var units = {
-  year  : 24 * 60 * 60 * 1000 * 365,
-  month : 24 * 60 * 60 * 1000 * 365/12,
-  day   : 24 * 60 * 60 * 1000,
-  hour  : 60 * 60 * 1000,
-  minute: 60 * 1000,
-  second: 1000
-}
-
-var rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto', style: 'narrow' })
-
-var getRelativeTime = (d1, d2 = new Date()) => {
-  var elapsed = d1 - d2
-  for (var u in units) 
-    if (Math.abs(elapsed) > units[u] || u == 'second') 
-      return rtf.format(Math.round(elapsed/units[u]), u)
 }
