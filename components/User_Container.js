@@ -1,19 +1,16 @@
-import React, {Fragment, useState, useEffect, useCallback, useRef, useMemo } from "react";
+import React, {Fragment, useState, useEffect, useRef } from "react";
 import styles from '../posts_container_styles.module.css'
 import { useIntersectionObserverRef } from "rooks";
 import Link from 'next/link'
 import Post from '../components/Post.js'
 import Clicked_Post from '../components/Clicked_Post.js'
 import Comments from '../components/Comments.js'
-import {AiFillFire} from "react-icons/ai"
-import {AiFillClockCircle} from "react-icons/ai"
-import {AiFillTrophy} from "react-icons/ai"
 import {AiFillCloseCircle} from "react-icons/ai"
-import { setCookie, getCookie } from 'cookies-next';
+import { getCookie } from 'cookies-next';
 import {AiOutlineCaretUp} from "react-icons/ai"
 import {AiOutlineCaretDown} from "react-icons/ai"
 import { useRouter } from 'next/router'
-import { Rings } from  'react-loader-spinner'
+import BounceLoader from "react-spinners/BounceLoader";
 import get_relative_time from '../utils/get_relative_time';
 
 
@@ -66,12 +63,13 @@ add_chunks()
 
 
 useEffect(() => {
+
 if (!router.query.post && clicked_post !== null) { 
 set_clicked_comment({data: null, original_id: null})
 set_clicked_post(null)
 } else if (router.query.post && clicked_post == null) {
-let base_ = router.query.content == 'all_content' ? posts.all_content : router.query.content == 'posts' ? posts.posts : posts.comments
-
+//let base_ = router.query.content == 'all_content' ? posts.all_content : router.query.content == 'posts' ? posts.posts : posts.comments
+let base_ = posts.all_content.concat(posts.posts).concat(posts.comments)
 let find_ = base_.filter(x => x.data.name == router.query.post)
 
 if (find_) { set_clicked_post(find_[0])} else { 
@@ -467,16 +465,17 @@ let w_ = props.width
   )}
 
 <div className = {styles.posts_shadow_wrap} >
-{loading ? <Rings
-  height="80"
-  width="80"
-  color="#4fa94d"
-  radius="6"
-  wrapperStyle={{}}
-  wrapperClass={styles.skeleton_loader_rings}
-  visible={true}
-  ariaLabel="rings-loading"
-/> :
+{loading ? 
+<div className = {styles.skeleton_loader_rings}>
+      <BounceLoader
+        color={'#b2d7c5'}
+        loading={true}
+        size={80}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+      </div>
+ :
 /*<div className ={styles.skeleton_loader}></div>*/ 
 
 
@@ -508,17 +507,16 @@ content_type == 'all_content' && posts.OOP_all_content ? <div className = {style
 
 <div className = {styles.loading_box_bottom}> 
 <div  className = {styles.end_ref} ref = {end_ref} />
-<Rings
-  height="80"
-  width="80"
-  color="#4fa94d"
-  radius="6"
-  wrapperStyle={{}}
-  wrapperClass={styles.skeleton_loader_bottom_rings}
-  visible={true}
-  ariaLabel="rings-loading"
-/>
 
+<div className = {styles.skeleton_loader_bottom_rings}>
+      <BounceLoader
+        color={'#b2d7c5'}
+        loading={true}
+        size={80}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+      </div>
 </div>}
 
 </Fragment>

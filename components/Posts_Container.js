@@ -1,4 +1,4 @@
-import React, {Fragment, useState, useEffect, useCallback, useRef, useMemo } from "react";
+import React, {Fragment, useState, useEffect, useRef } from "react";
 import styles from '../posts_container_styles.module.css'
 import { useIntersectionObserverRef } from "rooks";
 import Link from 'next/link'
@@ -6,13 +6,10 @@ import Post from '../components/Post.js'
 import Clicked_Post from '../components/Clicked_Post.js'
 import Sort_Bar from '../components/Sort_Bar.js'
 import Comments from '../components/Comments.js'
-import {AiFillFire} from "react-icons/ai"
-import {AiFillClockCircle} from "react-icons/ai"
-import {AiFillTrophy} from "react-icons/ai"
-import {AiFillCaretDown, AiFillCloseCircle} from "react-icons/ai"
-import { setCookie, getCookie } from 'cookies-next';
+import {AiFillCloseCircle} from "react-icons/ai"
+import {setCookie, getCookie } from 'cookies-next';
 import { useRouter } from 'next/router'
-import { Rings } from  'react-loader-spinner'
+import BounceLoader from "react-spinners/BounceLoader";
 import get_relative_time from '../utils/get_relative_time';
 
 
@@ -337,16 +334,17 @@ let w_ = props.width
   )}
 
 <div className = {styles.posts_shadow_wrap} >
-{loading ? <Rings
-  height="80"
-  width="80"
-  color="#4fa94d"
-  radius="6"
-  wrapperStyle={{}}
-  wrapperClass={styles.skeleton_loader_rings}
-  visible={true}
-  ariaLabel="rings-loading"
-/> :
+{loading ? 
+<div className = {styles.skeleton_loader_rings}>
+      <BounceLoader
+        color={'#b2d7c5'}
+        loading={true}
+        size={80}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+      </div>
+      :
 /*<div className ={styles.skeleton_loader}></div>*/ 
 <Fragment>
 {posts.posts.map((post, i) => <Post key = {i + post.data.name}  handle_post_click = {handle_post_click} h_ = {h_ } w_ = {w_} post = {post} i = {i}/>)}
@@ -354,17 +352,15 @@ let w_ = props.width
 {posts.OOP ? <div className = {styles.OOP}>Out of posts!</div> :
 <div className = {styles.loading_box_bottom}> 
 <div  className = {styles.end_ref} ref = {end_ref} />
-<Rings
-  height="80"
-  width="80"
-  color="#4fa94d"
-  radius="6"
-  wrapperStyle={{}}
-  wrapperClass={styles.skeleton_loader_bottom_rings}
-  visible={true}
-  ariaLabel="rings-loading"
-/>
-
+<div className = {styles.skeleton_loader_bottom_rings}>
+      <BounceLoader
+        color={'#b2d7c5'}
+        loading={true}
+        size={80}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+      </div>
 </div>}
 
 </Fragment>

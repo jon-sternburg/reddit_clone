@@ -1,4 +1,4 @@
-import React, {Fragment, useState, useEffect, useCallback, useRef } from "react";
+import React, {Fragment, useState, useEffect } from "react";
 import styles from '../posts_container_styles.module.css'
 import { useIntersectionObserverRef } from "rooks";
 import Link from 'next/link'
@@ -208,13 +208,14 @@ let html_ = parse(text)
 </Fragment>
     
     )
-} else {
+} /*else {
 
 
   return (
 <div className = {styles.read_icon_wrap}><MdQuestionAnswer className = {styles.read_icon} /></div>
     )
 }
+*/
 }
 
 function Video_(props) {

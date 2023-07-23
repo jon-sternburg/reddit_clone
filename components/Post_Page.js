@@ -1,16 +1,8 @@
-import React, {Fragment, useState, useEffect, useCallback, useRef, useMemo } from "react";
+import React, {Fragment, useState, useEffect} from "react";
 import styles from '../posts_container_styles.module.css'
 import { useIntersectionObserverRef } from "rooks";
-import Link from 'next/link'
-import Post from '../components/Post.js'
 import Clicked_Post from '../components/Clicked_Post.js'
-import Sort_Bar from '../components/Sort_Bar.js'
 import Comments from '../components/Comments.js'
-import {AiFillFire} from "react-icons/ai"
-import {AiFillClockCircle} from "react-icons/ai"
-import {AiFillTrophy} from "react-icons/ai"
-import {AiFillCaretDown, AiFillCloseCircle} from "react-icons/ai"
-import { useRouter } from 'next/router'
 import get_relative_time from '../utils/get_relative_time';
 
 
@@ -32,11 +24,6 @@ return {...x, posted_time: posted_time.replace(' ago', '')}
 set_post_data(data__[0]);
 set_loading(false)
 }, [])
-
-
-
-
-
 
  return (
 

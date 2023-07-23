@@ -162,14 +162,14 @@ let html_ = parse(text)
     )
 
 
- } else {
+ } /*else {
 
 
   return (
 <div className = {styles.read_icon_wrap}><MdQuestionAnswer className = {styles.read_icon} /></div>
     )
 }
-
+*/
 
 
 

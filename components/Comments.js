@@ -4,7 +4,7 @@ import Link from 'next/link'
 import {BiExpandAlt} from "react-icons/bi"
 import _ from 'lodash'
 import { setCookie, getCookie } from 'cookies-next';
-import { Rings } from  'react-loader-spinner'
+import BounceLoader from "react-spinners/BounceLoader";
 import Comment from '../components/Comment.js'
 import {FaChevronDown} from "react-icons/fa"
 
@@ -136,19 +136,19 @@ set_comments({comments: final, show: true})
 return (
 
   <div className = {styles.comment_box} >
-  <div className = {styles.comment_box_abs_inner_wrap}>
+
 
 <Fragment>
-{loading ? <Rings
-  height="80"
-  width="80"
-  color="#4fa94d"
-  radius="6"
-  wrapperStyle={{}}
-  wrapperClass={styles.skeleton_loader_rings_comments}
-  visible={true}
-  ariaLabel="rings-loading"
-/> : clicked_comment ? 
+{loading ? <div className = {styles.skeleton_loader_rings_comments}>
+      <BounceLoader
+        color={'#b2d7c5'}
+        loading={true}
+        size={80}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+      </div>
+ : clicked_comment ? 
 
 
 <Fragment>
@@ -202,7 +202,7 @@ return(
 </Fragment>
 
   </div>
-    </div>
+   
 	)}
 
 
