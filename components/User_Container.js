@@ -564,7 +564,7 @@ return (
 
 <div className = {styles.comment_author___user}>{comment.data.author} commented on {comment.data.link_title}</div>
 
-<div className = {styles.comment_body__user} >{comment.data.body}</div>
+<p className = {styles.comment_body__user} >{comment.data.body}</p>
 <div className = {styles.comment_subreddit___user_wrap}>
 <div className ={styles.comment_subreddit___user}> r/{comment.data.subreddit}</div>
 <div className = {styles.comment_posted_time___user} >Posted {comment.posted_time}</div>

@@ -100,7 +100,7 @@ u/{comment.data.author}
 
 {replies.show && (
 <Fragment>
-<div className = {comment.data.id == props.clicked_id ? styles.clicked_comment_body : styles.comment_body} onClick = {() => toggle_replies()}>{comment.data.body}</div>
+<p className = {comment.data.id == props.clicked_id ? styles.clicked_comment_body : styles.comment_body} onClick = {() => toggle_replies()}>{comment.data.body}</p>
 
 {replies.replies.map((reply,i) => {
 
