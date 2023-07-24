@@ -335,17 +335,7 @@ let w_ = props.width
 
 <div className = {styles.posts_shadow_wrap} >
 {loading ? 
-<div className = {styles.skeleton_loader_rings}>
-      <BounceLoader
-        color={'#b2d7c5'}
-        loading={true}
-        size={80}
-        aria-label="Loading Spinner"
-        data-testid="loader"
-      />
-      </div>
-      :
-/*<div className ={styles.skeleton_loader}></div>*/ 
+<div className ={styles.skeleton_loader}></div>  :
 <Fragment>
 {posts.posts.map((post, i) => <Post key = {i + post.data.name}  handle_post_click = {handle_post_click} h_ = {h_ } w_ = {w_} post = {post} i = {i}/>)}
 

@@ -5,7 +5,7 @@
   --font-size--large: 2.4rem; /* 24px */
 }
 .post_frame {
-
+min-height: 100vh;
 display: flex;
 flex-direction: column;
 overflow-x: hidden;
@@ -108,17 +108,20 @@ justify-content: center;
 width: 100%;
 }
 .skeleton_loader {
+background: lightgrey;
+opacity: .4;
   width: 100%;
   margin:20px auto;
 width: 40vw;
 height: 100vh;
 border-radius: 1em;
-opacity: .7;
+
 box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.2);
   border-radius: 1em;
   height: 100vh;
   display: block;
   padding: 15px;
+  /*
   background: linear-gradient(	  
       to right,
       rgba(255, 255, 255, 0),
@@ -130,7 +133,7 @@ box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.2);
   background-size: 50px 500px;
   background-position: 0 0;
   animation: shine 2s infinite;	  
-
+*/
 }
 @keyframes shine {	
   to {
@@ -762,7 +765,6 @@ display: none;
 }
 .comment_wrap {
 position: relative;
-
 width: 95%;
 height: auto;
 margin: 15px 15px 15px 25px;
@@ -771,7 +773,9 @@ background: white;
 border-left: 3px solid #e87b61;
 */
 }
-
+.comment_wrap_inner:hover {
+cursor:pointer;
+}
 .clicked_comment_wrap {
 position: relative;
 word-wrap: break-word;

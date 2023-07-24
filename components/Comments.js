@@ -3,7 +3,7 @@ import styles from '../posts_container_styles.module.css'
 import Link from 'next/link'
 import {BiExpandAlt} from "react-icons/bi"
 import _ from 'lodash'
-import { setCookie, getCookie } from 'cookies-next';
+import { getCookie } from 'cookies-next';
 import BounceLoader from "react-spinners/BounceLoader";
 import Comment from '../components/Comment.js'
 import {FaChevronDown} from "react-icons/fa"
@@ -189,7 +189,8 @@ return(
 
 {more_comments.more  &&  more_comments.remaining > 0 && ( 
 <div className = {styles.comment_body} onClick = {() => set_chunk(more_comments.more)}>
-{more_comments.remaining} more {more_comments.remaining == 1 ? 'comment' : 'comments'}
+Load more comments
+{/*more_comments.remaining} more {more_comments.remaining == 1 ? 'comment' : 'comments'*/}
 </div>
 )}
 

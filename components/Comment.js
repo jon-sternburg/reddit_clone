@@ -4,6 +4,7 @@ import Link from 'next/link'
 import {BiExpandAlt} from "react-icons/bi"
 import _ from 'lodash'
 import get_relative_time from '../utils/get_relative_time';
+import { getCookie } from 'cookies-next';
 
 export default function Comment(props) { 
 let comment = props.comment
@@ -29,7 +30,12 @@ set_posted_time(posted_time.replace(' ago', ''))
 
 }, [posted_time, comment.data.created_utc])
 
+function handle_comment_box_click(e) {
+e.preventDefault()
+e.stopPropagation()
 
+
+}
 
 async function get_more_replies(reply_) {
 
@@ -89,11 +95,11 @@ return (
 <div className = {styles.comment_wrap_inner} onClick = {() => toggle_replies()}>
 <div className = {styles.expand_icon_wrap} ><BiExpandAlt className = {styles.expand_icon} /> </div>
 <div className = {styles.comment_score}>{comment.data.score}</div>
-
+<div onClick = {(e) => handle_comment_box_click(e)}>
 <Link href={`/u/${comment.data.author}`} className = {styles.comment_author}>
 u/{comment.data.author}
 </Link>
-
+</div>
 
 {posted_time  && (<div className = {styles.comment_posted_time}>{posted_time}</div>)}
 </div>
@@ -130,5 +136,24 @@ return (
 
   )
 
+
+}
+
+async function fetchData(url_) {
+
+let token_ = getCookie('access_token')
+return await fetch("/api/fetch_data", {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({url: url_, token: token_})
+  })
+.then((res) => res.json())
+.then((data) => {
+return data
+})
+.catch(err => console.log(err))
 
 }
