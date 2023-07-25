@@ -415,7 +415,7 @@ let h_ = props.height * .85
 let w_ = props.width
   return (
 
-<section className = {styles.post_frame} >
+<div className = {styles.post_frame} >
 
 <div className = {styles.sort_wrapper}>
 <button type="button" className = {content_type == 'all_content' ? styles.sort_option_selected : styles.sort_option} onClick = {() => handle_content_type('all_content')}>Overview</button>
@@ -508,7 +508,7 @@ content_type == 'all_content' && posts.OOP_all_content ? <div className = {style
 </div>
 
 
-</section>
+</div>
 
 )}
 

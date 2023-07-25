@@ -1,7 +1,7 @@
 
 import React, { Fragment, Component, useRef, useCallback, useState, useEffect } from 'react'
 import styles from '../homepage_styles.module.css'
-import {FcMms} from "react-icons/fc"
+import {BsReddit} from "react-icons/bs"
 import _ from 'lodash'
 import Link from 'next/link'
 import {AiFillCloseCircle} from "react-icons/ai"
@@ -66,7 +66,7 @@ return (
 <div className = {styles.top_bar_frame_left}>
 
 <div className = {styles.banner} onClick = {(e) => handle_logo_click(e)}>
-<FcMms className = {styles.banner_icon} />
+<BsReddit className = {styles.banner_icon} />
 <div className = {styles.banner_text}>Reddit Clone!</div>
 </div>
 
@@ -102,13 +102,13 @@ u/{router.query.u}
 <div className = {styles.top_bar_frame_center}>
 <div className ={styles.search_wrap} >
 <div className ={styles.search_wrap} >
-<form onSubmit={(e) => handleSubmit(e)} id ="search bar form">
+<form onSubmit={(e) => handleSubmit(e)} id ="search_bar_form">
 <input      
 className={styles.search}
 placeholder="Search..."  
 onChange={(e) => handleInputChange(e.target.value)}
 ref={inputEl}
-id = "search bar input"
+id = "search_bar_input"
 />
 </form>
 

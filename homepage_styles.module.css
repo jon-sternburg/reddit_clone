@@ -229,10 +229,12 @@ font-family: Arial,Helvetica,sans-serif;
 
 }
 .banner_icon {
-height: 2em;
-width: 2em;
+height: 1.7em;
+width: 1.7em;
 margin-right: 10px;
-
+background: white;
+border-radius: 100%;
+outline: 2px solid orange;
 }
 .banner_icon path {
 

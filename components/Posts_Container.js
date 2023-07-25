@@ -288,7 +288,7 @@ let h_ = props.height * .85
 let w_ = props.width
   return (
 
-<section className = {styles.post_frame} >
+<div className = {styles.post_frame} >
 
 <Sort_Bar show_time_sort = {show_time_sort} toggle_time_sort = {toggle_time_sort} sort = {posts.sort} handle_time_sort = {handle_time_sort} set_post_sort = {set_post_sort} top_time_sort = {top_time_sort} />
 
@@ -337,7 +337,7 @@ let w_ = props.width
 </div>
 
 
-</section>
+</div>
 
 )}
 
