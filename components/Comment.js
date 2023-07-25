@@ -49,7 +49,6 @@ let new_replies = data.json.data.things
 
 let max_depth = Math.max.apply(null,new_replies.map((o) =>  o.data.depth ));
 
-console.log(new_replies, ' => max_depth: ', max_depth)
 var depth = max_depth
 
 while (depth >= 1) {
@@ -58,7 +57,7 @@ let child_comments_ = new_replies.filter(x => x.data.depth == depth)
 child_comments_.map(x => {
 let parent_comment_id = new_replies.findIndex((y) => y.data.name == x.data.parent_id )
 let parent = new_replies[parent_comment_id]
-console.log(parent, x, 'id: ', x.data.name, ' parent: ', x.data.parent_id)
+
 
 if (new_replies[parent_comment_id]) { 
 new_replies[parent_comment_id].data.replies = {data: {children: [x]}}
@@ -71,7 +70,7 @@ if (original_index > -1) {new_replies.splice(original_index, 1) }
 depth--
 }
 
-console.log('done ', new_replies)
+
 
 
 let cr = replies.replies.filter(x => x.kind !== 'more')
@@ -87,12 +86,12 @@ set_replies({replies: final, show: true})
 
 return (
 
-<div className = {styles.comment_wrap}>
+<article className = {styles.comment_wrap}>
 <div className = {styles.thread_line_wrap}  onClick = {() => toggle_replies()} >
 <div className = {styles.thread_line}/>
 </div>
 
-<div className = {styles.comment_wrap_inner} onClick = {() => toggle_replies()}>
+<header className = {styles.comment_wrap_inner} onClick = {() => toggle_replies()}>
 <div className = {styles.expand_icon_wrap} ><BiExpandAlt className = {styles.expand_icon} /> </div>
 <div className = {styles.comment_score}>{comment.data.score}</div>
 <div onClick = {(e) => handle_comment_box_click(e)}>
@@ -102,7 +101,7 @@ u/{comment.data.author}
 </div>
 
 {posted_time  && (<div className = {styles.comment_posted_time}>{posted_time}</div>)}
-</div>
+</header>
 
 {replies.show && (
 <Fragment>
@@ -119,7 +118,7 @@ return (
 
 {reply.data && reply.kind == 'more' && reply.data.children.length > 0 && (
 
-<div onClick = {() => get_more_replies(reply)} className = {styles.load_more_replies}>{reply.data.children.length} more {reply.data.children.length == 1 ? 'reply' : 'replies'}</div>
+<button type="button" onClick = {() => get_more_replies(reply)} className = {styles.load_more_replies}>{reply.data.children.length} more {reply.data.children.length == 1 ? 'reply' : 'replies'}</button>
 
   )}
 
@@ -132,7 +131,7 @@ return (
 
   )}
 
-</div>
+</article>
 
   )
 

@@ -68,7 +68,7 @@ set_dim({width: window.innerWidth, height: window.innerHeight})
 <link rel="icon" href="/favicon.ico" />
 
 </Head>
-<div className = {styles.homepage_frame}>
+<main className = {styles.homepage_frame}>
 <Top_Bar  />
 {props.router.query.post && props.router.asPath == props.resolvedUrl ?
 
@@ -91,7 +91,7 @@ posts = {props.data.data.children}
 after = {props.data.data.after}
 />
 }
-</div>
+</main>
 </Fragment>
 
 

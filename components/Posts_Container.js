@@ -86,10 +86,8 @@ const options ={rootMargin:'-50px 0px 200px 0px', threshold:[0.01]}
 const [end_ref] = useIntersectionObserverRef(callback, options);
 
 async function fetch_new_posts(url_) {
- 
-let token_ = getCookie('access_token')
 
-console.log('fetching new posts... ', url_ )
+let token_ = getCookie('access_token')
 
 return await fetch("/api/fetch_data", {
     method: 'POST',
@@ -101,11 +99,10 @@ return await fetch("/api/fetch_data", {
   })
 .then((res) => res.json())
 .then((data) => {
-console.log(data)
+
   return { props: { data } }
 })
 .catch(err => console.log(err))
-
 }
 
 
@@ -134,18 +131,13 @@ let posted_time = get_relative_time(d, now)
 return {...x, posted_time: posted_time.replace(' ago', '')}
 })
 
-
-
-console.log('SET POST SORT NEW AFTER ', after_)
-
-set_posts({posts: new_posts.slice(0, 5), 
+set_posts({
+  ...posts,
+  posts: new_posts.slice(0, 5), 
   pool: new_posts.slice(5) , 
   all_posts: new_posts, 
-  subreddit: posts.subreddit, 
   after: after_, 
   sort: sort_, 
-  search: posts.search, 
-  query: posts.query, 
   fetch_url: url_,
   OOP: new_posts.length < 25 ? true : false
  })
@@ -182,15 +174,14 @@ let posted_time = get_relative_time(d, now)
 return {...x, posted_time: posted_time.replace(' ago', '')}
 })
 
-console.log('HANDLE TIME SORT NEW AFTER ', after_)
-set_posts({posts: new_posts.slice(0, 5), 
+
+set_posts({
+  ...posts,
+  posts: new_posts.slice(0, 5), 
   pool: new_posts.slice(5), 
   all_posts: new_posts, 
-  subreddit: posts.subreddit, 
   after: after_, 
   sort: 'top', 
-  search: posts.search, 
-  query: posts.query, 
   fetch_url: url_,
   OOP: new_posts.length < 25 ? true : false
 })
@@ -205,13 +196,10 @@ async function fetch_next_page() {
 
 let time_sort = posts.sort == 'top' ? `&t=${top_time_sort}` : ''
 let url_ = `${posts.fetch_url}&sr_detail=1&after=${posts.after}`
-console.log('FETCING NEXT PAGE ', posts.after, ' => ', url_)
+
 
 return new Promise((resolve,reject) => resolve(fetch_new_posts(url_.toLowerCase())))
 .then((data) => {
-
-
-console.log('fetch next pg ', data)
 
 if (data.props.data.data.children && data.props.data.data.children.length >= 25) { 
 
@@ -229,23 +217,18 @@ let new_after = data.props.data.data.after
 let posts_ = posts.posts.concat(new_posts_)
 let new_pool_ = posts.pool.concat(new_pool)
 length_ref.current = posts_.length
-console.log('NEWWWWWW FOR NEXT FETCH ', data.props.data.data.after)
+
 set_posts({
+  ...posts,
   posts: posts_, 
   pool: new_pool_, 
-  subreddit: posts.subreddit, 
-  after: new_after, 
-  sort: posts.sort, 
-  search: posts.search, 
-  query: posts.query, 
-  fetch_url: posts.fetch_url,
-  OOP: posts.OOP
+  after: new_after
 })
 fetching_ref.current = false
 
           } else {
 
-console.log('OOP!!!!!!!!!!!!!!!!!')
+
 set_posts({...posts, OOP: true})
 fetching_ref.current = false
           }
@@ -278,11 +261,9 @@ router.push(base_ + sort_, null, { shallow: true })
 
 function add_chunks() {
 
- console.log('fired add chunks')
-        if (posts.pool.length < 5) { 
-fetch_next_page()
-        } else {
-console.log('ADDING CHUNKS: ', posts, 'after? ', posts.after)
+
+if (posts.pool.length < 5) { fetch_next_page() } else {
+
         let new_posts = [...posts.pool].slice(0, 5)
         let new_pool = [...posts.pool].slice(5)
         let posts_ = posts.posts.concat(new_posts)
@@ -295,7 +276,7 @@ console.log('ADDING CHUNKS: ', posts, 'after? ', posts.after)
                     OOP: false,
                     posts: posts_
                 })
-            }, 1000)
+            }, 300)
 
         }
           fetching_ref.current = false
@@ -307,10 +288,7 @@ let h_ = props.height * .85
 let w_ = props.width
   return (
 
-    <Fragment>
-
-
-<div className = {styles.post_frame} >
+<section className = {styles.post_frame} >
 
 <Sort_Bar show_time_sort = {show_time_sort} toggle_time_sort = {toggle_time_sort} sort = {posts.sort} handle_time_sort = {handle_time_sort} set_post_sort = {set_post_sort} top_time_sort = {top_time_sort} />
 
@@ -359,7 +337,7 @@ let w_ = props.width
 </div>
 
 
-</div>
-</Fragment>
+</section>
+
 )}
 

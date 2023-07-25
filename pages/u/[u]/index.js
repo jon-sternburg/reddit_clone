@@ -21,8 +21,6 @@ let ref_ = req.headers && req.headers.referer ? req.headers.referer : null
 const url_ = query.post && ((!ref_) || (ref_.includes(resolvedUrl))) ?  `https://oauth.reddit.com/api/info/?id=${query.post}` : `https://oauth.reddit.com/user/${query.u}/?`
 const key_ = query.post && ((!ref_) || (ref_.includes(resolvedUrl)))  ? 'post=' + query.post : 'user=' + query.u
 
-
-console.log(url_)
 if (access_token) {
 
 let data = await fetch_data(url_, access_token)
@@ -68,7 +66,7 @@ set_dim({width: window.innerWidth, height: window.innerHeight})
 </Head>
 
 
-<div className = {styles.homepage_frame}>
+<main className = {styles.homepage_frame}>
 <Top_Bar />
 
 {props.router.query.post && props.router.asPath == props.resolvedUrl ?
@@ -92,7 +90,7 @@ posts = {props.data.data.children}
 after = {props.data.data.after}
 />
 }
-</div>
+</main>
 </Fragment>
 )}
 export default withRouter(App)

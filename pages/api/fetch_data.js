@@ -10,7 +10,6 @@ export default async function fetch_data(req,res) {
 
 let token_ = 'bearer ' + req.body.token
 let url_ = req.body.url
-console.log('fetching data (api) ', url_)
 return await fetch(url_, {
     method: 'GET',
     headers: {

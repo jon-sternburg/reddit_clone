@@ -22,7 +22,7 @@ const url_ = query.post && ((!ref_) || (ref_.includes(resolvedUrl))) ? `https://
                                                         : query.sort ? `https://oauth.reddit.com/r/${query.r}/${query.sort}/.json?sr_detail=1&sort=${query.sort}${time_sort}` : 
                                                                        `https://oauth.reddit.com/r/${query.r}/?sr_detail=1`
 
-console.log(url_)
+
 const key_ = query.post && ((!ref_) || (ref_.includes(resolvedUrl)))  ? 'post=' + query.post : query.r
 
 
@@ -68,7 +68,7 @@ set_dim({width: window.innerWidth, height: window.innerHeight})
 </Head>
 
 
-<div className = {styles.homepage_frame}>
+<main className = {styles.homepage_frame}>
 <Top_Bar />
 
 {props.router.query.post && props.router.asPath == props.resolvedUrl ?
@@ -93,7 +93,7 @@ after = {props.data.data.after}
 />
 
 }
-</div>
+</main>
 </Fragment>
 )}
 export default withRouter(App)

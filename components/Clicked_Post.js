@@ -36,9 +36,9 @@ e.stopPropagation()
 }
 return (
 
-<div className = {styles.post_box} onClick = {() => props.handle_post_click(post)}>
+<article className = {styles.post_box} onClick = {() => props.handle_post_click(post)}>
  
-<div className = {styles.post_box_top_wrapper} >
+<header className = {styles.post_box_top_wrapper} >
 
 <div className = {styles.post_box_title_wrap}>
 <h3 className = {styles.post_box_title}>{post.data.title}</h3>
@@ -47,14 +47,14 @@ return (
 
 <div className = {styles.post_box_subreddit} onClick = {(e) => handle_post_box_click(e)}>
 <Link href={`/${post.data.subreddit}`}>
-{post.data.sr_detail && post.data.sr_detail.icon_img && (<img alt = {"subreddit icon image"} height = {20} width = {20} src = {post.data.sr_detail.icon_img} className = {styles.icon_img} />)}
+{post.data.sr_detail && post.data.sr_detail.icon_img && (<img alt = {"subreddit icon image"} height = {20} width = {20} style= {{marginRight: '5px', borderRadius: '100%'}} src = {post.data.sr_detail.icon_img} className = {styles.icon_img} />)}
 <span>r/{post.data.subreddit}</span>
 </Link>
 </div>
 
 <div className = {styles.post_box_score}>
 <BiSolidUpvote className = {styles.upvote_icon}/>
-<div className = {styles.post_box_score}>{post.data.score}</div>
+<span className = {styles.post_box_score}>{post.data.score}</span>
 </div>
 
 
@@ -64,22 +64,22 @@ return (
 </div>
 
 
-</div>
+</header>
 
 
 <div className = {styles.post_box_inner}>
 {type_}
 </div>
-<div className = {styles.post_box_bottom_wrap}>
+<footer className = {styles.post_box_bottom_wrap}>
 <div className = {styles.post_box_comments}>
 <FaRegComment className = {styles.comments_icon} /> 
-{post.data.num_comments}
+<span>{post.data.num_comments}</span>
 </div>
 <div className = {styles.post_box_author} onClick = {(e) => handle_post_box_click(e)}>
 <Link href={`/u/${post.data.author}`}>u/{post.data.author}<span style = {{marginLeft: '2px'}}> {String.fromCharCode(183)}{` ${post.posted_time}`}</span></Link>
 </div>
-</div>
-</div>
+</footer>
+</article>
 
 
 	)

@@ -79,7 +79,7 @@ if (find_) { set_clicked_post(find_[0])} else {
   useEffect(() => {
 //router.push(`/u/${router.query.u}/?content=all_content`, null, { shallow: true })
 
-console.log('user => ', props)
+
 
 let data__ = props.posts.map(x => {
 var d = new Date(x.data.created_utc*1000);
@@ -88,7 +88,7 @@ let posted_time = get_relative_time(d, now)
 return {...x, posted_time: posted_time.replace(' ago', '')}
 })
 
-console.log('data__ ', data__)
+
 let comments_ = data__.filter(x => x.kind == 't1')
 let posts_ = data__.filter(x => x.kind == 't3')
 
@@ -120,8 +120,6 @@ async function fetch_new_posts(url_) {
  
 let token_ = getCookie('access_token')
 
-console.log('fetching new posts... ', url_ )
-
 return await fetch("/api/fetch_data", {
     method: 'POST',
     headers: {
@@ -140,7 +138,7 @@ return { props: { data } }
 
 
 function handle_content_type(type_) {
-console.log(router)
+
 
 if (type_ == 'posts' && posts.posts_after == null) { 
 
@@ -229,13 +227,10 @@ let base_url = `https://oauth.reddit.com/user/${posts.user}${ct_}.json`
 
 
 let url_ = after_type ? `${base_url}?&after=${after_type}` : base_url
-console.log('FETCING NEXT PAGE  => ', url_)
+
 
 return new Promise((resolve,reject) => resolve(fetch_new_posts(url_.toLowerCase())))
 .then((data) => {
-
-
-console.log('fetch next pg ', data)
 
 if (data.props.data.data.children && data.props.data.data.children.length >= 5 && data.props.data.data.after) { 
 
@@ -258,12 +253,7 @@ let content__ = content_type == 'posts' ? posts.posts : content_type == 'comment
 let pool__ = content_type == 'posts' ? posts.posts_pool : content_type == 'comments' ? posts.comments_pool : posts.all_content_pool
 let posts_ = content__.concat(new_posts_)
 let new_pool_ = pool__.concat(new_pool)
-
-
-
 length_ref.current = posts_.length
-console.log('NEWWWWWW FOR NEXT FETCH ', data.props.data.data.after)
-
 
 if (content_type == 'posts') { 
             set_posts({
@@ -300,21 +290,14 @@ if (content_type == 'posts') {
           } else {
 
 if (content_type == 'posts') { 
-console.log('OOP_posts!')
 set_posts({...posts, OOP_posts: true})
 fetching_ref.current = false
-
-
 } else if (content_type == 'comments') {
-console.log('OOP_comments!')
 set_posts({...posts, OOP_comments: true})
 fetching_ref.current = false
-
  } else {
-console.log('OOP_all_content!')
 set_posts({...posts, OOP_all_content: true})
 fetching_ref.current = false
-
 }
           }
 
@@ -343,13 +326,13 @@ function add_chunks() {
 let content__ = content_type == 'posts' ? posts.posts : content_type == 'comments' ? posts.comments : posts.all_content
 let pool__ = content_type == 'posts' ? posts.posts_pool : content_type == 'comments' ? posts.comments_pool : posts.all_content_pool
 
- console.log('fired add chunks')
+
         if (pool__.length < 15) { 
 
     fetch_next_page() 
 
         } else {
-console.log('ADDING CHUNKS: ', content__)
+
         let new_posts = [...pool__].slice(0, 15)
         let new_pool = [...pool__].slice(15)
         let posts_ = content__.concat(new_posts)
@@ -389,7 +372,7 @@ if (content_type == 'posts') {
 
 function handle_comment_click(comment_) {
 
-console.log('clicked comment: ', comment_)
+
 let fetch_post_url = `https://oauth.reddit.com/api/info/?id=${comment_.data.link_id}`
 let parent_id_name = comment_.data.parent_id.replace('t1_','')
 let fetch_parent_comment_url = `https://oauth.reddit.com${comment_.data.permalink.replace(`/${comment_.data.id}/`, `/${parent_id_name}`)}`
@@ -397,7 +380,7 @@ let fetch_parent_comment_url = `https://oauth.reddit.com${comment_.data.permalin
 return new Promise((resolve,reject) => resolve(fetch_new_posts(fetch_parent_comment_url.toLowerCase())))
 .then((post_data) => {
 
-console.log(post_data)
+
 
 let data__ = post_data.props.data[0].data.children.map(x => {
 var d = new Date(x.data.created_utc*1000);
@@ -409,7 +392,7 @@ return {...x, posted_time: posted_time.replace(' ago', '')}
 
 let post_data_ = data__[0]
 let comment_data = comment_.data.parent_id.includes('t1') ? post_data.props.data[1] : comment_
-console.log(post_data_, comment_data)
+
 
 router.push(`${router.asPath}?post=${post_data_.data.name}`, null, { shallow: true })
 
@@ -432,15 +415,12 @@ let h_ = props.height * .85
 let w_ = props.width
   return (
 
-    <Fragment>
-
-
-<div className = {styles.post_frame} >
+<section className = {styles.post_frame} >
 
 <div className = {styles.sort_wrapper}>
-<div className = {content_type == 'all_content' ? styles.sort_option_selected : styles.sort_option} onClick = {() => handle_content_type('all_content')}>Overview</div>
-<div className = {content_type == 'posts' ? styles.sort_option_selected : styles.sort_option} onClick = {() => handle_content_type('posts')}>Posts</div>
-<div className = {content_type == 'comments' ? styles.sort_option_selected : styles.sort_option}onClick = {() => handle_content_type('comments')}>Comments</div>
+<button type="button" className = {content_type == 'all_content' ? styles.sort_option_selected : styles.sort_option} onClick = {() => handle_content_type('all_content')}>Overview</button>
+<button type="button" className = {content_type == 'posts' ? styles.sort_option_selected : styles.sort_option} onClick = {() => handle_content_type('posts')}>Posts</button>
+<button type="button" className = {content_type == 'comments' ? styles.sort_option_selected : styles.sort_option}onClick = {() => handle_content_type('comments')}>Comments</button>
 
 </div>
 
@@ -528,8 +508,8 @@ content_type == 'all_content' && posts.OOP_all_content ? <div className = {style
 </div>
 
 
-</div>
-</Fragment>
+</section>
+
 )}
 
 
@@ -542,7 +522,7 @@ let comment = props.comment
 
 return (
 
-<div className = {styles.comment_wrap___user} onClick = {() => props.handle_comment_click(comment)}>
+<article className = {styles.comment_wrap___user} onClick = {() => props.handle_comment_click(comment)}>
 
 
 
@@ -553,24 +533,19 @@ return (
 </div>
 
 
-
-
-
-
-
 <div className = {styles.comment_wrap_inner___user} >
 
-<div className = {styles.comment_author___user}>{comment.data.author} commented on {comment.data.link_title}</div>
+<header className = {styles.comment_author___user}>{comment.data.author} commented on {comment.data.link_title}</header>
 
 <p className = {styles.comment_body__user} >{comment.data.body}</p>
 <div className = {styles.comment_subreddit___user_wrap}>
 <div className ={styles.comment_subreddit___user}> r/{comment.data.subreddit}</div>
-<div className = {styles.comment_posted_time___user} >Posted {comment.posted_time}</div>
+<footer className = {styles.comment_posted_time___user} >Posted {comment.posted_time}</footer>
 </div>
 </div>
 
 
-</div>
+</article>
 
 
   )

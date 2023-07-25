@@ -20,7 +20,6 @@ var options = {
 
 
 export default async function get_auth(req, res) {
-console.log('getting auth')
 
 let data_ = await axios.post(
             'https://www.reddit.com/api/v1/access_token',

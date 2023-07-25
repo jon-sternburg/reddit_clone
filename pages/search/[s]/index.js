@@ -14,7 +14,7 @@ export const getServerSideProps = async ({query, req, res}) => {
 
 const access_token =  getCookie('access_token', { req, res })
 const url_ = `https://oauth.reddit.com/search.json?q=${query.s}&nsfw=1&sr_detail=1/?`
-console.log(query.s)
+
 if (access_token) {
 
 let data = await fetch_data(url_, access_token)
@@ -58,7 +58,7 @@ set_dim({width: window.innerWidth, height: window.innerHeight})
 
 </Head>
 
-<div className = {styles.homepage_frame}>
+<main className = {styles.homepage_frame}>
 <Top_Bar />
 
 
@@ -73,7 +73,7 @@ posts = {props.data.data.children}
 after = {props.data.data.after}
 />
 
-</div>
+</main>
 </Fragment>
 )}
 export default withRouter(App)

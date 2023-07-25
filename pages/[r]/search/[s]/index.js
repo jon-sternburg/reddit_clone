@@ -59,7 +59,7 @@ set_dim({width: window.innerWidth, height: window.innerHeight})
 
 </Head>
 
-<div className = {styles.homepage_frame}>
+<main className = {styles.homepage_frame}>
 <Top_Bar />
 
 
@@ -74,7 +74,7 @@ posts = {props.data.data.children}
 after = {props.data.data.after}
 />
 
-</div>
+</main>
 </Fragment>
 )}
 export default withRouter(App)

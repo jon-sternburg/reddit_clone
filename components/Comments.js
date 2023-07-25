@@ -27,7 +27,7 @@ if (!comments.show) {
  new Promise((resolve,reject) => resolve(fetchData(`https://oauth.reddit.com/r/${subreddit}/comments/${post_id}.json?`)))
 .then((comments_) => {
 let more_ = comments_[1].data.children.filter(x => x.kind == 'more')
-console.log(comments_)
+
 set_comments({comments: comments_[1].data.children, show: true})
 
 set_more_comments({
@@ -61,7 +61,6 @@ if (!more_comments.fetched) {
 let chunked = _.chunk(comment_.data.children, 100)
 let current_chunk = chunked[0]
 let comment_id = current_chunk.join(',')
-console.log('set_chunk (first run)')
 get_more_comments(comment_, comment_id)
 set_more_comments({
   fetched: true, 
@@ -74,8 +73,7 @@ set_more_comments({
 
 
 } else {
-console.log('set_chunk (not first run)')
-console.log(more_comments)
+
 let current_chunk = more_comments.pool[more_comments.pool_index + 1]
 let comment_id = current_chunk.join(',')
 get_more_comments(comment_, comment_id)
@@ -100,7 +98,6 @@ show_clicked_comment(false)
 }
 async function get_more_comments(comment_, comment_id) {
 
-console.log('ORIGINAL: ', comment_)
 
 let url_ = `https://oauth.reddit.com/api/morechildren.json?api_type=json&showmore=true&link_id=${comment_.data.parent_id}&children=${comment_id}`
 return new Promise((resolve,reject) => resolve(fetchData(url_)))
@@ -124,7 +121,7 @@ if (original_index > -1) {new_comments.splice(original_index, 1) }
 depth--
 }
 
-console.log('done ', new_comments)
+
 let final = comments.comments.concat(new_comments)
 
 set_comments({comments: final, show: true})
@@ -135,7 +132,7 @@ set_comments({comments: final, show: true})
 
 return (
 
-  <div className = {styles.comment_box} >
+  <section className = {styles.comment_box} >
 
 
 <Fragment>
@@ -152,7 +149,7 @@ return (
 
 
 <Fragment>
-<div onClick = {() => handle_clicked_comment_toggle()} className = {styles.show_all_comments} >Show all comments</div>
+<button type = "button" onClick = {() => handle_clicked_comment_toggle()} className = {styles.show_all_comments} >Show all comments</button>
 <Comment  
 clicked_comment = {true} 
 comment = {clicked_comment_} 
@@ -188,10 +185,9 @@ return(
 })}
 
 {more_comments.more  &&  more_comments.remaining > 0 && ( 
-<div className = {styles.comment_body} onClick = {() => set_chunk(more_comments.more)}>
+<button type="button" className = {styles.comment_body} onClick = {() => set_chunk(more_comments.more)}>
 Load more comments
-{/*more_comments.remaining} more {more_comments.remaining == 1 ? 'comment' : 'comments'*/}
-</div>
+</button>
 )}
 
 
@@ -202,7 +198,7 @@ Load more comments
 }
 </Fragment>
 
-  </div>
+  </section>
    
 	)}
 

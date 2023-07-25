@@ -218,6 +218,11 @@ font-size: 12px;
 font-family: Arial,Helvetica,sans-serif;
 padding: 5px;
 cursor: pointer;
+outline: none;
+border: none;
+margin: 5px;
+background: #c3dec7;
+border-radius: 4px;
 }
 
 .time_sort_option_selected {
@@ -226,8 +231,9 @@ font-size: 12px;
 font-family: Arial,Helvetica,sans-serif;
 padding: 5px;
 cursor: pointer;
-background: lightgrey;
-	
+background: #6bad77;
+	outline: none;
+border: none;
 }
 .time_sort_popup {
 position: absolute;
@@ -250,7 +256,15 @@ display: flex;
 flex-direction: row;
 flex-wrap: nowrap;
 align-items: center;
+color: black;
 
+background: #6bad77;
+border: none;
+border-radius: 4px;
+display: flex;
+flex-direction: row;
+flex-wrap: nowrap;
+align-items: center;
 }
 
 .read_icon_wrap {
@@ -461,7 +475,7 @@ margin: 5px 10px 5px 0px;
 height: 25px;
 
 	background: #b3c7f7;
-
+cursor:auto;
 	border-radius: 4px;
 display: flex;
 justify-content: center;

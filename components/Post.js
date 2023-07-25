@@ -38,9 +38,9 @@ e.stopPropagation()
 return (
 
 
-<div className = {styles.post_box} onClick = {() => props.handle_post_click(post)}>
+<article className = {styles.post_box} onClick = {() => props.handle_post_click(post)}>
  
-<div className = {styles.post_box_top_wrapper} >
+<header className = {styles.post_box_top_wrapper} >
 
 <div className = {styles.post_box_title_wrap}>
 <h3 className = {styles.post_box_title}>{post.data.title}</h3>
@@ -56,7 +56,7 @@ return (
 
 <div className = {styles.post_box_score}>
 <BiSolidUpvote className = {styles.upvote_icon}/>
-<div className = {styles.post_box_score}>{post.data.score}</div>
+<span className = {styles.post_box_score}>{post.data.score}</span>
 </div>
 
 
@@ -66,22 +66,22 @@ return (
 </div>
 
 
-</div>
+</header>
 
 
 <div className = {styles.post_box_inner}>
 {type_}
 </div>
-<div className = {styles.post_box_bottom_wrap}>
+<footer className = {styles.post_box_bottom_wrap}>
 <div className = {styles.post_box_comments}>
 <FaRegComment className = {styles.comments_icon} /> 
-{post.data.num_comments}
+<span>{post.data.num_comments}</span>
 </div>
 <div className = {styles.post_box_author} onClick = {(e) => handle_post_box_click(e)}>
 <Link href={`/u/${post.data.author}`}>u/{post.data.author}<span style = {{marginLeft: '2px'}}> {String.fromCharCode(183)}{` ${post.posted_time}`}</span></Link>
 </div>
-</div>
-</div>
+</footer>
+</article>
 
 )}
 
@@ -91,7 +91,6 @@ const [dim, set_dim] = useState({w: null, h: null})
 let src_ =  props.data.url 
 
 function onError() {
-console.log('error => ', props)
 set_img_error(true)
 }
 

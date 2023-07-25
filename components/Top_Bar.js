@@ -46,14 +46,7 @@ function handleInputChange(e) {
 inputEl.current.value = e
 
 }
-function handleInputChange_username(e) {
-username_input_ref.current.value = e
 
-}
-function handleInputChange_password(e) {
-password_input_ref.current.value = e
-
-}
 
 function cancel_search() {
 inputEl.current.value = ''
@@ -68,7 +61,7 @@ function handle_logo_click(e) {
 
 return (
 
-<div className = {styles.top_bar_frame}>
+<header className = {styles.top_bar_frame}>
 
 <div className = {styles.top_bar_frame_left}>
 
@@ -109,19 +102,20 @@ u/{router.query.u}
 <div className = {styles.top_bar_frame_center}>
 <div className ={styles.search_wrap} >
 <div className ={styles.search_wrap} >
-<form onSubmit={(e) => handleSubmit(e)}>
+<form onSubmit={(e) => handleSubmit(e)} id ="search bar form">
 <input      
 className={styles.search}
 placeholder="Search..."  
 onChange={(e) => handleInputChange(e.target.value)}
 ref={inputEl}
+id = "search bar input"
 />
 </form>
 
 {results.show && (
      
 
-  <OutsideAlerter cancel_search = {cancel_search}>
+<OutsideAlerter cancel_search = {cancel_search}>
 <div className = {styles.results_wrap_inner}>
 
 {router.query.r && (
@@ -164,7 +158,7 @@ ref={inputEl}
 
 </div>
 
-</div>
+</header>
 
 
 
