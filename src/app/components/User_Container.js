@@ -140,7 +140,7 @@ const [end_ref] = useIntersectionObserverRef(callback, options);
 async function fetch_new_posts(url_) {
  
 const token_ = getCookie('access_token')
-return await fetch("http://localhost:3000/api/fetch_data", {
+return await fetch("/api/fetch_data", {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
