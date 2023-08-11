@@ -141,7 +141,7 @@ return (
       <BounceLoader
         color={'#b2d7c5'}
         loading={true}
-        size={80}
+        size={30}
         aria-label="Loading Spinner"
         data-testid="loader"
       />

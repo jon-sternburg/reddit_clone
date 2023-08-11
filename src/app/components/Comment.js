@@ -96,9 +96,20 @@ return (
 <div className = {styles.expand_icon_wrap} ><BiExpandAlt className = {styles.expand_icon} /> </div>
 <div className = {styles.comment_score}>{comment.data.score}</div>
 <div onClick = {(e) => handle_comment_box_click(e)}>
-<Link href={comment.data.author == '[deleted]' ? {} :`/u/${comment.data.author}`} className = {styles.comment_author}>
+
+{comment.data.author == '[deleted]' ? 
+
+<div  className = {styles.comment_author}>
+u/{comment.data.author}
+</div>
+
+:
+
+<Link href={`/u/${comment.data.author}`} className = {styles.comment_author}>
 u/{comment.data.author}
 </Link>
+
+}
 </div>
 
 {posted_time  && (<div className = {styles.comment_posted_time}>{posted_time}</div>)}

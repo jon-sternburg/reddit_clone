@@ -1,4 +1,4 @@
-
+"use server";
 
 export default async function fetch_data(url_, token) {
 

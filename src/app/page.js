@@ -1,3 +1,5 @@
+
+
 import React, {Fragment } from "react";
 import styles from './homepage_styles.module.css'
 import Posts_Container from './components/Posts_Container.js'
@@ -31,28 +33,15 @@ return await fetch_data(fetch_url, token_)
 
 }
 }
-/*
-async function get_data(fetch_url) {
 
-return await fetch("http://localhost:3000/api/get_auth", {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({fetch_url: fetch_url})
-  })
-.then((res) => res.json())
-.then((data) => {
-  return data
-})
-.catch(err => console.log(err))
-}
-*/
 
 export default async function App() {
 const fetch_url = 'https://oauth.reddit.com?sr_detail=1'
 const data_ = await get_data(fetch_url)
+
+const posts = data_ && data_.data && data_.data.data && data_.data.data.children ? data_.data.data.children : null
+const after =  data_ && data_.data && data_.data.data && data_.data.data.after ? data_.data.data.after : null
+
 
  return (
 <Fragment>
@@ -63,8 +52,8 @@ fetch_url = {fetch_url}
 subreddit = {false}
 user = {false}
 token = {data_.token}
-posts = {data_.data.data.children} 
-after = {data_.data.data.after}
+posts = {posts} 
+after = {after}
 />
 )}
 

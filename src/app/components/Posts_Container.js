@@ -45,8 +45,11 @@ add_chunks()
 
 
   useEffect(() => {
-//if (props.subreddit) { document.title = props.subreddit }
+
 setCookie('access_token', props.token);
+
+if (props.posts !== null && props.posts.length > 0) {
+
 let posts_ = props.posts.map(x => {
 var d = new Date(x.data.created_utc*1000);
 var now = new Date(new Date().getTime())
@@ -65,6 +68,13 @@ set_posts({
   OOP: false
 });
 set_loading(false)
+
+ } else {
+set_posts({...posts, OOP: true})
+  set_loading(false)
+ }
+
+
 }, [])
 
 
@@ -74,7 +84,7 @@ const [end_ref] = useIntersectionObserverRef(callback, options);
 async function fetch_new_posts(url_) {
 
 const token_ = getCookie('access_token')
-return await fetch("http://localhost:3000/api/fetch_data", {
+return await fetch("/api/fetch_data", {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -186,8 +196,7 @@ const w_ = props.width
 
 }
 </div>
-
-<div className = {styles.bottom_frame_loader} />
+{!posts.OOP && (<div className = {styles.bottom_frame_loader} />)}
 </div>
 
 )}

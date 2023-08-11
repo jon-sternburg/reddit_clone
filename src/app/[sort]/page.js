@@ -37,7 +37,8 @@ const sort_ = sort.includes('top') ? `top&t=${sort.replace('top_', '')}` : sort
 const fetch_url =  `https://oauth.reddit.com/${sort.includes('top') ? 'top' : sort}/.json?sr_detail=1&sort=${sort_.toLowerCase()}` 
 
 const data_ = await get_data(fetch_url)
-
+const posts = data_ && data_.data && data_.data.data && data_.data.data.children ? data_.data.data.children : null
+const after =  data_ && data_.data && data_.data.data && data_.data.data.after ? data_.data.data.after : null
  return (
 
 
@@ -48,8 +49,8 @@ data = {data_.data}
 sort = {sort}
 fetch_url = {fetch_url}
 token = {data_.token}
-posts = {data_.data.data.children} 
-after = {data_.data.data.after}
+posts = {posts} 
+after = {after}
 />
 )}
 </Fragment>

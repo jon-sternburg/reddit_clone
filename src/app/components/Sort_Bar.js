@@ -23,7 +23,6 @@ toggle_time_sort(!show_time_sort)
 }
 
 const sort = params.sort
-console.log(params)
 
 return (
                   <div className = {styles.sort_wrapper}>

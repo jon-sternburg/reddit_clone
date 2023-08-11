@@ -39,7 +39,8 @@ const fetch_url = `https://oauth.reddit.com/search.json?q=${query}&nsfw=1&sr_det
 
 const data_ = await get_data(fetch_url)
 
-
+const posts = data_ && data_.data && data_.data.data && data_.data.data.children ? data_.data.data.children : null
+const after =  data_ && data_.data && data_.data.data && data_.data.data.after ? data_.data.data.after : null
 
 
  return (
@@ -54,8 +55,8 @@ query = {query}
 token = {data_.token}
 fetch_url = {fetch_url}
 subreddit = {false}
-posts = {data_.data.data.children} 
-after = {data_.data.data.after}
+posts = {posts} 
+after = {after}
 />
 )}
 </Fragment>

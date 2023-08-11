@@ -87,8 +87,11 @@ if (find_) {
 
 
   useEffect(() => {
- //   if (props.user) { document.title = props.user }
+
 setCookie('access_token', props.token);
+
+if (props.posts !== null) {
+
 let data__ = props.posts.map(x => {
 var d = new Date(x.data.created_utc*1000);
 var now = new Date(new Date().getTime())
@@ -116,7 +119,18 @@ set_posts({
 });
 
 set_loading(false)
+} else {
 
+set_posts({
+  ...posts,
+OOP_posts: true,
+OOP_comments: true,
+OOP_all_content: true
+});
+
+set_loading(false)
+
+}
 }, [])
 
 
@@ -146,7 +160,7 @@ return { props: { data } }
 function handle_content_type(type_) {
 
 
-if (type_ == 'posts' && posts.posts_after == null) { 
+if (type_ == 'posts' && !posts.OOP_posts && posts.posts_after == null) { 
 
 set_loading(true)
 let url_ = `https://oauth.reddit.com/user/${posts.user}/submitted/.json`
@@ -179,7 +193,7 @@ set_content_type(type_)
 }).catch(err => console.log(err))
 
 
-} else if (type_ == 'comments' && posts.comments_after == null) { 
+} else if (type_ == 'comments' && !posts.OOP_comments && posts.comments_after == null) { 
 
 
 let url_ = `https://oauth.reddit.com/user/${posts.user}/comments/.json`
@@ -438,7 +452,7 @@ let w_ = props.width
       <BounceLoader
         color={'#b2d7c5'}
         loading={true}
-        size={80}
+        size={30}
         aria-label="Loading Spinner"
         data-testid="loader"
       />
@@ -542,5 +556,4 @@ return (
 
 
 }
-
 

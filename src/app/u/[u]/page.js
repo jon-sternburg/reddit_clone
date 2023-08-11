@@ -35,7 +35,8 @@ const user = params.u
 const fetch_url = `https://oauth.reddit.com/user/${user}/?`
 const data_ = await get_data(fetch_url)
 
-
+const posts = data_ && data_.data && data_.data.data && data_.data.data.children ? data_.data.data.children : null
+const after =  data_ && data_.data && data_.data.data && data_.data.data.after ? data_.data.data.after : null
 
 
  return (
@@ -48,8 +49,8 @@ data = {data_.data}
 fetch_url = {fetch_url}
 user = {user}
 token = {data_.token}
-posts = {data_.data.data.children} 
-after = {data_.data.data.after}
+posts = {posts} 
+after = {after}
 />
 )}
 </Fragment>

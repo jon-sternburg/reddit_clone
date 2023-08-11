@@ -6,10 +6,11 @@ import _ from 'lodash'
 import Link from 'next/link'
 import {AiFillCloseCircle} from "react-icons/ai"
 import { useRouter } from 'next/navigation'
-
+import { useParams } from 'next/navigation'
 
 export default function Top_Bar(props) {
 const router = useRouter()
+const params = useParams()
 const inputEl = useRef(null);
 const username_input_ref = useRef(null);
 const password_input_ref = useRef(null);
@@ -68,26 +69,26 @@ return (
 </button>
 
 
-{props.subreddit  && (
+{params.r  && (
 <div className = {styles.subreddit_tag}>
 
-{props.query ? `r/${props.subreddit } search: '${props.query}'` :  `r/${props.subreddit}` }
+{props.query ? `r/${params.r  } search: '${props.query}'` :  `r/${params.r}` }
 
 </div>
   )}
 
 
-{props.user  && (
+{params.u && (
 <div className = {styles.subreddit_tag}>
 
-u/{props.user}
+u/{params.u}
 
 </div>
   )}
 
 
 
-{!props.subreddit  && props.query &&(
+{!params.r   && props.query &&(
 <div className = {styles.subreddit_tag}>
 
 {`reddit search: '${props.query}'`}
