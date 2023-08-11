@@ -32,7 +32,7 @@ return await fetch_data(fetch_url, token_)
 
 export default async function App({params}) {
 const post = params.id
-const fetch_url = `https://oauth.reddit.com/api/info/?id=${post}`
+const fetch_url = `https://oauth.reddit.com/api/info/?id=${post}&sr_detail=1`
 const data_ = await get_data(fetch_url)
 
 
