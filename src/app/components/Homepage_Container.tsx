@@ -1,21 +1,33 @@
 'use client'
 import React, {Fragment, useState, useEffect, useRef } from "react";
 import styles from '../homepage_styles.module.css'
-import Posts_Container from './Posts_Container.js'
-import User_Container from './User_Container.js'
-import Post_Page from './Post_Page.js'
-import Top_Bar from './Top_Bar.js'
+import Posts_Container from './Posts_Container'
+import User_Container from './User_Container'
+import Post_Page from './Post_Page'
+import Top_Bar from './Top_Bar'
+import { useParams } from 'next/navigation'
+import {Thread} from '../types/post_types'
 
+type Posts = Thread[] | null
+type Size_ = {
+  width: number;
+  height: number;
+}
+type HC_Props = {
+fetch_url: string;
+token: string;
+posts: Posts;
+after: string | null;
+post_page?:boolean;
+}
 
-
-
-export default function Homepage_Container(props) {
-
-const [size, set_dim] = useState({width: 0, height: 0})
+export default function Homepage_Container(props: HC_Props):JSX.Element {
+const params = useParams()
+const [size, set_dim] = useState<Size_>({width: 0, height: 0})
 
 useEffect(() => {
 
-document.title = props.subreddit? props.subreddit : props.user ? props.user : props.query ? `search results for ${props.query}` : 'Reddit Clone!' 
+document.title = params.r ? params.r.toString() : params.u ? params.u.toString() : params.s ? `search results for ${params.s.toString()}` : 'Reddit Clone!'
 
 window.addEventListener('resize', updateDimensions);
 updateDimensions()
@@ -38,11 +50,9 @@ return (
 <Top_Bar  />
 
 
-{props.user ? 
+{params.u ? 
 <User_Container 
-data = {props.data}
 fetch_url = {props.fetch_url}
-user = {props.user}
 token = {props.token}
 posts = {props.posts} 
 after = {props.after}
@@ -53,9 +63,7 @@ height = {size.height}
 : props.post_page ? 
 
 <Post_Page
-data = {props.data}
 fetch_url = {props.fetch_url}
-subreddit = {props.subreddit}
 token = {props.token}
 posts = {props.posts} 
 after = {props.after}
@@ -66,9 +74,7 @@ height = {size.height}
 :
 
 <Posts_Container 
-data = {props.data}
 fetch_url = {props.fetch_url}
-subreddit = {props.subreddit}
 token = {props.token}
 posts = {props.posts} 
 after = {props.after}

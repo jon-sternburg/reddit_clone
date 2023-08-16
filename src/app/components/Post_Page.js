@@ -2,8 +2,8 @@
 import React, {Fragment, useState, useEffect} from "react";
 import styles from '../posts_container_styles.module.css'
 import { useIntersectionObserverRef } from "rooks";
-import Clicked_Post from '../components/Clicked_Post.js'
-import Comments from '../components/Comments.js'
+import Clicked_Post from '../components/Clicked_Post'
+import Comments from '../components/Comments'
 import get_relative_time from '../utils/get_relative_time';
 
 

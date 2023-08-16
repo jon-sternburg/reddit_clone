@@ -14,10 +14,8 @@ var qs = require('qs');
 
 export default function Clicked_Post(props) {
 
-console.log(props.post)
-const post = props.post
-const h_ = props.h_
-const i = props.i
+const {post, h_, i}  = props
+
 const sub_icon = post.data.sr_detail && post.data.sr_detail.icon_img.length > 0 ? post.data.sr_detail.icon_img : post.data.sr_detail && post.data.sr_detail.community_icon ? post.data.sr_detail.community_icon.replace('amp;', '') : null
 const type_ = (post.data.is_video)|| (post.data.post_hint && post.data.post_hint.includes('video')) ? <Video_ handle_link_click = {handle_link_click} width = {props.w_} height = {h_} data = {post.data} /> : 
                                                                                 post.data.is_self ? <Text_ handle_link_click = {handle_link_click} data = {post.data}  height = {h_} />  : 
@@ -87,7 +85,20 @@ return (
 <span>{post.data.num_comments}</span>
 </div>
 <div className = {styles.post_box_author} onClick = {(e) => handle_post_box_click(e)}>
-<Link href={post.data.author == '[deleted]' ? {} : `/u/${post.data.author}`}>u/{post.data.author}<span style = {{marginLeft: '2px'}}> {String.fromCharCode(183)}{` ${post.posted_time}`}</span></Link>
+
+
+{post.data.author == '[deleted]' ? 
+
+<div>u/{post.data.author}<span style = {{marginLeft: '2px'}}> {String.fromCharCode(183)}{` ${post.posted_time}`}</span></div>
+
+:
+
+<Link href={`/u/${post.data.author}`}>u/{post.data.author}<span style = {{marginLeft: '2px'}}> {String.fromCharCode(183)}{` ${post.posted_time}`}</span></Link>
+
+}
+
+
+
 </div>
 </Fragment>
 
@@ -111,7 +122,19 @@ return (
 <span>{post.data.num_comments}</span>
 </div>
 <div className = {styles.post_box_author} onClick = {(e) => handle_post_box_click(e)}>
-<Link href={post.data.author == '[deleted]' ? {} : `/u/${post.data.author}`}>u/{post.data.author}<span style = {{marginLeft: '2px'}}> {String.fromCharCode(183)}{` ${post.posted_time}`}</span></Link>
+
+
+
+{post.data.author == '[deleted]' ? 
+
+<div>u/{post.data.author}<span style = {{marginLeft: '2px'}}> {String.fromCharCode(183)}{` ${post.posted_time}`}</span></div>
+
+:
+
+<Link href={`/u/${post.data.author}`}>u/{post.data.author}<span style = {{marginLeft: '2px'}}> {String.fromCharCode(183)}{` ${post.posted_time}`}</span></Link>
+
+}
+
 </div>
 </footer>
 )}
