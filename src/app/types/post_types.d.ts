@@ -124,15 +124,75 @@ export interface PostChildData {
   media_metadata?: object
   post_hint?: string
   preview?: Preview
+  sr_detail?: SrDetail
 }
 
+
+export interface SrDetail {
+    default_set: boolean
+    banner_img: string
+    allowed_media_in_comments: [any]
+    user_is_banned: null
+    free_form_reports: boolean
+    community_icon: string
+    show_media: boolean
+    description: string
+    user_is_muted: null
+    display_name: string
+    header_img: string
+    title: string
+    previous_names: [any]
+    user_is_moderator: null
+    over_18: boolean
+    icon_size: [number]
+    primary_color: string
+    icon_img: string
+    icon_color: string
+    is_chat_post_feature_enabled: boolean
+    submit_link_label: string
+    header_size: [number]
+    restrict_posting: boolean
+    restrict_commenting: boolean
+    subscribers: number
+    submit_text_label: string
+    link_flair_position: string
+    display_name_prefixed: string
+    key_color: string
+    name: string
+    created: number
+    url: string
+    quarantine: boolean
+    created_utc: number
+    banner_size: null
+    allow_chat_post_creation: boolean
+    user_is_contributor: null
+    accept_followers: boolean
+    public_description: string
+    link_flair_enabled: boolean
+    disable_contributor_requests: boolean
+    subreddit_type: string
+    user_is_subscriber: null
+
+}
 export interface Gildings {}
 
 export interface Media {
   type: string
   oembed: Oembed
+  reddit_video?: RedditVideo | undefined 
 }
-
+export interface RedditVideo {
+  bitrate_kbps:number
+  dash_url:string
+  duration:number
+  fallback_url:string
+  height: number
+  hls_url: string
+  is_gif: boolean
+  scrubber_media_url: string
+  transcoding_status: string
+  width: number
+}
 export interface Oembed {
   provider_url: string
   version: string

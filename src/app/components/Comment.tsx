@@ -1,54 +1,75 @@
 'use client'
-import React, {Fragment, useState, useEffect, useCallback, useRef, useMemo, createElement } from "react";
+import React, {Fragment, useState, useEffect, MouseEvent } from "react";
 import styles from '../posts_container_styles.module.css'
 import Link from 'next/link'
 import {BiExpandAlt} from "react-icons/bi"
-import _ from 'lodash'
 import get_relative_time from '../utils/get_relative_time';
 import { getCookie } from 'cookies-next';
+import {Comment,CommentRepliesResult, ReplyRepliesChildren, ReplyMoreChildren} from '../types/comment_types'
 
-export default function Comment(props) { 
+
+
+type Comment_Props = {
+comment: Comment | ReplyRepliesChildren 
+clicked_id?: string | null
+i?: number
+post_id: string
+}
+
+type Replies = {
+replies: (ReplyRepliesChildren | ReplyMoreChildren)[]
+show: boolean
+}
+
+type NewReplies = {
+json: {
+  data : {
+    things: CommentRepliesResult[]
+  }
+errors: [any]
+}
+}
+
+export default function Comment(props: Comment_Props):JSX.Element { 
 const comment = props.comment
-const replies_ = comment.data.replies && comment.data.replies.data  ? comment.data.replies.data.children : [] 
-const [replies, set_replies] = useState({replies:replies_, show: true})
-const [posted_time, set_posted_time] = useState(null)
+const replies_ = comment.data.replies && typeof comment.data.replies !== 'string' && comment.data.replies.data  ? comment.data.replies.data.children : [] 
+const [replies, set_replies] = useState<Replies>({replies:replies_, show: true})
+const [posted_time, set_posted_time] = useState<string | null>(null)
+
+const isTReply = (content: ReplyMoreChildren | ReplyRepliesChildren): content is ReplyRepliesChildren => 't1' == content['kind']
+const isMoreReply = (content: ReplyMoreChildren | ReplyRepliesChildren): content is ReplyMoreChildren => 'more' == content['kind']
 
 function toggle_replies() {
 set_replies({...replies, show: !replies.show})
 }
 
 useEffect(() => {
-  
 if (posted_time == null) { 
-
 var d = new Date(comment.data.created_utc*1000);
 var now = new Date(new Date().getTime())
 let posted_time = get_relative_time(d, now)
+if (posted_time !== undefined) { 
+  set_posted_time(posted_time.replace(' ago', ''))
+}}}, [posted_time, comment.data.created_utc])
 
-set_posted_time(posted_time.replace(' ago', ''))
-}
 
-
-}, [posted_time, comment.data.created_utc])
-
-function handle_comment_box_click(e) {
+function handle_comment_box_click(e:MouseEvent<HTMLElement>) {
 e.preventDefault()
 e.stopPropagation()
-
-
 }
 
-async function get_more_replies(reply_) {
+async function get_more_replies(reply_:ReplyMoreChildren) {
 
 let comment_id = reply_.data.children.join(',')
 let link_id = comment && comment.data && comment.data.link_id ? comment.data.link_id : reply_.data.parent_id
 let url_ = `https://oauth.reddit.com/api/morechildren.json?api_type=json&showmore=true&link_id=${link_id}&children=${comment_id}`
-return new Promise((resolve,reject) => resolve(fetchData(url_)))
-.then((data) => {
 
+const data = await fetchData(url_)
+
+if (data !== null) {
 let new_replies = data.json.data.things
 
-let max_depth = Math.max.apply(null,new_replies.map((o) =>  o.data.depth ));
+let max_depth = Math.max.apply(null, new_replies.map((o) =>  o.data.depth ));
 
 var depth = max_depth
 
@@ -57,10 +78,11 @@ let child_comments_ = new_replies.filter(x => x.data.depth == depth)
 
 child_comments_.map(x => {
 let parent_comment_id = new_replies.findIndex((y) => y.data.name == x.data.parent_id )
-let parent = new_replies[parent_comment_id]
 
 
 if (new_replies[parent_comment_id]) { 
+
+
 new_replies[parent_comment_id].data.replies = {data: {children: [x]}}
 
 let original_index = new_replies.findIndex((y => y.data.name == x.data.name))
@@ -72,14 +94,12 @@ depth--
 }
 
 
-
-
 let cr = replies.replies.filter(x => x.kind !== 'more')
 let final = cr.concat(new_replies)
 
 set_replies({replies: final, show: true})
+}
 
-}).catch(err => console.log(err))  
 
 }
 
@@ -120,15 +140,16 @@ u/{comment.data.author}
 <p className = {comment.data.id == props.clicked_id ? styles.clicked_comment_body : styles.comment_body} onClick = {() => toggle_replies()}>{comment.data.body}</p>
 
 {replies.replies.map((reply,i) => {
-
 return (
 
+
+
 <Fragment key = {i}>
-{reply && reply.data && reply.kind == 't1' && (
-<Comment clicked_id = {props.clicked_id} comment = {reply} subreddit = {props.subreddit} post_id = {props.post_id}  />
+{reply && reply.data && reply.kind == 't1' && isTReply(reply) && (
+<Comment clicked_id = {props.clicked_id} comment = {reply} post_id = {props.post_id}  />
   )}
 
-{reply.data && reply.kind == 'more' && reply.data.children.length > 0 && (
+{reply.data && reply.kind == 'more' && isMoreReply(reply) && reply.data.children.length > 0 && (
 
 <button type="button" onClick = {() => get_more_replies(reply)} className = {styles.load_more_replies}>{reply.data.children.length} more {reply.data.children.length == 1 ? 'reply' : 'replies'}</button>
 
@@ -150,7 +171,7 @@ return (
 
 }
 
-async function fetchData(url_) {
+async function fetchData(url_:string): Promise<NewReplies | null> {
 
 let token_ = getCookie('access_token')
 return await fetch("/api/fetch_data", {
@@ -162,9 +183,10 @@ return await fetch("/api/fetch_data", {
     body: JSON.stringify({url: url_, token: token_})
   })
 .then((res) => res.json())
-.then((data) => {
-return data
+.then((data) => data)
+.catch(err => {
+  console.log(err)
+  return null
 })
-.catch(err => console.log(err))
 
 }

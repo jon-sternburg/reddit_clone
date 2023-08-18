@@ -45,9 +45,7 @@ const [posts, set_posts] = useState<Posts_State>({
   fetch_url: '',
   OOP: false
 });
-const params = useParams()
-const sort = params.sort
-const subreddit = params.r 
+
 const h_ = props.height * .85
 const w_ = props.width
 
@@ -211,7 +209,7 @@ if (posts.pool !== null && posts.pool.length < 5) { fetch_next_page() } else if 
 
 <div className = {styles.post_frame} >
 
-<Sort_Bar  sort = {sort} subreddit = {subreddit} />
+<Sort_Bar />
 
 <div className = {styles.posts_shadow_wrap} >
 {loading ? 

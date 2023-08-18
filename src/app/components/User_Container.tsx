@@ -10,8 +10,8 @@ import { useRouter } from 'next/navigation'
 import BounceLoader from "react-spinners/BounceLoader";
 import get_relative_time from '../utils/get_relative_time';
 import { usePathname } from "next/navigation"
-import {Thread, ThreadResult, ThreadsData} from '../types/post_types'
-import {Comment, CommentsData, CommentsResult} from '../types/comment_types'
+import {Thread, ThreadResult} from '../types/post_types'
+import {Comment} from '../types/comment_types'
 import { useParams } from 'next/navigation'
 
 type AllContentConfirmed = (Thread | Comment)[]
@@ -214,7 +214,7 @@ set_posts({
 set_loading(false)
 set_content_type(type_)
 } else {set_posts({...posts, OOP_comments: true})}
-} else if (type_ == 'all_content') { set_content_type(type_)}
+} else if (type_ == 'all_content' || type_ == 'posts' || type_ == 'comments') { set_content_type(type_)}
 
 }
 
@@ -358,7 +358,7 @@ if (both_data !== null && Array.isArray(both_data)) {
 let post_data:ThreadResult = both_data[0]
 let data__ = get_posted_time(post_data.data.children)
 let post_data_ = data__[0]
-let comment_data = comment_.data.parent_id.includes('t1') ? both_data[1] : comment_
+let comment_data = comment_.data.parent_id.includes('t1') ? both_data[1].data.children[0] : comment_
 localStorage.setItem('clicked_post', JSON.stringify({post: post_data_, comment: comment_data, original_id: comment_.data.id, prev: pathname}))
 router.push(`/post/${post_data_.data.name}`)
 }
@@ -407,7 +407,9 @@ router.push(`/post/${post_data_.data.name}`)
 {posts.all_content !== null && (posts.all_content.map((content, i) => {
 return (
 <Fragment key = {i}>
-{content.kind == 't1' ?  <Comment key = {i} handle_comment_click={handle_comment_click} comment = {content} i = {i} /> : <Post key = {i}  h_ = {h_ } w_ = {w_} post = {content} i = {i}/> }
+{content.kind == 't1' ?  <Comment key = {i} handle_comment_click={handle_comment_click} comment = {content} i = {i} /> : 
+content.kind == 't3' && isPost(content) ?
+<Post key = {i}  h_ = {h_ } w_ = {w_} post = {content} i = {i}/> : null }
 </Fragment>
   )
 }))}

@@ -1,28 +1,33 @@
 'use client'
-import React, {Fragment, useState, useRef, useEffect} from "react";
+import React, {Fragment, useState, useRef, useEffect, MouseEvent, RefObject} from "react";
 import styles from '../posts_container_styles.module.css'
 import {AiOutlineFire} from "react-icons/ai"
 import {AiOutlineStar} from "react-icons/ai"
 import {AiOutlineTrophy} from "react-icons/ai"
-import {AiFillCaretDown, AiFillCloseCircle} from "react-icons/ai"
+import {AiFillCaretDown} from "react-icons/ai"
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 
-export default function Sort_Bar(props) {
+
+type OA_Props = {
+handle_time_sort: () => void
+children: JSX.Element | JSX.Element[] 
+
+}
+
+export default function Sort_Bar():JSX.Element {
 const pathname = usePathname()
 const params = useParams()
-const [show_time_sort, toggle_time_sort] = useState(false);
+const [show_time_sort, toggle_time_sort] = useState<boolean>(false);
 
 
-const posts = props.posts
-
-function handle_time_sort() {
+function handle_time_sort():void {
 toggle_time_sort(!show_time_sort)
 }
 
-const sort = params.sort
+const sort = params.sort ? params.sort.toString() : false
 
 return (
                   <div className = {styles.sort_wrapper}>
@@ -36,7 +41,6 @@ return (
 
                   <Link 
                   href = {sort ? `${pathname.replace(sort, 'new')}`: params.s ? `${pathname}/new/` : !params.r ? `/new/` : `${pathname}/new/`}
-                 // href = {`/new`}
                     key = {"new"}
                   
                   className = {sort == 'new' ? styles.sort_option_selected : styles.sort_option}>
@@ -56,7 +60,7 @@ return (
                   <Fragment>
                   <div className = {styles.sort_option_time} >
 
-                  <button type="button"  onClick = {() => handle_time_sort('toggle')} className = {styles.sort_inner_wrap}>
+                  <button type="button"  onClick = {() => handle_time_sort()} className = {styles.sort_inner_wrap}>
                   <span className = {styles.sort_inner}>{sort.replace('top_', '')}</span>
                   <AiFillCaretDown className = {styles.down_icon} />
                   </button>
@@ -125,14 +129,15 @@ return (
 
 
                 
-function OutsideAlerter(props) {
-  const wrapperRef = useRef(null);
+function OutsideAlerter(props: OA_Props) {
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
 
-function useOutsideAlerter(ref) {
+function useOutsideAlerter(ref: RefObject<HTMLDivElement>) {
   useEffect(() => {
 
-    function handleClickOutside(event) {
-      if (ref.current && !ref.current.contains(event.target)) {
+    function handleClickOutside(event: Event) {
+      const target = event.target as HTMLDivElement
+      if (ref.current && !ref.current.contains(target)) {
         props.handle_time_sort()
       }
     }
