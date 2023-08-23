@@ -5,12 +5,11 @@ import Link from 'next/link'
 import {BiSolidUpvote} from "react-icons/bi"
 import {FaRegComment} from "react-icons/fa"
 import {GoLinkExternal} from "react-icons/go"
-import { marked } from 'marked';
-import parse from 'html-react-parser';
 import { useRouter } from 'next/navigation'
 import { usePathname } from "next/navigation"
 import {Thread, PostChildData} from '../types/post_types'
-
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 type Post_Props = {
 h_: number
@@ -261,21 +260,15 @@ return {
   function Text_(props: Text_Inner_Props): JSX.Element | undefined {
 
 if (props.data.selftext && props.data.selftext.length > 0) { 
-let text = marked.parse(props.data.selftext,{mangle: false, headerIds: false})
-let html_ = parse(text)
 
+let self_text_ = props.data.selftext.replace(/&amp;#x200B;/g, '')
 
   return (
-<Fragment>
-
-{html_ && typeof html_ == 'string' && html_.length > 0 && (
 <div className = {styles.selftext_box_feed} style = {{maxHeight: props.height * .3}} >
-  {html_}
+<ReactMarkdown remarkPlugins={[remarkGfm]}>
+{self_text_}
+</ReactMarkdown>
 </div>
-  )}
-
-</Fragment>
-    
     )
 } 
 }

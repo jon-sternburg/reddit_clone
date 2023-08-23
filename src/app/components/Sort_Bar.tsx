@@ -9,7 +9,7 @@ import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-
+import {FcLike, FcGenericSortingAsc, FcRating} from "react-icons/fc"
 
 type OA_Props = {
 handle_time_sort: () => void
@@ -35,7 +35,7 @@ return (
                   href = {sort ? `${pathname.replace(sort, 'hot')}`: params.s ? `${pathname}/hot/` : !params.r ? `/hot/` : `${pathname}/hot/`}
                   key = {"hot"}
                   className = {sort == 'hot' || !sort ? styles.sort_option_selected : styles.sort_option}>
-                  <AiOutlineFire className = {styles.hot_icon} />
+                  <FcLike className = {styles.hot_icon} />
                   <span className = {styles.sort_inner}>Hot</span>
                   </Link>
 
@@ -44,7 +44,7 @@ return (
                     key = {"new"}
                   
                   className = {sort == 'new' ? styles.sort_option_selected : styles.sort_option}>
-                  <AiOutlineStar className = {styles.new_icon} />
+                  <FcRating className = {styles.new_icon} />
                   <span className = {styles.sort_inner}>New</span>
                   </Link>
 
@@ -52,7 +52,7 @@ return (
                   href = {sort ? `${pathname.replace(sort, 'top_day')}`: params.s ? `${pathname}/top_day/` : !params.r ? `/top_day/` : `${pathname}/top_day/`}
                     key = {"top_day"}
                   className = {sort == 'top' ? styles.sort_option_selected : styles.sort_option}>
-                  <AiOutlineTrophy className = {styles.top_icon} />
+                  <FcGenericSortingAsc className = {styles.top_icon} />
                   <span className = {styles.sort_inner}>Top</span>
                   </Link>
 

@@ -1,15 +1,14 @@
 'use client'
-import React, { useRef, useState, useEffect, SyntheticEvent, MouseEvent, FormEvent, RefObject } from 'react'
+import React, { useRef, useState, useEffect, SyntheticEvent, MouseEvent, FormEvent, RefObject, useMemo, ChangeEvent} from 'react'
 import styles from '../homepage_styles.module.css'
 import {BsReddit} from "react-icons/bs"
-//import _ from 'lodash'
 import Link from 'next/link'
 import {AiFillCloseCircle} from "react-icons/ai"
 import { useRouter } from 'next/navigation'
 import { useParams } from 'next/navigation'
 import { getCookie } from 'cookies-next';
 import {SubredditSearchResult, Subreddit} from '../types/subreddit_types'
-
+import debouce from "lodash.debounce";
 
 type Results = {
   content: Subreddit[]
@@ -33,10 +32,14 @@ const inputEl = useRef<HTMLInputElement | null>(null);
 const [results, set_search_results] = useState<Results>({content: [], show: false})
 
 
-//const handle_input_debounced = useCallback(_.debounce(handleSearchChange, 500), []);
+const debouncedResults = useMemo(() => {
+  return debouce(handleSearchChange, 300);
+  }, []);
+
 
 async function fetch_subreddits(url_:string):Promise<FetchNewData | null>{
 
+ 
   const token_ = getCookie('access_token')
   return await fetch("/api/fetch_data", {
       method: 'POST',
@@ -57,7 +60,7 @@ async function fetch_subreddits(url_:string):Promise<FetchNewData | null>{
 async function handleSubmit(e:SyntheticEvent) {
 e.preventDefault()
 if (inputEl.current !== null) { 
-let url_ = `https://www.reddit.com/subreddits/search.json?q=${inputEl.current.value}&include_over_18=on`
+let url_ = `https://oauth.reddit.com/subreddits/search.json?q=${inputEl.current.value}&include_over_18=on`
 const data = await fetch_subreddits(url_)
 
 if (data !== null) { set_search_results({content: data.data.children, show: true})}
@@ -66,12 +69,19 @@ if (data !== null) { set_search_results({content: data.data.children, show: true
 }
 
 
+async function handleSearchChange(e:ChangeEvent<HTMLInputElement>) {
 
-function handleInputChange(e: FormEvent<HTMLInputElement>) {
-if (inputEl.current !== null) { 
-const target = e.target as HTMLInputElement
-inputEl.current.value = target.value
-  }
+  let kv = e.target.value
+
+  if (kv !== null && kv.length > 0) { 
+    let url_ = `https://oauth.reddit.com/subreddits/search.json?q=${kv}&include_over_18=on`
+    const data = await fetch_subreddits(url_)
+    
+    if (data !== null) { set_search_results({content: data.data.children, show: true})}
+    
+    }
+
+
 }
 
 
@@ -90,7 +100,7 @@ function handle_logo_click(e: MouseEvent<HTMLButtonElement>): void{
 
 return (
 
-<header className = {styles.top_bar_frame}>
+<nav className = {styles.top_bar_frame}>
 
 <div className = {styles.top_bar_frame_left}>
 
@@ -131,12 +141,14 @@ u/{params.u}
 <div className = {styles.top_bar_frame_center}>
 <div className ={styles.search_wrap} >
 <div className ={styles.search_wrap} >
-<form onSubmit={(e) => handleSubmit(e)} id ="search_bar_form">
+<form  onSubmit={(e) => e.preventDefault()}  role="search" id ="search_bar_form">
 <input      
 className={styles.search}
 placeholder="Search..."  
-onChange={(e) => handleInputChange(e)}
+onChange={debouncedResults}
 ref={inputEl}
+type={"search"}
+name={"search_bar_input"}
 id = "search_bar_input"
 />
 </form>
@@ -149,26 +161,31 @@ id = "search_bar_input"
 
 {subreddit && inputEl.current !== null &&(
 <Link key = {subreddit + '/' + inputEl.current.value} href={`/r/${subreddit}/search/${inputEl.current.value}`}> 
-<div className = {styles.query_wrap} >Search r/{subreddit} for {`"${inputEl.current.value}"`}</div>
+<span className = {styles.query_wrap} >Search r/{subreddit} for {`"${inputEl.current.value}"`}</span>
 </Link>
 )}
 {inputEl.current !== null &&(
 <Link key = {inputEl.current.value} href={`/search/${inputEl.current.value}`}> 
-<div className = {styles.query_wrap} >Search reddit for {`"${inputEl.current.value}"`}</div>
+<span className = {styles.query_wrap} >Search reddit for {`"${inputEl.current.value}"`}</span>
 </Link>
 )}
-{results.content.map((x,i) => {
 
- return <Link key = {i} href={`/r/${x.data.display_name}`}> 
+{results.content.length > 0 ? 
 
-<div className = {styles.results_item}>
+results.content.map((x,i) => {
+
+ return <Link key = {i} href={`/r/${x.data.display_name}`} className = {styles.results_item}> 
 {x.data && x.data.icon_img && (<img alt = {"subreddit icon image"} height = {20} width = {20} src = {x.data.icon_img} className = {styles.icon_img} />)}
 <span>r/{x.data.display_name}</span>
-</div>
-
  </Link>
 
-})}
+})
+:
+<div className = {styles.no_search_results}>No subreddit results! Try searching for something else.</div>
+
+}
+
+
 </div>
 </OutsideAlerter>
 
@@ -187,7 +204,7 @@ id = "search_bar_input"
 
 </div>
 
-</header>
+</nav>
 
 
 
