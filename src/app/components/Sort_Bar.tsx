@@ -1,14 +1,10 @@
 'use client'
-import React, {Fragment, useState, useRef, useEffect, MouseEvent, RefObject} from "react";
+import React, {Fragment, useState, useRef, useEffect, RefObject} from "react";
 import styles from '../posts_container_styles.module.css'
-import {AiOutlineFire} from "react-icons/ai"
-import {AiOutlineStar} from "react-icons/ai"
-import {AiOutlineTrophy} from "react-icons/ai"
 import {AiFillCaretDown} from "react-icons/ai"
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-
 import {FcLike, FcGenericSortingAsc, FcRating} from "react-icons/fc"
 
 type OA_Props = {
@@ -29,6 +25,7 @@ toggle_time_sort(!show_time_sort)
 
 const sort = params.sort ? params.sort.toString() : false
 
+const sort_time_label = sort && sort.includes('top') ?  sort.replace('top_', '').charAt(0).toUpperCase() +  sort.replace('top_', '').slice(1) : ''
 return (
                   <div className = {styles.sort_wrapper}>
                   <Link 
@@ -61,7 +58,7 @@ return (
                   <div className = {styles.sort_option_time} >
 
                   <button type="button"  onClick = {() => handle_time_sort()} className = {styles.sort_inner_wrap}>
-                  <span className = {styles.sort_inner}>{sort.replace('top_', '')}</span>
+                  <span className = {styles.sort_inner}>{sort_time_label}</span>
                   <AiFillCaretDown className = {styles.down_icon} />
                   </button>
                   {show_time_sort && (
@@ -150,5 +147,5 @@ function useOutsideAlerter(ref: RefObject<HTMLDivElement>) {
   }, [ref]);
 
 }  useOutsideAlerter(wrapperRef);
-  return <div ref={wrapperRef}>{props.children}</div>;
+  return <div ref={wrapperRef} className = {styles.time_sort_popup_wrap}>{props.children}</div>;
 }

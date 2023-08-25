@@ -205,7 +205,7 @@ return(
 })}
 
 {more_comments.more  && more_comments.more !== null && ( 
-<button type="button" className = {styles.comment_body} onClick = {() => set_chunk()}>
+<button type="button" className = {styles.load_more_comments_button} onClick = {() => set_chunk()}>
 Load more comments
 </button>
 )}
