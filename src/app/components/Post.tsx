@@ -96,12 +96,9 @@ return (
 <span className = {styles.post_box_score}>{post.data.score}</span>
 </div>
 
-{no_selftext && (
+
 <Fragment>
-<div className = {styles.post_box_comments}>
-<FaRegComment className = {styles.comments_icon} /> 
-<span>{post.data.num_comments}</span>
-</div>
+
 <div className = {styles.post_box_author} onClick = {(e) => handle_post_box_click(e)}>
 
 {post.data.author == '[deleted]' ? 
@@ -111,9 +108,13 @@ return (
 }
 
 </div>
+<div className = {styles.post_box_comments}>
+<FaRegComment className = {styles.comments_icon} /> 
+<span>{post.data.num_comments}</span>
+</div>
 </Fragment>
 
-  )}
+  
 
 
 
@@ -125,7 +126,7 @@ return (
 {type_}
 </div>
 
-{!no_selftext && (
+{/*!no_selftext && (
 
 <footer className = {styles.post_box_bottom_wrap}>
 <div className = {styles.post_box_comments}>
@@ -147,7 +148,7 @@ return (
 
 </div>
 </footer>
-)}
+)*/}
 
 
 
@@ -188,7 +189,7 @@ set_dim(dim)
 
 function getMediaSize(iw:number, ih:number):MediaSize {
 let r_ = props.width <= 800 ? .9 : .4
-let max_h = props.height * .7
+let max_h = props.height * .6
 let max_w = props.width * r_
 
 let widthPercent = max_w / iw;
@@ -212,7 +213,7 @@ return {
     autoPlay 
     loop 
     muted
-    style = {{maxHeight: props.height * .7}}
+    style = {{maxHeight: props.height * .5}}
     controls
     preload = {'auto'} 
     className = {styles.video_post} 
@@ -298,7 +299,7 @@ props.data.secure_media.reddit_video.fallback_url  : props.data.url
     autoPlay 
     loop 
     muted
-    style = {{maxHeight: props.height * .7}}
+    style = {{maxHeight: props.height * .5}}
     controls
     preload = {'none'} 
     className = {styles.video_post} 

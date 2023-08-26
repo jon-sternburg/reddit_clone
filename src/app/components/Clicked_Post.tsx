@@ -99,7 +99,7 @@ return (
 <span className = {styles.post_box_score}>{post.data.score}</span>
 </div>
 
-{no_selftext && (
+
 <Fragment>
 <div className = {styles.post_box_comments}>
 <FaRegComment className = {styles.comments_icon} /> 
@@ -121,7 +121,7 @@ return (
 </div>
 </Fragment>
 
-  )}
+  
 
 
 
@@ -133,7 +133,7 @@ return (
 {type_}
 </div>
 
-{!no_selftext && (
+{/*!no_selftext && (
 
 <footer className = {styles.post_box_bottom_wrap}>
 <div className = {styles.post_box_comments}>
@@ -153,7 +153,7 @@ return (
 
 </div>
 </footer>
-)}
+)*/}
 
 </article>
 
