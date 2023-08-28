@@ -54,7 +54,7 @@ set_loading(false)
 {post_data !== null && (
 
 <Fragment>
-<Clicked_Post  handle_post_click = {() => {}} h_ = {props.height} w_ = {props.width} post = {post_data} />
+<Clicked_Post h_ = {props.height} w_ = {props.width} post = {post_data} />
 
 <Comments post = {post_data} clicked_comment = {null} original_id={null} />
 </Fragment>
