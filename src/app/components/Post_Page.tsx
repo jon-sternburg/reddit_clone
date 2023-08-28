@@ -1,6 +1,6 @@
 'use client'
 import React, {Fragment, useState, useEffect} from "react";
-import styles from '../posts_container_styles.module.css'
+import styles from '../css/post_container_styles.module.css'
 import Clicked_Post from './Clicked_Post'
 import Comments from './Comments'
 import get_relative_time from '../utils/get_relative_time';
@@ -42,7 +42,7 @@ if (posted_time !== undefined) {
 set_post_data(data__[0]);
 set_loading(false)
  }
-}, [])
+}, [props.posts])
 
  return (
 

@@ -1,11 +1,10 @@
 'use client'
 import React, {Fragment, useState, useEffect, useRef } from "react";
-import styles from '../posts_container_styles.module.css'
+import styles from '../css/post_container_styles.module.css'
 import { useIntersectionObserverRef } from "rooks";
 import Post from '../components/Post'
 import { getCookie, setCookie} from 'cookies-next';
-import {AiOutlineCaretUp} from "react-icons/ai"
-import {AiOutlineCaretDown} from "react-icons/ai"
+import User_Comment from './User_Comment'
 import { useRouter } from 'next/navigation'
 import BounceLoader from "react-spinners/BounceLoader";
 import get_relative_time from '../utils/get_relative_time';
@@ -19,12 +18,6 @@ type Posts = Thread[] | null;
 type Comments = Comment[] | null;
 type AllContent = (Thread | Comment)[] | null
 
-type CommentProps = {
-key: number;
-handle_comment_click: (comment: Comment) => void; 
-comment: Comment;
-i: number;
-}
 
 type UC_Props = {
 fetch_url: string;
@@ -60,7 +53,6 @@ export default function User_Container(props: UC_Props):JSX.Element {
 const router = useRouter()
 const pathname = usePathname()
 const fetching_ref = useRef<boolean>(false)
-const [end_vis, toggle_end_vis] = useState<boolean>(false);
 const [loading, set_loading] = useState<boolean>(true);
 const [content_type, set_content_type] = useState<ContentType>('all_content');
 const [posts, set_posts] = useState<UCPostsState>({
@@ -83,20 +75,21 @@ const isPost = (content: Comment | Thread): content is Thread => 't3' == content
 const isComment = (content: Comment | Thread): content is Comment => 't1' == content['kind']
 const h_ = props.height * .85
 const w_ = props.width
+
+
+
+
   const callback = (entries:  IntersectionObserverEntry[]): void => {
     if (entries && entries[0]) {
-      toggle_end_vis(entries[0].isIntersecting);
+      let end_vis = entries[0].isIntersecting
+      if (end_vis && !fetching_ref.current && ((content_type == 'posts' && !posts.OOP_posts) || (content_type == 'comments' && !posts.OOP_comments) || (content_type == 'all_content' && !posts.OOP_all_content))) {
+        fetching_ref.current = true
+        add_chunks()
+        } else if (end_vis && fetching_ref.current) {
+          fetching_ref.current = false
+        }
     }
   };
-
-useEffect(() => {
-  
-if (end_vis && !fetching_ref.current && ((content_type == 'posts' && !posts.OOP_posts) || (content_type == 'comments' && !posts.OOP_comments) || (content_type == 'all_content' && !posts.OOP_all_content))) {
-fetching_ref.current = true
-add_chunks()
-} else if (end_vis && fetching_ref.current) {
-  fetching_ref.current = false
-}}, [end_vis])
 
 
 useEffect(() => {
@@ -104,16 +97,11 @@ useEffect(() => {
 setCookie('access_token', props.token);
 
 if (props.posts !== null) {
-
-
-
 let data__ = get_posted_time(props.posts)
 let comments_:Comment[] = data__.filter(isComment)
 let posts_:Thread[] = data__.filter(isPost);
-
-
-set_posts({
-  ...posts,
+set_posts(prevState => ({
+  ...prevState,
   posts: posts_.slice(0, 15), 
   comments: comments_.slice(0, 15),
   all_content: data__.slice(0, 15), 
@@ -122,22 +110,22 @@ set_posts({
   all_content_pool: data__.slice(15), 
   all_content_after: props.after,
   fetch_url: props.fetch_url
-});
+}));
 
 set_loading(false)
 } else {
 
-set_posts({
-  ...posts,
+set_posts(prevState => ({
+  ...prevState,
 OOP_posts: true,
 OOP_comments: true,
 OOP_all_content: true
-});
+}));
 
 set_loading(false)
 
 }
-}, [])
+}, [props.posts, props.after, props.fetch_url, props.token])
 
 
 const options ={rootMargin:'-50px 0px 200px 0px', threshold:[0.01]} 
@@ -172,7 +160,47 @@ return {...x, posted_time: null}
 }
 })
 }
-
+function add_chunks() {
+  let content__ = content_type == 'posts' ? posts.posts : content_type == 'comments' ? posts.comments : posts.all_content
+  let pool__ = content_type == 'posts' ? posts.posts_pool : content_type == 'comments' ? posts.comments_pool : posts.all_content_pool
+          if (pool__ !== null && pool__.length < 15 && content__ !== null) { 
+      fetch_next_page() 
+          } else if (pool__ !== null && content__ !== null) {
+  
+          let new_posts = pool__.slice(0, 15)
+          let new_pool =pool__.slice(15)
+          let posts_ = content__.concat(new_posts)
+  
+  
+  if (content_type == 'posts') { 
+              setTimeout(() => {
+                  set_posts({
+                           ...posts,
+                      posts_pool: new_pool.filter(isPost),
+                      posts: posts_.filter(isPost)
+                  })
+              }, 1000)
+  } else if (content_type == 'comments') {
+              setTimeout(() => {
+                  set_posts({
+                           ...posts,
+                      comments_pool: new_pool.filter(isComment),
+                      comments: posts_.filter(isComment)
+                  })
+              }, 1000)
+   } else {
+              setTimeout(() => {
+                  set_posts({
+                           ...posts,
+                      all_content_pool: new_pool,
+                      all_content: posts_
+                  })
+              }, 1000)
+  
+  }
+          }
+            fetching_ref.current = false
+      }
 
 async function handle_content_type(type_:string) {
 
@@ -295,58 +323,6 @@ fetching_ref.current = false
 
 }
 
-
-
-
-function add_chunks() {
-
-let content__ = content_type == 'posts' ? posts.posts : content_type == 'comments' ? posts.comments : posts.all_content
-let pool__ = content_type == 'posts' ? posts.posts_pool : content_type == 'comments' ? posts.comments_pool : posts.all_content_pool
-
-
-        if (pool__ !== null && pool__.length < 15 && content__ !== null) { 
-
-    fetch_next_page() 
-
-        } else if (pool__ !== null && content__ !== null) {
-
-        let new_posts = pool__.slice(0, 15)
-        let new_pool =pool__.slice(15)
-        let posts_ = content__.concat(new_posts)
-
-
-if (content_type == 'posts') { 
-            setTimeout(() => {
-                set_posts({
-                         ...posts,
-                    posts_pool: new_pool.filter(isPost),
-                    posts: posts_.filter(isPost)
-                })
-            }, 1000)
-} else if (content_type == 'comments') {
-            setTimeout(() => {
-                set_posts({
-                         ...posts,
-                    comments_pool: new_pool.filter(isComment),
-                    comments: posts_.filter(isComment)
-                })
-            }, 1000)
- } else {
-            setTimeout(() => {
-                set_posts({
-                         ...posts,
-                    all_content_pool: new_pool,
-                    all_content: posts_
-                })
-            }, 1000)
-
-}
-        }
-          fetching_ref.current = false
-    }
-
-
-
 async function handle_comment_click(comment_: Comment) {
 
 let parent_id_name = comment_.data.parent_id.replace('t1_','')
@@ -364,8 +340,6 @@ router.push(`/post/${post_data_.data.name}`)
 }
 
 }
-
-
   return (
 
 <div className = {styles.post_frame} >
@@ -399,7 +373,7 @@ router.push(`/post/${post_data_.data.name}`)
 </Fragment>
 : content_type == 'comments' ? 
 <Fragment>
-{posts.comments !== null && (posts.comments.map((comment, i) => <Comment key = {i} handle_comment_click={handle_comment_click} comment = {comment} i = {i} />))}
+{posts.comments !== null && (posts.comments.map((comment, i) => <User_Comment key = {i} handle_comment_click={handle_comment_click} comment = {comment} i = {i} />))}
 </Fragment>
 :
 <Fragment>
@@ -407,7 +381,7 @@ router.push(`/post/${post_data_.data.name}`)
 {posts.all_content !== null && (posts.all_content.map((content, i) => {
 return (
 <Fragment key = {i}>
-{content.kind == 't1' ?  <Comment key = {i} handle_comment_click={handle_comment_click} comment = {content} i = {i} /> : 
+{content.kind == 't1' ?  <User_Comment key = {i} handle_comment_click={handle_comment_click} comment = {content} i = {i} /> : 
 content.kind == 't3' && isPost(content) ?
 <Post key = {i}  h_ = {h_ } w_ = {w_} post = {content} i = {i}/> : null }
 </Fragment>
@@ -448,42 +422,5 @@ content_type == 'all_content' && posts.OOP_all_content ? <div className = {style
 )}
 
 
-function Comment(props: CommentProps) {
 
-const comment = props.comment
-
-return (
-
-<article className = {styles.comment_wrap___user} onClick = {() => props.handle_comment_click(comment)}>
-
-
-
-<div className = {styles.comment_score___user_wrap}>
-<AiOutlineCaretUp className = {styles.upvote_icon}/>
-<div className = {styles.post_box_score__user}>{comment.data.score}</div>
-<AiOutlineCaretDown className = {styles.downvote_icon}/>
-</div>
-
-
-<div className = {styles.comment_wrap_inner___user} >
-
-<header className = {styles.comment_author___user}>{comment.data.author} commented on {comment.data.link_title}</header>
-
-<p className = {styles.comment_body__user} >{comment.data.body}</p>
-<div className = {styles.comment_subreddit___user_wrap}>
-<div className ={styles.comment_subreddit___user}> r/{comment.data.subreddit}</div>
-<footer className = {styles.comment_posted_time___user} >Posted {comment.posted_time} ago</footer>
-</div>
-</div>
-
-
-</article>
-
-
-  )
-
-
-
-
-}
 

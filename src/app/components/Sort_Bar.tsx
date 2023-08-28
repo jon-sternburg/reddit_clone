@@ -1,6 +1,6 @@
 'use client'
 import React, {Fragment, useState, useRef, useEffect, RefObject} from "react";
-import styles from '../posts_container_styles.module.css'
+import styles from '../css/sort_bar_styles.module.css'
 import {AiFillCaretDown} from "react-icons/ai"
 import { useParams } from 'next/navigation'
 import Link from 'next/link'

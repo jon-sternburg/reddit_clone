@@ -1,12 +1,12 @@
 'use client'
 import React, {Fragment, useState, useEffect } from "react";
-import styles from '../posts_container_styles.module.css'
+import styles from '../css/comments_styles.module.css'
 import { getCookie } from 'cookies-next';
 import BounceLoader from "react-spinners/BounceLoader";
 import Comment from './Comment'
 import {Thread, ThreadResult} from '../types/post_types'
 import {CommentsResult, ReplyMoreChildren, ReplyRepliesChildren, MoreCommentsDataResponse, CommentChildData} from '../types/comment_types'
-import _ from 'lodash'
+import chunk from "lodash.chunk";
 
 type Comments_Props = {
 post: Thread
@@ -80,7 +80,7 @@ set_loading(false)
 set_loading(false)
 }
 }).catch(err => console.log(err))
-}}, [])
+}}, [comments.show, post_id, props.clicked_comment, subreddit])
 
 
 
@@ -92,7 +92,7 @@ let comment_ = more_comments.more
 if (comment_ !== null) {
 
 if (!more_comments.fetched) { 
-let chunked: string[][] = _.chunk(comment_.data.children, 100)
+let chunked: string[][] = chunk(comment_.data.children, 100)
 let current_chunk = chunked[0]
 let comment_id = current_chunk.join(',')
 get_more_comments(comment_, comment_id)

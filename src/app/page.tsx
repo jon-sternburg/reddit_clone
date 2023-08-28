@@ -1,7 +1,4 @@
-
-
 import React, {Fragment } from "react";
-import styles from './homepage_styles.module.css'
 import Homepage_Container from './components/Homepage_Container'
 import fetch_data from './utils/fetch_data';
 import {Thread} from './types/post_types'

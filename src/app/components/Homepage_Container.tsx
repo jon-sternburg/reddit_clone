@@ -1,6 +1,6 @@
 'use client'
 import React, {Fragment, useState, useEffect, useRef } from "react";
-import styles from '../homepage_styles.module.css'
+import styles from '../css/homepage_styles.module.css'
 import Posts_Container from './Posts_Container'
 import User_Container from './User_Container'
 import Post_Page from './Post_Page'
@@ -32,7 +32,7 @@ document.title = params.r ? params.r.toString() : params.u ? params.u.toString()
 window.addEventListener('resize', updateDimensions);
 updateDimensions()
 return () => window.removeEventListener('resize', updateDimensions);
-}, [])
+}, [params.r, params.s, params.u])
 
 
 function updateDimensions() {

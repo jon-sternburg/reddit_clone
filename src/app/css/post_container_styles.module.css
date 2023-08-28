@@ -1,0 +1,180 @@
+.post_frame {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    width: 100%;
+    /*
+    padding-bottom: 150px;
+    
+    background: #212528;
+    
+    */
+    background: #362a33;
+    }
+
+    .skeleton_loader {
+        background: lightgrey;
+        opacity: .4;
+          width: 100%;
+          margin:20px auto;
+        width: 40vw;
+        height: 100vh;
+        border-radius: 1em;
+        
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.2);
+          border-radius: 1em;
+          height: 100vh;
+          display: block;
+          padding: 15px;
+          /*
+          background: linear-gradient(	  
+              to right,
+              rgba(255, 255, 255, 0),
+              rgba(255, 255, 255, 0.5) 200%,
+              rgba(255, 255, 255, 0) 80%
+            ),
+            lightgray;
+          background-repeat: repeat-y;
+          background-size: 50px 500px;
+          background-position: 0 0;
+          animation: shine 2s infinite;	  
+        */
+        }
+
+
+        .OOP {
+          font-family: Arial,Helvetica,sans-serif;
+          display: flex;
+          justify-content: center;
+          margin: 10px auto;
+          background: salmon;
+          padding: 10px;
+          border-radius: 4px;
+          width: 100px;
+          color: white;
+          }
+
+
+          .bottom_frame_loader {
+            border-top-right-radius: 1em;
+            border-top-left-radius: 1em;
+            height:40vh;
+            display: flex;
+            justify-content: center;
+            width: 40vw;
+            opacity: .5;
+            background: #121212;
+            margin: 20px auto 0 auto;
+            padding: 15px;
+            bottom: 0;
+            }
+            .sort_wrapper {
+              box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.2);
+            background: #121212;
+            width: auto;
+            font-size: 14px;
+            font-family: Arial,Helvetica,sans-serif;
+            margin: 10px auto 0 auto;
+            padding: 5px;
+            border-radius: 4px;
+            flex-wrap: nowrap;
+            flex-direction: row;
+            display: flex;
+            justify-content: flex-start;
+            }
+
+            .sort_option, .sort_option_selected {
+
+              text-decoration: none !important;
+            }
+            .sort_option {
+              color: black;
+              margin: 5px;
+              padding: 5px 17.5px;
+              background: #b2cbd2;
+              border: 2px solid #7d829f;
+              border-radius: 4px;
+              display: flex;
+              flex-direction: row;
+              flex-wrap: nowrap;
+              
+              align-items: center;
+              }
+              
+              
+              .sort_option:hover {
+              
+                cursor: pointer;
+              border: 2px solid white;
+              
+              }
+              .sort_option_selected{
+                color: black;
+                
+                margin: 5px;
+                padding: 5px 17.5px;
+                background: #a1a5da;
+                border: 2px solid #dbdbe7;
+                border-radius: 4px;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                align-items: center;
+                }
+            .skeleton_loader_bottom_rings, .skeleton_loader_rings {
+              height:40vh;
+              display: flex;
+              justify-content: center;
+              width: 100%;
+              margin-top: 30px;
+              }
+        @media screen and (max-width: 1024px) {
+
+          .post_box{
+          
+          width: 50vw;
+          
+          }
+          
+          .bottom_frame_loader {
+          
+          width: 50vw;
+          
+          }
+          .sort_wrapper {
+
+            width: auto;
+          }
+        }
+
+
+        
+        @media screen and (max-width: 800px) {
+          .skeleton_loader {
+              border-radius: 0;
+              width: 100vw;
+              
+              }
+              .bottom_frame_loader {
+                border-radius: 0;
+                width: calc(100vw - 30px);
+                margin: 0 0 5px 0;
+                }
+                .sort_wrapper {
+
+                  width: 100vw;
+                  font-size: 13px;
+                  font-family: Arial,Helvetica,sans-serif;
+                  margin: 5px auto 5px auto;
+                  padding: 0px;
+                  border-radius: 0px;
+                  flex-wrap: wrap;
+                  flex-direction: row;
+                  display: flex;
+                  justify-content: center;
+                  }
+
+      }
+
+

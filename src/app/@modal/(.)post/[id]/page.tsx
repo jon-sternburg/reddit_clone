@@ -1,6 +1,6 @@
 'use client'
-import React, {Fragment, useEffect} from "react";
-import styles from '../../../posts_container_styles.module.css'
+import React, {Fragment} from "react";
+import styles from '../../../css/modal_styles.module.css'
 import {AiFillCloseCircle} from "react-icons/ai"
 import Clicked_Post from '../../../components/Clicked_Post'
 import Comments from '../../../components/Comments'
