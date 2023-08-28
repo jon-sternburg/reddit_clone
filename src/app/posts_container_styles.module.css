@@ -735,7 +735,7 @@ font-size: 12px;
 
 }
 .post_popup {
-z-index: 999999999999999;
+
 	position: fixed;
 	top: 55px;
 	left: 0;

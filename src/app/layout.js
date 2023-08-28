@@ -23,7 +23,7 @@ const modal_ = pathname.includes("/post/") ? props.modal : null
 
 </head>
 
-      <body className={inter.className}>{props.children}{modal_}</body>
+      <body className={inter.className} style = {{overscrollBehavior: 'none'}}>{props.children}{modal_}</body>
     </html>
   )
 }
