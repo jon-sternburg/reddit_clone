@@ -75,20 +75,6 @@ export default function Top_Bar(): JSX.Element {
       })
   }
 
-  async function handleSubmit(e: SyntheticEvent) {
-    e.preventDefault()
-    if (inputEl.current !== null) {
-      let url_ = `https://oauth.reddit.com/subreddits/search.json?q=${inputEl.current.value}&include_over_18=on`
-      const data = await fetch_subreddits(url_)
-
-      if (data !== null) { set_search_results({ content: data.data.children, show: true }) }
-
-    }
-  }
-
-
-
-
 
   function cancel_search(): void {
     if (inputEl.current !== null) {

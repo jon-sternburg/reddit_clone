@@ -42,7 +42,7 @@ return (
   <Fragment>
 <AiFillCloseCircle onClick = {() => handle_post_click()} className = {styles.close_popup_post_icon}/>
 
-<Clicked_Post handle_post_click = {handle_post_click} h_ = {h_ } w_ = {w_} post = {ls_data.post} prev = {ls_data.prev} />
+<Clicked_Post h_ = {h_ } w_ = {w_} post = {ls_data.post} prev = {ls_data.prev} />
 
 <Comments post = {ls_data.post} clicked_comment = {clicked_comment_} original_id = {ls_data.original_id}/>
 </Fragment>

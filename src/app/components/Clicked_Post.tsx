@@ -11,7 +11,6 @@ import remarkGfm from 'remark-gfm'
 import Image from 'next/image'
 
 type Clicked_Post_Props = {
-  handle_post_click: () => void
   h_: number
   post: Thread
   w_: number
@@ -72,7 +71,7 @@ export default function Clicked_Post(props: Clicked_Post_Props): JSX.Element {
 
   return (
 
-    <article className={styles.post_box} onClick={() => props.handle_post_click()}>
+    <article className={styles.post_box_clicked}>
 
       <header className={styles.post_box_top_wrapper} >
 

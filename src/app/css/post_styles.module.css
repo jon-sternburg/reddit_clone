@@ -1,11 +1,11 @@
-.post_box {
+.post_box, .post_box_clicked {
     display: flex;
     flex-direction: column;
     margin: 20px auto;
     word-wrap: break-word;
     width: 40vw;
     height: auto;
-    border: 1px solid lightgrey;
+ 
     background: #121212;
     padding: 15px 20px 20px 20px;
     border-radius: 1em;
@@ -296,7 +296,7 @@
 
 @media screen and (max-width: 1024px) {
 
-    .post_box {
+    .post_box, .post_box_clicked {
 
         width: 50vw;
 
@@ -308,7 +308,7 @@
 
 
 @media screen and (max-width: 800px) {
-    .post_box {
+    .post_box, .post_box_clicked {
         display: flex;
         flex-direction: column;
         margin: 0 0 5px 0;
