@@ -133,6 +133,7 @@ set_img_error(true)
 }
 
 
+
   useEffect(() => {
     function getMediaSize(iw:number, ih:number):MediaSize {
       let r_ = props.width <= 800 ? .9 : .4
