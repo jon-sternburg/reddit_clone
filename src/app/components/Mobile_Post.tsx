@@ -1,6 +1,6 @@
 'use client'
 import React, {Fragment, useState, useEffect, MouseEvent } from "react";
-import styles from '../css/post_styles.module.css'
+import styles from '../css/mobile_post_styles.module.css'
 import Link from 'next/link'
 import {BiSolidUpvote} from "react-icons/bi"
 import {FaRegComment} from "react-icons/fa"
@@ -41,7 +41,7 @@ clicked: boolean
 }
 
 
-export default function Post(props: Post_Props):JSX.Element {
+export default function Mobile_Post(props: Post_Props):JSX.Element {
 const router = useRouter()
 const pathname = usePathname()
 const {post, h_} = props
@@ -70,17 +70,10 @@ router.push(`/post/${post.data.name}`)
 return (
 
 
-<article className = {props.clicked ? styles.post_box_clicked : styles.post_box} onClick = {props.clicked ? () => {} : () => handle_post_click()}>
+<article className = {styles.post_box_mobile} onClick = {() => handle_post_click()}>
  
-<header className = {styles.post_box_top_wrapper} >
-
-<div className = {props.clicked ? styles.post_box_title_wrap_clicked_post : styles.post_box_title_wrap}>
-<h3 className = {styles.post_box_title}>{post.data.title}</h3>
-
-
-
-<div className = {styles.post_info_wrapper}>
-<div className = {styles.post_box_subreddit} onClick = {(e) => handle_post_box_click(e)}>
+<header className = {styles.post_box_top_wrapper_mobile} >
+<div className = {styles.post_box_subreddit_mobile} onClick = {(e) => handle_post_box_click(e)}>
 <Link href={`/r/${post.data.subreddit}`}>
 {post.data.sr_detail && sub_icon !== null ? <Image alt = {"subreddit icon image"} height = {20} width = {20} style= {{marginRight: '5px', borderRadius: '100%'}} src = {sub_icon} className = {styles.icon_img} />
 :
@@ -93,42 +86,39 @@ return (
 </Link>
 </div>
 
+
+
+
+<div className = {styles.post_box_title_wrap_mobile}>
+<h3 className = {styles.post_box_title}>{post.data.title}</h3>
+</div>
+</header>
+
+<div className = {styles.post_box_inner_mobile}>
+{type_}
+</div>
+{props.clicked && (
+<div className={styles.post_box_author_mobile} onClick={(e) => handle_post_box_click(e)}>
+{post.data.author == '[deleted]' ?
+  <div>Posted by {post.data.author}<span style={{ marginLeft: '2px' }}> {String.fromCharCode(183)}{` ${post.posted_time}`}</span></div>
+  :
+  <Link href={`/u/${post.data.author}`}>Posted by {post.data.author}<span style={{ marginLeft: '2px' }}> {String.fromCharCode(183)}{` ${post.posted_time}`}</span></Link>
+}
+</div>
+)}
+<div className = {styles.post_box_bottom_wrap_mobile}>
+
 <div className = {styles.post_box_score}>
 <BiSolidUpvote className = {styles.upvote_icon}/>
 <span className = {styles.post_box_score}>{post.data.score}</span>
 </div>
 
-
-<Fragment>
-
-<div className = {styles.post_box_author} onClick = {(e) => handle_post_box_click(e)}>
-
-{post.data.author == '[deleted]' ? 
-<div className = {styles.deleted_author} >{post.data.author}<span style = {{marginLeft: '2px'}}> {String.fromCharCode(183)}{` ${post.posted_time}`}</span></div>
-:
-<Link href={`/u/${post.data.author}`}>u/{post.data.author}<span style = {{marginLeft: '2px'}}> {String.fromCharCode(183)}{` ${post.posted_time}`}</span></Link>
-}
-
-</div>
 <div className = {styles.post_box_comments}>
 <FaRegComment className = {styles.comments_icon} /> 
 <span>{post.data.num_comments}</span>
 </div>
-</Fragment>
-
-  
-
-
-
 
 </div>
-</div>
-</header>
-<div className = {styles.post_box_inner}>
-{type_}
-</div>
-
-
 </article>
 
 )}
@@ -137,7 +127,7 @@ function Image_(props: Post_Inner_Props): JSX.Element {
 const [img_error, set_img_error] = useState<boolean>(false)
 const [dim, set_dim] = useState<MediaSize>({w: null, h: null})
 let src_ =  props.data.url 
-let styles_ = props.clicked ? {maxHeight: props.height * .7} : {maxHeight: props.height * .5}
+let styles_ = props.clicked ? { maxHeight: props.height * .7 } : {maxHeight: props.height * .5}
 function onError() {
 set_img_error(true)
 }
@@ -147,7 +137,7 @@ set_img_error(true)
     function getMediaSize(iw:number, ih:number):MediaSize {
       let r_ = props.width <= 800 ? .9 : .4
       let max_h = props.clicked ? props.height * .7 : props.height * .6
-      let max_w = props.width * r_
+       let max_w = props.width * r_
       
       let widthPercent = max_w / iw;
       let heightPercent = max_h / ih;
@@ -167,6 +157,7 @@ let dim = getMediaSize(prev_w, prev_h)
 set_dim(dim)
 } 
 }, [props.width, props.height, props.data.preview, props.data.url, props.clicked])
+
 
 
   return (
@@ -225,11 +216,10 @@ set_dim(dim)
 
   function Text_(props: Text_Inner_Props): JSX.Element | undefined {
 
-
 if (props.data.selftext && props.data.selftext.length > 0) { 
 
 let self_text_ = props.data.selftext.replace(/&amp;#x200B;/g, '')
-let styles_ = props.clicked ? {} : {maxHeight: props.height * .3}
+let styles_ = props.clicked ?  {} : {maxHeight: props.height * .3}
   return (
 <div className = {props.clicked ? styles.selftext_box : styles.selftext_box_feed} style = {styles_} >
 <ReactMarkdown remarkPlugins={[remarkGfm]}>
@@ -248,7 +238,7 @@ props.data.url.includes('gfy') ? 'gfy' : props.data.url.includes('stream') ? 'st
 let src_ = type_ == 'youtube' || type_ == 'redgifs'  || type_ == 'gfy' ? props.data.secure_media_embed.media_domain_url : props.data.secure_media && props.data.secure_media.reddit_video && props.data.secure_media.reddit_video.fallback_url ?
 props.data.secure_media.reddit_video.fallback_url  : props.data.url
 
-let styles_ = props.clicked ? { maxHeight: props.height } : {maxHeight: props.height * .3}
+let styles_ = props.clicked ? { maxHeight: props.height } : {maxHeight: props.height * .5}
   return (
     <Fragment>
 

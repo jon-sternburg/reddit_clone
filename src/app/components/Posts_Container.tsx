@@ -3,6 +3,7 @@ import React, {Fragment, useState, useEffect, useRef } from "react";
 import styles from '../css/post_container_styles.module.css'
 import { useIntersectionObserverRef } from "rooks";
 import Post from '../components/Post'
+import Mobile_Post from "../components/Mobile_Post";
 import Sort_Bar from '../components/Sort_Bar'
 import {setCookie, getCookie } from 'cookies-next';
 import get_relative_time from '../utils/get_relative_time';
@@ -184,7 +185,12 @@ fetching_ref.current = false
 {loading ? 
 <div className ={styles.skeleton_loader}></div>  :
 <Fragment>
-{posts.posts !== null && (posts.posts.map((post, i) => <Post key = {i + post.data.name}  h_ = {h_ } w_ = {w_} post = {post} i = {i}/>))}
+{posts.posts !== null && (posts.posts.map((post, i) => {
+
+return w_ <= 800 ? <Mobile_Post key = {i + post.data.name} clicked = {false}   h_ = {h_ } w_ = {w_} post = {post} i = {i} /> :
+
+<Post key = {i + post.data.name} clicked = {false}  h_ = {h_ } w_ = {w_} post = {post} i = {i}/>
+}))}
 
 {posts.OOP ? <div className = {styles.OOP}>Out of posts!</div> :
 <div className = {styles.loading_box_bottom}> 

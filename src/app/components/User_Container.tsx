@@ -369,7 +369,7 @@ router.push(`/post/${post_data_.data.name}`)
 <Fragment>
 {content_type == 'posts' ? 
 <Fragment>
-{posts.posts !== null && (posts.posts.map((post, i) => <Post key = {i}  h_ = {h_ } w_ = {w_} post = {post} i = {i}/>))}
+{posts.posts !== null && (posts.posts.map((post, i) => <Post clicked = {false} key = {i}  h_ = {h_ } w_ = {w_} post = {post} i = {i}/>))}
 </Fragment>
 : content_type == 'comments' ? 
 <Fragment>
@@ -383,7 +383,7 @@ return (
 <Fragment key = {i}>
 {content.kind == 't1' ?  <User_Comment key = {i} handle_comment_click={handle_comment_click} comment = {content} i = {i} /> : 
 content.kind == 't3' && isPost(content) ?
-<Post key = {i}  h_ = {h_ } w_ = {w_} post = {content} i = {i}/> : null }
+<Post clicked = {false} key = {i}  h_ = {h_ } w_ = {w_} post = {content} i = {i}/> : null }
 </Fragment>
   )
 }))}

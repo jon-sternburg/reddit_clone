@@ -2,7 +2,8 @@
 import React, {Fragment} from "react";
 import styles from '../../../css/modal_styles.module.css'
 import {AiFillCloseCircle} from "react-icons/ai"
-import Clicked_Post from '../../../components/Clicked_Post'
+import Post from '../../../components/Post'
+import Mobile_Post from '../../../components/Mobile_Post'
 import Comments from '../../../components/Comments'
 import { useRouter } from 'next/navigation'
 import {Thread} from '../../../types/post_types'
@@ -41,9 +42,10 @@ return (
 {ls_data !== null && ls_data && (
   <Fragment>
 <AiFillCloseCircle onClick = {() => handle_post_click()} className = {styles.close_popup_post_icon}/>
-
-<Clicked_Post h_ = {h_ } w_ = {w_} post = {ls_data.post} prev = {ls_data.prev} />
-
+{w_ <= 800 ? 
+<Mobile_Post h_ = {h_ } i = {0} clicked = {true} w_ = {w_} post = {ls_data.post} prev = {ls_data.prev} /> :
+<Post h_ = {h_ } i = {0} clicked = {true} w_ = {w_} post = {ls_data.post} prev = {ls_data.prev} />
+}
 <Comments post = {ls_data.post} clicked_comment = {clicked_comment_} original_id = {ls_data.original_id}/>
 </Fragment>
 )}

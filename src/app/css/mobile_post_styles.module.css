@@ -1,47 +1,52 @@
-.post_box, .post_box_clicked {
+.post_box_mobile{
+    word-wrap: break-word;
+
+
+    background: #121212;
+  
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.2);
+
+
     display: flex;
     flex-direction: column;
-    margin: 20px auto;
+    margin: 0 0 5px 0;
     word-wrap: break-word;
-    width: 40vw;
+    width: calc(100vw - 30px);
     height: auto;
- 
-    background: #121212;
-    padding: 15px 20px 20px 20px;
-    border-radius: 1em;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.2);
+    border: none;
+    padding: 5px 15px 5px 15px;
+    border-radius: 0;
+    box-shadow: none;
 
 }
 
-.post_box:hover {
+.post_box_mobile:hover {
 
     cursor: pointer;
 }
 
-.post_box_top_wrapper {
+.post_box_top_wrapper_mobile {
     font-family: Arial, Helvetica, sans-serif;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: flex-start;
-    justify-content: flex-start;
-    margin-bottom: 0px;
     border-radius: 4px;
+    padding: 7px 0;
+    
 }
 
 .post_box_title_wrap_clicked_post {
     width: 100%;
 }
 
-.post_box_title_wrap {
+.post_box_title_wrap_mobile {
     color: #d7dadc;
     width: 100%;
 
 }
-.img_post {
-    border-radius: 12px;
+.post_box_title_wrap_mobile h3 {
+    margin-block-start: .6em;
+    margin-block-end: .2em;
+
 }
-.post_box_title {
+.post_box_title_mobile {
     font-size: 16px;
     color: #d7dadc;
     padding: 7px;
@@ -50,7 +55,7 @@
     margin: 0;
 }
 
-.post_info_wrapper {
+.post_info_wrapper_mobile {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -65,29 +70,26 @@
 
 }
 
-.post_box_subreddit a {
+.post_box_subreddit_mobile a {
 
     font-family: Arial, Helvetica, sans-serif;
-    background: #e9c2bb;
+   
     height: 20px;
-    padding: 5px;
-    margin: 5px 10px 5px 0px;
+    padding: 0;
+    margin: 0;
     border-radius: 4px;
     text-decoration: none !important;
     font-size: 12px;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+
     display: flex;
-    justify-content: center;
+    color: #d7dadc;
     align-items: center;
 
 }
 
-.post_box_subreddit:hover>a {
-    cursor: pointer;
-    background: lightgrey;
-}
+
 
 .icon_img {
     border-radius: 100%;
@@ -159,35 +161,30 @@
     height: 13px;
     width: 13px;
 }
+.post_box_author_mobile {
 
+margin-top: 10px;
+
+}
 .deleted_author,
-.post_box_author a {
+.post_box_author_mobile a {
     font-size: 12px;
     font-family: Arial, Helvetica, sans-serif;
     margin: 5px 10px 5px 0px;
-    padding: 5px;
+    padding: 5px 5px 5px 0;
     height: 20px;
-
-    background: #f9dde8;
-
+    width: auto;
+    color: #d7dadc;
+text-decoration: none;
     border-radius: 4px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
 
 }
 
 
-.post_box_author:hover>a {
-    background: lightgrey;
-}
 
-.post_box_author:hover {
 
-    cursor: pointer;
-}
-
-.post_box_inner {
+.post_box_inner_mobile {
     display: flex;
     width: 100%;
     justify-content: center;
@@ -196,14 +193,14 @@
     height: auto;
 }
 
-.post_box_inner video {
+.post_box_inner_mobile video {
 
     object-fit: contain;
     height: 100%;
     width: 100%;
 }
 
-.post_box_inner iframe {
+.post_box_inner_mobile iframe {
     overflow-x: hidden;
     overflow-y: hidden;
 
@@ -271,6 +268,9 @@
 
 }
 
+.img_post {
+    border-radius: 12px;
+}
 
 .selftext_box {
     padding: 15px;
@@ -296,35 +296,15 @@
     color: #d7dadc;
 }
 
-@media screen and (max-width: 1024px) {
-
-    .post_box, .post_box_clicked {
-
-        width: 50vw;
-
-    }
-
-}
 
 
 
 
-@media screen and (max-width: 800px) {
-    .post_box, .post_box_clicked {
-        display: flex;
-        flex-direction: column;
-        margin: 0 0 5px 0;
-        word-wrap: break-word;
-        width: calc(100vw - 30px);
-        height: auto;
-        border: none;
-        padding: 5px 15px 15px 15px;
-        border-radius: 0;
-        box-shadow: none;
-    }
 
-    .post_box_bottom_wrap {
-        padding: 7px 0;
+
+
+    .post_box_bottom_wrap_mobile {
+        padding: 0px 0 7px 0;
         display: flex;
         flex-direction: row;
         margin-top: 10px;
@@ -337,30 +317,8 @@
 
     }
 
-    .post_box_top_wrapper {
 
-        padding: 7px 0;
-        margin-bottom: 5px;
 
-    }
-
-    .post_box_title {
-        font-size: 16px;
-        margin: 5px 0;
-        padding: 0;
-        font-weight: normal;
-    }
-
-    .post_info_wrapper {
-        font-size: 12px;
-        margin-bottom: 5px;
-        padding: 0;
-    }
-
-    .post_box_inner {
-
-        width: 100%;
-    }
 
     .img_link_wrap {
         width: 100%;
@@ -380,5 +338,5 @@
         line-height: 16.5px;
     }
 
-}
+
 

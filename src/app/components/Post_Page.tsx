@@ -1,7 +1,8 @@
 'use client'
 import React, {Fragment, useState, useEffect} from "react";
 import styles from '../css/post_container_styles.module.css'
-import Clicked_Post from './Clicked_Post'
+import Post from './Post'
+import Mobile_Post from './Mobile_Post'
 import Comments from './Comments'
 import get_relative_time from '../utils/get_relative_time';
 import {Thread} from '../types/post_types'
@@ -54,8 +55,11 @@ set_loading(false)
 {post_data !== null && (
 
 <Fragment>
-<Clicked_Post h_ = {props.height} w_ = {props.width} post = {post_data} />
-
+{props.width <= 800 ? 
+<Mobile_Post clicked = {true} i = {0} h_ = {props.height} w_ = {props.width} post = {post_data} />
+    :
+<Post clicked = {true} i = {0} h_ = {props.height} w_ = {props.width} post = {post_data} />
+}
 <Comments post = {post_data} clicked_comment = {null} original_id={null} />
 </Fragment>
  )}

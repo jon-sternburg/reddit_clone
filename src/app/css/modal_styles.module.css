@@ -64,7 +64,7 @@
     .post_popup {
         z-index: 99;
         position: fixed;
-        top: 0;
+        top: 55px;
         left: 0;
         right: 0;
         margin: 0 auto;
