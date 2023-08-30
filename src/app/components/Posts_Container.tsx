@@ -8,7 +8,7 @@ import Sort_Bar from '../components/Sort_Bar'
 import {setCookie, getCookie } from 'cookies-next';
 import get_relative_time from '../utils/get_relative_time';
 import {Thread, ThreadResult} from '../types/post_types'
-
+import { useParams } from 'next/navigation'
 
 type PostsConfirmed = Thread[]
 type Posts = Thread[] | null
@@ -47,7 +47,7 @@ const [posts, set_posts] = useState<Posts_State>({
 
 const h_ = props.height * .85
 const w_ = props.width
-
+const params = useParams()
 
   const callback = (entries:  IntersectionObserverEntry[]): void => {
     if (entries && entries[0]) {
@@ -178,7 +178,13 @@ fetching_ref.current = false
   return (
 
 <div className = {styles.post_frame} >
+{w_ <= 800 && (
 
+<header className = {styles.user_banner_mobile}>
+<h4>r/{params.r}</h4>
+</header>
+
+)}
 <Sort_Bar />
 
 <div className = {styles.posts_shadow_wrap} >

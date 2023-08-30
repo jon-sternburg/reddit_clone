@@ -151,6 +151,21 @@
     width: 100vw;
 
   }
+.user_banner_mobile {
+
+padding: 10px 10px 10px 22.5px;
+width: 100%;
+background: #121212;
+color: whitesmoke;
+
+
+}
+
+.user_banner_mobile h4 {
+  margin-block-end: .1em;
+  margin-block-start: .1em;
+  font-size: 16px;
+}
 
   .bottom_frame_loader {
     border-radius: 0;

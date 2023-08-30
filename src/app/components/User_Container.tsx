@@ -3,6 +3,7 @@ import React, {Fragment, useState, useEffect, useRef } from "react";
 import styles from '../css/post_container_styles.module.css'
 import { useIntersectionObserverRef } from "rooks";
 import Post from '../components/Post'
+import Mobile_Post from '../components/Mobile_Post'
 import { getCookie, setCookie} from 'cookies-next';
 import User_Comment from './User_Comment'
 import { useRouter } from 'next/navigation'
@@ -343,13 +344,20 @@ router.push(`/post/${post_data_.data.name}`)
   return (
 
 <div className = {styles.post_frame} >
+{w_ <= 800 && (
 
+<header className = {styles.user_banner_mobile}>
+<h4>u/{params.u}</h4>
+</header>
+
+)}
 <div className = {styles.sort_wrapper}>
 <button type="button" className = {content_type == 'all_content' ? styles.sort_option_selected : styles.sort_option} onClick = {() => handle_content_type('all_content')}>Overview</button>
 <button type="button" className = {content_type == 'posts' ? styles.sort_option_selected : styles.sort_option} onClick = {() => handle_content_type('posts')}>Posts</button>
 <button type="button" className = {content_type == 'comments' ? styles.sort_option_selected : styles.sort_option}onClick = {() => handle_content_type('comments')}>Comments</button>
-
 </div>
+
+
 
 
 
@@ -369,7 +377,10 @@ router.push(`/post/${post_data_.data.name}`)
 <Fragment>
 {content_type == 'posts' ? 
 <Fragment>
-{posts.posts !== null && (posts.posts.map((post, i) => <Post clicked = {false} key = {i}  h_ = {h_ } w_ = {w_} post = {post} i = {i}/>))}
+{posts.posts !== null && (posts.posts.map((post, i) => 
+w_ <= 800 ? <Mobile_Post key = {i} clicked = {false}   h_ = {h_ } w_ = {w_} post = {post} i = {i} /> :
+<Post key = {i} clicked = {false}  h_ = {h_ } w_ = {w_} post = {post} i = {i}/>
+))}
 </Fragment>
 : content_type == 'comments' ? 
 <Fragment>
@@ -383,7 +394,8 @@ return (
 <Fragment key = {i}>
 {content.kind == 't1' ?  <User_Comment key = {i} handle_comment_click={handle_comment_click} comment = {content} i = {i} /> : 
 content.kind == 't3' && isPost(content) ?
-<Post clicked = {false} key = {i}  h_ = {h_ } w_ = {w_} post = {content} i = {i}/> : null }
+w_ <= 800 ? <Mobile_Post key = {i} clicked = {false}   h_ = {h_ } w_ = {w_} post = {content} i = {i} /> :
+<Post key = {i} clicked = {false}  h_ = {h_ } w_ = {w_} post = {content} i = {i}/> : null }
 </Fragment>
   )
 }))}
