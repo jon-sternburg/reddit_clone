@@ -1,5 +1,5 @@
 "use client";
-import React, { Fragment, useState, useEffect, MouseEvent } from "react";
+import { Fragment, useState, useEffect, MouseEvent } from "react";
 import styles from "../css/post_styles.module.css";
 import Link from "next/link";
 import { BiSolidUpvote } from "react-icons/bi";
@@ -10,7 +10,6 @@ import { usePathname } from "next/navigation";
 import { Thread, PostChildData } from "../types/post_types";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import Image from "next/image";
 
 type Post_Props = {
   h_: number;
@@ -325,7 +324,7 @@ function Video_(props: Post_Inner_Props): JSX.Element {
 
   let styles_ = props.clicked
     ? { maxHeight: props.height }
-    : { maxHeight: props.height * 0.3 };
+    : { maxHeight: props.height * 0.6 };
   return (
     <Fragment>
       {type_ == "youtube" || type_ == "redgifs" || type_ == "gfy" ? (

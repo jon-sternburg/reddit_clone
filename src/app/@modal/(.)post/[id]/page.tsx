@@ -1,5 +1,5 @@
 "use client";
-import React, { Fragment } from "react";
+import { Fragment } from "react";
 import styles from "../../../css/modal_styles.module.css";
 import { AiFillCloseCircle } from "react-icons/ai";
 import Post from "../../../components/Post";

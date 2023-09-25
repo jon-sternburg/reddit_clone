@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import styles from "../css/user_comment_styles.module.css";
 import { AiOutlineCaretUp } from "react-icons/ai";
 import { AiOutlineCaretDown } from "react-icons/ai";

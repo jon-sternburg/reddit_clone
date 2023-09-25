@@ -1,5 +1,5 @@
 "use client";
-import React, { Fragment, useState, useEffect, useRef } from "react";
+import { Fragment, useState, useEffect, useRef } from "react";
 import styles from "../css/post_container_styles.module.css";
 import { useIntersectionObserverRef } from "rooks";
 import Post from "../components/Post";

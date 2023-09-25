@@ -1,5 +1,5 @@
 "use client";
-import React, { Fragment, useState, useRef, useEffect, RefObject } from "react";
+import { Fragment, useState, useRef, useEffect, RefObject } from "react";
 import styles from "../css/sort_bar_styles.module.css";
 import { AiFillCaretDown } from "react-icons/ai";
 import { useParams } from "next/navigation";

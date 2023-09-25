@@ -1,5 +1,5 @@
 "use client";
-import React, { Fragment, useState, useEffect, MouseEvent } from "react";
+import { Fragment, useState, useEffect, MouseEvent } from "react";
 import styles from "../css/comments_styles.module.css";
 import Link from "next/link";
 import { BiExpandAlt } from "react-icons/bi";

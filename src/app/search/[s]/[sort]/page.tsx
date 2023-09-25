@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import { Fragment } from "react";
 import Homepage_Container from "../../../components/Homepage_Container";
 import fetch_data from "../../../utils/fetch_data";
 import { Thread } from "../../../types/post_types";

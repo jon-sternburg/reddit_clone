@@ -1,5 +1,5 @@
 "use client";
-import React, { Fragment, useState, useEffect, MouseEvent } from "react";
+import { Fragment, useState, useEffect, MouseEvent } from "react";
 import styles from "../css/mobile_post_styles.module.css";
 import Link from "next/link";
 import { BiSolidUpvote } from "react-icons/bi";

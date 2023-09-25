@@ -1,5 +1,5 @@
 "use client";
-import React, { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect } from "react";
 import styles from "../css/post_container_styles.module.css";
 import Post from "./Post";
 import Mobile_Post from "./Mobile_Post";

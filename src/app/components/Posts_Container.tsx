@@ -1,5 +1,5 @@
 "use client";
-import React, { Fragment, useState, useEffect, useRef } from "react";
+import { Fragment, useState, useEffect, useRef } from "react";
 import styles from "../css/post_container_styles.module.css";
 import { useIntersectionObserverRef } from "rooks";
 import Post from "../components/Post";
@@ -171,7 +171,7 @@ export default function Posts_Container(props: PC_Props): JSX.Element {
 
   return (
     <section className={styles.post_frame}>
-      {w_ <= 800 && (
+      {w_ <= 800 && params.r && (
         <header className={styles.user_banner_mobile}>
           <h4>r/{params.r}</h4>
         </header>

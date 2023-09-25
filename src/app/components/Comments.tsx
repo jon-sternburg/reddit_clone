@@ -1,5 +1,5 @@
 "use client";
-import React, { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect } from "react";
 import styles from "../css/comments_styles.module.css";
 import { getCookie } from "cookies-next";
 import BounceLoader from "react-spinners/BounceLoader";

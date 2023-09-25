@@ -1,11 +1,9 @@
 "use client";
-import React, {
+import {
   useRef,
   useState,
   useEffect,
-  SyntheticEvent,
   MouseEvent,
-  FormEvent,
   RefObject,
   useMemo,
   ChangeEvent,
