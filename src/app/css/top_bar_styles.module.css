@@ -12,10 +12,7 @@
   flex-wrap: nowrap;
   justify-content: space-around;
   align-items: center;
-
 }
-
-
 
 .top_bar_frame_left {
   width: 100%;
@@ -23,7 +20,6 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-
 }
 
 .top_bar_frame_center {
@@ -42,15 +38,11 @@
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
-
-
-
 }
 
 .query_wrap:hover {
   cursor: pointer;
   background: rgba(255, 255, 255, 0.08);
-
 }
 
 .no_search_results {
@@ -60,7 +52,6 @@
 }
 
 .query_wrap {
-
   color: #fff;
   font-family: Arial, Helvetica, sans-serif;
   background: #121212;
@@ -73,14 +64,9 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-
-
-
-
 }
 
 .results_wrap_inner a {
-
   text-decoration: none;
 }
 
@@ -104,12 +90,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
-
 }
 
 .icon_img {
-
   border-radius: 100%;
   margin-right: 5px;
 }
@@ -119,13 +102,13 @@
 }
 
 /* clears the 'X' from Internet Explorer */
-.search_wrap input[type=search]::-ms-clear {
+.search_wrap input[type="search"]::-ms-clear {
   display: none;
   width: 0;
   height: 0;
 }
 
-.search_wrap input[type=search]::-ms-reveal {
+.search_wrap input[type="search"]::-ms-reveal {
   display: none;
   width: 0;
   height: 0;
@@ -140,7 +123,6 @@
 }
 
 .search_wrap input {
-
   width: 100%;
   padding: 7px 20px;
 
@@ -149,14 +131,11 @@
   border-radius: 4px;
   box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;
-
-
 }
 
 .cancel_search_icon:hover {
   color: #ba544c;
   cursor: pointer;
-
 }
 
 .search_wrap input:focus {
@@ -165,16 +144,12 @@
 }
 
 .cancel_search_icon {
-
   color: salmon;
   height: 1.5em;
   width: 1.5em;
   margin-left: 10px;
   margin-right: 5px;
 }
-
-
-
 
 .results_wrap_inner {
   width: 100%;
@@ -191,11 +166,7 @@
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.2);
 }
 
-
-
 .results_item {
-
-
   color: #fff;
   font-family: Arial, Helvetica, sans-serif;
   background: #121212;
@@ -208,15 +179,11 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-
 }
 
 .results_item:hover {
-
-
   cursor: pointer;
   background: rgba(255, 255, 255, 0.08);
-
 }
 
 .results_wrap {
@@ -229,13 +196,9 @@
   top: 50px;
   font-size: 14px;
   font-family: Arial, Helvetica, sans-serif;
-
-
-
 }
 
 .banner_text {
-
   color: white;
   font-family: Arial, Helvetica, sans-serif;
   list-style-type: none;
@@ -246,8 +209,6 @@
   align-items: center;
   font-size: 16px;
   font-weight: 400;
-
-
 }
 
 .banner_icon {
@@ -257,11 +218,7 @@
   background: #e87b61;
   border-radius: 100%;
   color: white;
-
 }
-
-
-
 
 .banner {
   align-items: center;
@@ -276,16 +233,11 @@
 }
 
 .banner:hover {
-
   cursor: pointer;
   border-radius: 4px;
-
 }
 
-
 @media screen and (max-width: 800px) {
-
-
   .top_bar_frame {
     width: 100%;
     right: 0;
@@ -300,14 +252,10 @@
     flex-wrap: nowrap;
     justify-content: space-around;
     align-items: center;
-
   }
 
   .top_bar_frame_right {
     width: 0%;
-
-
-
   }
 
   .subreddit_tag {
@@ -315,18 +263,14 @@
   }
 
   .banner_text {
-
     font-size: 13px;
-
   }
 
   .banner_icon {
     height: 1.5em;
     width: 1.5em;
     margin-right: 10px;
-
   }
-
 
   .results_wrap {
     display: flex;
@@ -338,9 +282,6 @@
     top: 50px;
     font-size: 14px;
     font-family: Arial, Helvetica, sans-serif;
-
-
-
   }
 
   .results_wrap_inner {
