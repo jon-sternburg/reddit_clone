@@ -32,7 +32,7 @@ async function fetch_data(url_: string, token: string): Promise<DataResponse> {
     method: "GET",
     headers: {
       Authorization: token_,
-      "User-Agent": "reddit_clone! by flickeringfreak",
+      "User-Agent": "reddit_clone!",
       content_type: "application/json",
     },
     mode: "no-cors",

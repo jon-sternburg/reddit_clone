@@ -8,7 +8,7 @@ export async function POST(request) {
     method: "GET",
     headers: {
       Authorization: token_,
-      "User-Agent": "reddit_clone! by flickeringfreak",
+      "User-Agent": "reddit_clone!",
       content_type: "application/json",
     },
     mode: "no-cors",
